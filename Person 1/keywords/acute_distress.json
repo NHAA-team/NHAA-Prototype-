@@ -1,0 +1,72 @@
+[
+  {
+    "phrase": "Feeling nervous, anxious or on edge",
+    "language": "en",
+    "source": "GAD-7 item 1"
+  },
+  {
+    "phrase": "घबराहट, चिंता या परेशानी महसूस होना",
+    "language": "hi",
+    "source": "GAD-7 item 1"
+  },
+  {
+    "phrase": "Not being able to stop or control worrying",
+    "language": "en",
+    "source": "GAD-7 item 2"
+  },
+  {
+    "phrase": "चिंता करने से खुद को रोक न पाना",
+    "language": "hi",
+    "source": "GAD-7 item 2"
+  },
+  {
+    "phrase": "Worrying too much about different things",
+    "language": "en",
+    "source": "GAD-7 item 3"
+  },
+  {
+    "phrase": "अलग-अलग चीजों के बारे में बहुत ज्यादा चिंता करना",
+    "language": "hi",
+    "source": "GAD-7 item 3"
+  },
+  {
+    "phrase": "Trouble relaxing",
+    "language": "en",
+    "source": "GAD-7 item 4"
+  },
+  {
+    "phrase": "आराम करने में परेशानी",
+    "language": "hi",
+    "source": "GAD-7 item 4"
+  },
+  {
+    "phrase": "Being so restless that it is hard to sit still",
+    "language": "en",
+    "source": "GAD-7 item 5"
+  },
+  {
+    "phrase": "इतनी बेचैनी होना कि एक जगह बैठे रहना मुश्किल हो",
+    "language": "hi",
+    "source": "GAD-7 item 5"
+  },
+  {
+    "phrase": "Becoming easily annoyed or irritable",
+    "language": "en",
+    "source": "GAD-7 item 6"
+  },
+  {
+    "phrase": "आसानी से नाराज या चिड़चिड़ा हो जाना",
+    "language": "hi",
+    "source": "GAD-7 item 6"
+  },
+  {
+    "phrase": "Feeling afraid as if something awful might happen",
+    "language": "en",
+    "source": "GAD-7 item 7"
+  },
+  {
+    "phrase": "ऐसा डर लगना कि कुछ बहुत बुरा होने वाला है",
+    "language": "hi",
+    "source": "GAD-7 item 7"
+  }
+]

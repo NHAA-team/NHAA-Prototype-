@@ -1,0 +1,87 @@
+[
+  {
+    "phrase": "I am worried about what will happen if I file the complaint. They might not like it. Will my family be safe?",
+    "language": "english",
+    "severity": "low"
+  },
+  {
+    "phrase": "Mujhe chinta hai ki agar main aage badhungi toh kya hoga. Wo log naraz ho sakte hain. Main apne parivar ke liye darti hoon.",
+    "language": "hindi",
+    "severity": "low"
+  },
+  {
+    "phrase": "If I go to the police, my boss might fire me. He knows the people who did this. I don't want to lose my job.",
+    "language": "english",
+    "severity": "low"
+  },
+  {
+    "phrase": "Thoda dar lag raha hai complaint karne mein. They are powerful people in the village. Kya sach mein koi action hoga?",
+    "language": "hinglish",
+    "severity": "low"
+  },
+  {
+    "phrase": "The landlord told us to withdraw the case. If we don't listen, he might ask us to vacate the house. We don't have anywhere else to go.",
+    "language": "english",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "Sarpanch ne bola hai ki report mat likhwao, gaon ka mahol kharab hoga. I am scared they might stop my daily wage work. Ghar kaise chalega?",
+    "language": "hinglish",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "Gao ke logo ne humse baat karna band kar diya hai. Keh rahe hain ki agar case wapas nahi liya toh humara paani band kar denge. Hum pareshan hain.",
+    "language": "hindi",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "They are sending messages through my relatives. They want me to compromise. I feel a lot of pressure to drop the charges.",
+    "language": "english",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "Unke aadmi kal raat hamare ghar ke bahar khade the. Bol rahe the ki aage badhe toh gaon se nikal denge. Hum bohot dare hue hain.",
+    "language": "hindi",
+    "severity": "high"
+  },
+  {
+    "phrase": "Police station ke bahar unhone mujhe gher liya tha. They said if I don't take back the FIR, they will make my life hell. Meri family ko khatra hai.",
+    "language": "hinglish",
+    "severity": "high"
+  },
+  {
+    "phrase": "They visited my shop today and broke some items. They told me this is just a warning. If I testify in court, they will destroy my business.",
+    "language": "english",
+    "severity": "high"
+  },
+  {
+    "phrase": "Mujhe phone par dhamkiyan mil rahi hain. Keh rahe hain ki court tak pahunchne nahi denge. Main ghar se nikalne mein dar rahi hoon.",
+    "language": "hindi",
+    "severity": "high"
+  },
+  {
+    "phrase": "They are waiting outside my house right now with sticks. They said they will burn it down if the police come. I cannot even step out.",
+    "language": "english",
+    "severity": "critical"
+  },
+  {
+    "phrase": "Wo log mere bachon ko school jane se rok rahe hain. They threatened to kill my son if I testify tomorrow. Please help us, we are trapped.",
+    "language": "hinglish",
+    "severity": "critical"
+  },
+  {
+    "phrase": "Ghar ke bahar bheed jama ho gayi hai aur wo log pathar fek rahe hain. Bol rahe hain ki humein zinda jala denge kyonki humne unke khilaf bola. Jaldi police bhejiye.",
+    "language": "hindi",
+    "severity": "critical"
+  },
+  {
+    "phrase": "They just attacked my brother because we didn't withdraw the complaint. They have weapons and are coming towards our house now. I need immediate help.",
+    "language": "english",
+    "severity": "critical"
+  },
+  {
+    "phrase": "Un logo ne humara rasta rok liya hai. They are saying they won't let us leave the village alive. Hum bachne ki koshish kar rahe hain par wo peeche aa rahe hain.",
+    "language": "hinglish",
+    "severity": "critical"
+  }
+]

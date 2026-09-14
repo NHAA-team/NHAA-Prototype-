@@ -1,0 +1,1786 @@
+--- PAGE 1 ---
+AI-Based	Real-Time	Stress	and
+Trauma	Assessment	Module	for
+NHAA	(14566)
+Problem	Statement	and	Proposed	Solution	-	Revision	5	(Final)
+1.	Problem	Statement
+1.1	Background
+1.2	The	Problem
+1.3	Expected	Solution	Requirements
+1.4	Stakeholders
+2.	Proposed	Solution
+2.1	Overview	and	Core	Idea
+2.2	Eight	Observable	Risk	Dimensions	–	Full	Coverage	of	the
+Required	Indicator	List
+2.3	The	Stress	Vulnerability	Index	(SVI)
+2.4	Risk	Categorization	and	What	Happens	at	Each	Level
+2.5	How	Recommendations	Work	–	Automatic	in	Presentation,
+Human-Gated	in	Eﬀect
+2.6	Analysing	Voice:	What	We	Listen	For,	Beyond	Words
+2.7	Multilingual	Design
+2.8	Consent,	Privacy,	and	Conﬁdentiality
+2.9	Human	Oversight	as	a	Layered	Safety	Net,	Not	a	Single
+Checkpoint
+2.10	What	the	System	Explicitly	Does	Not	Do
+2.11	Degradation	Under	Real-World	Conditions
+2.12	Dataset	and	Validation	Strategy	–	Honesty	About	What	Powers
+the	Model
+2.13	Measured	Real-World	Performance
+2.14	Fairness	Across	Callers
+2.15	Why	This	Approach	Is	Better	Than	the	Common	Alternative
+2.16	Explainable	AI	Panel
+2.17	Conﬁdence	and	Uncertainty	Reporting
+2.18	Case	Timeline
+2.19	Administrator	Analytics	Dashboard
+2.20	The	Silent	SOS	–	A	Duress	Signal	for	When	Speaking	Freely	Is
+Not	Safe
+2.21	Tamper-Evident	Audit	Trail	for	Legal	and	Evidentiary	Integrity
+2.22	Closing	the	Referral	Black	Hole	–	Real-Time	Availability	and
+Warm	Hand-oﬀ
+2.23	Agent	Secondary-Trauma	Protection	–	Protecting	the	Protector
+2.24	Accessibility	Bridge	for	Non-Verbal	Disclosure
+2.25	The	36-Hour	Build	Plan	–	MVP	First,	Wow-Factors	as	Ordered
+Stretch	Goals
+2.26	What	the	Prototype	Looks	Like
+2.27	How	This	Solution	Compares	Against	Documented	Limitations
+of	Existing	Systems
+2.28	Existing	Solutions	Today,	Compared	Directly	Against	This
+Solution
+2.29	MVP	Scope	–	The	Core	This	Solution	Cannot	Work	Without
+2.30	On	Novelty:	What	We	Invented	Versus	What	We	Integrated
+2.31	Cross-Call	Pattern	Linkage	–	Community-Level	Early	Warning
+2.32	AI	as	a	Live	Trauma-Informed	Interview	Coach
+--- PAGE 2 ---
+2.33	Outcome	Feedback	Loop	–	Closing	the	Field’s	Biggest	Blind
+Spot
+2.34	Physical	Safety	Bridge	via	the	Community	Health	Worker
+Network
+2.35	Where	These	Four	Additions	Fit
+1.	Problem	Statement
+1.1	Background
+Victims	and	complainants	belonging	to	Scheduled	Castes	and
+Scheduled	Tribes	who	approach	the	National	Helpline	Against
+Atrocities	(14566),	the	Integrated	Portal,	chatbot,	mobile	application,
+IVRS,	or	other	digital	platforms	often	experience	severe	emotional
+distress	arising	from	caste-based	discrimination,	violence,	rape,	gang
+rape,	murder	of	family	members,	social	boycott,	displacement,
+threats,	and	prolonged	legal	proceedings.	Presently,	there	is	no
+standardized	mechanism	for	assessing	the	psychological	condition	and
+vulnerability	of	victims	at	the	time	of	ﬁrst	contact	with	authorities.
+1.2	The	Problem
+Design	and	develop	an	AI-enabled	Real-Time	Stress	and	Trauma
+Assessment	Module	that	can	assess	the	psychological	stress,	trauma,
+fear,	anxiety,	and	vulnerability	levels	of	victims/complainants
+interacting	through	NHAA	(14566),	the	Integrated	Portal,	chatbot,
+IVRS,	mobile	application,	or	any	other	approved	digital	interface.
+1.3	Expected	Solution	Requirements
+Analyse	voice	interactions,	speech	patterns,	pauses,	pitch
+variation,	emotional	indicators,	and	textual	narratives
+Use	Natural	Language	Processing	(NLP),	Speech	Analytics,	and
+Emotion	AI	to	identify	signs	of	trauma	and	distress
+Generate	a	Stress	Vulnerability	Index	(SVI)	on	a	predeﬁned	scale
+Categorize	victims	into	Low,	Moderate,	High,	and	Critical	Risk
+categories
+Detect	indicators	of	severe	trauma,	fear,	depression,	suicidal
+ideation,	intimidation,	social	isolation,	and	extreme	vulnerability
+Automatically	recommend	counselling,	legal	aid,	medical
+assistance,	police	intervention,	witness	protection,	or	emergency
+support	based	on	risk	level
+Support	multilingual	interactions,	including	major	Indian
+languages	and	dialects
+Maintain	privacy,	informed	consent,	conﬁdentiality,	and	ethical	AI
+standards
+1.4	Stakeholders
+Department	of	Social	Justice	and	Empowerment;	National	Helpline
+Against	Atrocities	(14566);	State	Governments	and	Union	Territories;
+District	Administrations;	Counsellors	and	Mental	Health
+--- PAGE 3 ---
+Professionals;	Law	Enforcement	Agencies;	Rehabilitation	and	Welfare
+Authorities.
+2.	Proposed	Solution
+2.1	Overview	and	Core	Idea
+We	propose	a	real-time,	AI-assisted	risk-triage	layer	that	sits	alongside
+the	human	helpline	agent	at	every	point	of	contact	–	voice	call,	IVRS,
+chatbot,	mobile	app,	or	web	portal	–	and	continuously	analyses	what	a
+caller	says	and	how	they	say	it,	surfacing	a	structured,	multi-
+dimensional	picture	of	their	psychological	state	as	the	call	happens.
+We	are	deliberately	not	building	an	“AI	that	detects	emotions”	or	an
+“AI	that	diagnoses	trauma.”	We	are	building	an	AI-assisted	real-time
+trauma-and-vulnerability	triage	layer	that	helps	a	helpline	agent
+notice	distress	signals	that	could	otherwise	be	missed	during	a	high-
+pressure	conversation.	This	assessment	is	distilled	into	a	single,	easy-
+to-read	Stress	Vulnerability	Index	(SVI)	on	a	0-100	scale,	exactly	as
+the	problem	statement	asks,	while	a	richer	set	of	underlying	risk
+signals	–	each	carrying	its	own	conﬁdence	estimate	–	drives	every
+recommendation	the	agent	sees.
+The	central	design	principle	is	this:	the	AI	recommends;	a	trained
+human	always	decides.	At	no	point	does	the	system	autonomously
+contact	police,	trigger	witness	protection,	or	take	any	irreversible
+action	on	its	own.	This	is	the	core	architectural	choice,	because	in
+caste-atrocity	cases	the	“obvious”	escalation	path	can	itself	become	a
+source	of	harm	if	the	local	police	or	administration	is	compromised,
+and	because	a	wrongly	triggered	irreversible	action	can	cause	more
+damage	to	a	victim	than	a	missed	one.
+Scope	boundary,	stated	up	front:
+	
+we	detect	conversational	and
+acoustic	indicators	associated	with	elevated	vulnerability;	we	do	not
+diagnose	depression,	PTSD,	dissociation,	or	any	other	psychiatric
+condition.	Every	dimension	in	Section	2.2	is	an	indicator	surfaced	for
+a	trained	human,	never	a	clinical	ﬁnding	asserted	by	the	system.
+2.2	Eight	Observable	Risk	Dimensions	–
+Full	Coverage	of	the	Required	Indicator
+List
+Trauma	is	not	one-dimensional,	and	a	system	that	only	tracks	the	two
+or	three	most	dramatic	symptoms	will	miss	victims	who	present
+diﬀerently.	To	ensure	every	indicator	named	in	the	problem	statement
+is	explicitly	and	separately	tracked	–	not	folded	silently	into	something
+else	–	we	compute	eight	independent,	evidence-based	risk	dimensions
+for	every	caller:
+1.	
+Acute	distress
+	
+–	immediate	emotional	overwhelm	(crying,	panic,
+breathlessness)
+2.	
+Depression	indicators
+	
+–	persistent	low	mood,	hopelessness,
+anhedonia	(“nothing	matters	now,”	loss	of	interest	in	previously
+important	things),	ﬂattened	or	monotone	vocal	aﬀect,	self-blame
+language	–	distinct	from	acute	distress	because	it	reﬂects	a
+sustained	state	rather	than	a	momentary	spike
+--- PAGE 4 ---
+3.	
+Self-harm	risk	indicators
+	
+–	linguistic	and	contextual	signals
+potentially	associated	with	suicidal	ideation	or	self-harm	intent,
+escalated	for	human	assessment	rather	than	treated	as	a	diagnosis
+4.	
+Fear	of	retaliation
+	
+–	signals	that	the	caller	is	afraid	of	future
+consequences	from	reporting	(community	backlash,	loss	of
+livelihood,	family	pressure	to	withdraw	the	complaint)
+5.	
+Intimidation	signals
+	
+–	signals	that	the	caller	is	currently	being
+threatened	or	coerced	–	by	the	perpetrator,	their	associates,	or
+local	authority	ﬁgures	–	distinct	from	fear	of	retaliation	because	it
+reﬂects	an	active,	ongoing	threat	rather	than	an	anticipated	future
+one
+6.	
+Dissociation
+	
+–	signs	that	the	caller	has	mentally	disconnected
+from	the	conversation,	often	from	severe	trauma
+7.	
+Social	isolation
+	
+–	indicators	of	being	cut	oﬀ	from	family,
+community,	or	support	networks
+8.	
+Chronic	trauma	indicators
+	
+–	signs	that	this	is	not	a	ﬁrst
+incident,	but	a	pattern
+Each	dimension	is	scored	independently	and	reported	as	a	risk	level
+plus	a	conﬁdence	estimate	(e.g.,	“Fear	of	retaliation:	High	–	87%
+conﬁdence”),	so	the	agent	always	knows	not	just	what	the	system
+found	but	how	sure	it	is.
+Mapping	to	the	problem	statement’s	required	indicator	list,	so	every
+named	term	is	traceably	covered:
+Required	Indicator
+Covered	By
+Severe	trauma
+Acute	distress	+	Chronic	trauma
+indicators
+Fear
+Fear	of	retaliation
+Depression
+Depression	indicators
+Suicidal	ideation
+Self-harm	risk	indicators
+Intimidation
+Intimidation	signals
+Social	isolation
+Social	isolation
+Extreme	vulnerability
+The	overall	SVI	(Section	2.3)	and
+Critical-risk	categorization
+2.3	The	Stress	Vulnerability	Index	(SVI)
+The	SVI	is	computed	as	a	documented,	open,	weighted	combination	of
+the	eight	dimensions:
+SVI	=	w1.acute_distress	+	w2.depression	+	w3.self_harm_risk
+				
++	w4.fear_of_retaliation	+	w5.intimidation	+	w6 .dissociation
+				
++	w7.social_isolation	+	w8.chronic_markers
+where	wi	>=	0	and	the	weights	sum	to	1.
+On	the	weights:	for	the	prototype,	the	weights	are	conﬁgurable,
+evidence-informed,	and	expert-reviewable	–	not	asserted	as	clinically
+validated.	
+self_harm_risk
+	
+and	
+intimidation
+	
+are	given	the	highest
+starting	weights,	because	missing	genuine	self-harm	risk	is	the
+costliest	possible	error,	and	because	active	intimidation	means	the
+caller	may	be	in	immediate	danger	independent	of	what	they	are	able
+to	say	on	the	call.	In	production,	these	starting	weights	would	be
+reviewed	and	calibrated	by	qualiﬁed	mental-health	professionals	and
+--- PAGE 5 ---
+domain	authorities	before	deployment,	and	the	weighting	scheme
+itself	–	not	just	its	output	–	is	exposed	to	supervisors,	not	hidden
+inside	the	model.
+This	gives	the	Ministry,	district	administrators,	and	helpline
+supervisors	exactly	what	they	asked	for	–	one	number,	on	one	scale,
+that	instantly	communicates	urgency	–	while	the	actual	clinical
+reasoning	underneath	remains	multi-dimensional,	transparent,	and
+auditable.	Nothing	is	hidden	inside	a	black	box:	every	SVI	value	can
+be	traced	back	to	exactly	which	of	the	eight	dimensions	drove	it,	and
+by	how	much	(see	Section	2.16,	Explainable	AI	Panel).
+2.4	Risk	Categorization	and	What
+Happens	at	Each	Level
+SVI	Range
+Category
+What	the	Agent
+Sees	and	Can	Do
+0-25
+Low
+The	AI	runs	quietly
+in	the	background,
+logging	observations
+only.	No	action	is
+suggested;	the	agent
+proceeds	with	the
+normal	call	ﬂow.
+26-50
+Moderate
+A	passive	risk	panel
+becomes	visible	to
+the	agent,	showing
+all	eight	dimensions
+with	conﬁdence
+levels,	without
+pushing	any	speciﬁc
+action.
+51-75
+High
+The	system	actively
+suggests	appropriate
+support	(counselling,
+legal	aid,	medical
+assistance)	and	asks
+the	agent	to	conﬁrm
+before	anything	is
+oﬀered	to	the	caller.
+76-100
+Critical
+The	system	ﬂags	the
+call	as	requiring
+immediate	attention.
+Any	recommendation
+involving	police
+intervention,	witness
+protection,	or	non-
+medical	emergency
+escalation	is	held
+behind	a	mandatory
+second	layer	of
+human	sign-oﬀ	from
+a	senior	reviewer
+before	it	can	be
+acted	on.
+Counselling,	legal-
+aid,	and	medical-
+--- PAGE 6 ---
+assistance	referrals
+can	proceed	faster,
+but	only	once	the
+caller	has	re-
+conﬁrmed,	in	the
+moment,	that	they
+want	that	speciﬁc
+help.
+2.5	How	Recommendations	Work	–
+Automatic	in	Presentation,	Human-Gated
+in	Eﬀect
+The	problem	statement	asks	the	system	to	“automatically	recommend
+counselling,	legal	aid,	medical	assistance,	police	intervention,	witness
+protection,	or	emergency	support.”	We	satisfy	this	literally,	across	all
+six	named	support	types,	and	we	group	them	by	how	reversible	each
+one	is:
+Beneﬁcial,	low-risk	referrals	–	counselling	and	legal	aid.
+Support	the	caller	can	only	beneﬁt	from,	never	be	harmed	by.
+Actioned	quickly	once	the	caller	has	been	asked	in	the	moment
+whether	they	want	that	support	and	the	agent	conﬁrms.
+Medical	assistance	–	split	by	urgency.
+	
+A	non-urgent	medical-
+assistance	referral	(e.g.,	connecting	the	caller	to	a	health	worker	or
+clinic	for	after-the-fact	care)	follows	the	same	fast,	agent-conﬁrmed
+path	as	counselling	and	legal	aid.	An	urgent	medical	dispatch	(e.g.,
+the	caller	or	a	family	member	is	currently	injured	and	needs	an
+ambulance)	is	fast-tracked	for	agent	conﬁrmation	without	requiring
+the	senior-reviewer	sign-oﬀ	that	gates	police/witness-protection
+actions	–	because	in	a	genuine	medical	emergency,	the	cost	of	delay
+can	itself	be	life-threatening,	and	dispatching	medical	aid	does	not
+carry	the	same	risk	of	institutional	complicity	that	police	involvement
+can	carry	in	caste-atrocity	cases.	The	distinction	is	deliberate:
+reversibility	and	risk-of-harm-from-the-response-itself,	not	just	“how
+serious,”	determines	the	approval	path.
+Police	intervention,	witness	protection,	and	non-medical
+emergency	escalation.
+	
+Diﬀicult	or	impossible	to	reverse,	and	in	the
+speciﬁc	context	of	caste-based	atrocities,	the	very	institution	being
+invoked	can	sometimes	be	complicit	in	the	harm.	These	require	a
+second,	distinct	human	–	a	senior	reviewer	–	to	explicitly	approve
+before	anything	is	triggered,	enforced	as	a	hard	rule	in	the	decision
+logic	so	the	action	can	never	reach	an	executed	state	without	that
+sign-oﬀ	having	actually	occurred.
+2.6	Analysing	Voice:	What	We	Listen	For,
+Beyond	Words
+Most	systems	that	attempt	to	detect	distress	from	speech	rely	on
+basic	sentiment	analysis	of	words	alone,	or	at	best	a	shallow	read	of
+tone	and	pitch.	In	line	with	the	problem	statement’s	call	for	NLP,
+Speech	Analytics,	and	Emotion	AI,	we	combine	all	three	as	separate,
+complementary	evidence	layers	–	while	being	explicit	that	none	of
+--- PAGE 7 ---
+them,	alone	or	combined,	lets	the	system	determine	with	certainty
+how	a	caller	feels.	They	are	supporting	evidence	for	a	trained	human,
+not	a	verdict.
+NLP	/	lexical	content
+	
+–	what	the	caller	actually	says,	analysed	for
+direct	and	indirect	disclosures	of	distress,	fear,	depression,
+intimidation,	isolation,	or	self-harm	risk,	in	Hindi,	English,	and
+naturally	code-switched	Hindi-English	speech,	without	translating	the
+caller’s	words	into	English	ﬁrst.
+Speech	Analytics	/	acoustic	features
+	
+–	pitch	variation,	jitter,
+shimmer,	energy,	and	speaking	rate,	extracted	directly	from	the	raw
+audio.
+Emotion	AI	/	paralinguistic	modelling
+	
+–	industry-standard	aﬀect-
+recognition	modelling	applied	to	the	acoustic	layer	(e.g.,	ﬂattened
+aﬀect	as	a	depression	indicator,	tremor	or	breathlessness	as	acute-
+distress	indicators).	We	use	this	as	a	supporting	signal	to	the	lexical
+content,	not	as	the	primary	decision-maker,	because	acoustic-only
+emotion	detection	is	known	to	be	unreliable	across	diﬀerent	speakers,
+dialects,	and	recording	conditions	–	a	limitation	we	surface	to	the
+agent	via	the	conﬁdence	score	(Section	2.17),	not	one	we	paper	over.
+Silence	itself,	treated	as	a	signal
+	
+–	the	component	we	consider
+most	distinctive	about	our	approach.	Nearly	every	voice-analysis
+system	treats	a	pause	as	noise	to	be	ﬁltered	out.	We	instead	treat
+silence	as	a	structured,	meaningful	signal:	unusual	silence	is	treated
+as	an	observable	signal	that	may	contribute	to	the	dissociation	and
+acute-distress	scores,	not	as	proof	that	dissociation	is	occurring.
+Severe	dissociation	can	present	as	speech	simply	stopping	mid-
+sentence	for	several	seconds	before	resuming	as	if	nothing	happened,
+so	an	unexplained,	grammatically	unmotivated	pause	is	scored	as
+evidence	worth	surfacing	to	the	agent	–	one	input	among	several,
+never	a	standalone	diagnosis.	The	system	measures	how	long	a
+silence	lasts,	precisely	where	it	falls	in	the	sentence,	what	word	came
+immediately	before	it,	and	whether	the	pause	overlaps	with	signs	of
+crying	or	irregular	breathing.
+2.7	Multilingual	Design
+Support	for	Indian	languages	and	dialects	is	a	ﬁrst-class	design
+requirement,	not	an	add-on.	Rather	than	translating	every	call	into
+English	and	running	a	single	English-language	model,	the	system	uses
+language-native	processing	that	preserves	the	caller’s	own	words,
+dialect,	and	natural	code-switching	between	languages,	so	idioms	of
+distress	speciﬁc	to	a	region	or	community	are	recognised	as	they	are
+actually	spoken.	This	design	choice	is	directly	supported	by	current
+research	into	cross-lingual	mental-health	language	processing	for
+Indian	languages,	which	documents	that	expressions	such	as	“man	ka
+bhoj”	(a	burden	on	the	mind)	carry	culturally	speciﬁc	meaning	entirely
+absent	from	Western	clinical	vocabularies	and	standard	NLP
+tokenizers,	and	that	code-mixed	Hindi-English	phrasing	measurably
+reduces	the	accuracy	of	systems	that	are	not	built	to	handle	it	directly.
+Published	research	on	speech-based	distress	detection	also	shows	that
+pause	and	silence	patterns	are	not	uniformly	informative	across	every
+language	–	their	predictive	strength	varies.	We	treat	this	as	a	design
+constraint	rather	than	an	assumption:	the	Silence	Fingerprint’s
+contribution	to	each	risk	dimension	is	calibrated	and	validated
+separately	for	each	supported	language,	and	if	a	given	language
+--- PAGE 8 ---
+shows	the	silence	signal	is	not	reliably	informative	for	that	language’s
+speech	patterns,	the	system	relies	more	heavily	on	the	lexical	and
+acoustic	signals	for	that	language	rather	than	assuming	a	one-size-
+ﬁts-all	silence	model	transfers	cleanly	across	Hindi,	English,	and	code-
+switched	speech.
+2.8	Consent,	Privacy,	and	Conﬁdentiality
+Because	this	system	listens	to	and	analyses	some	of	the	most	sensitive
+disclosures	a	person	can	make,	we	treat	consent,	privacy,	and
+conﬁdentiality	as	three	related	but	distinct	commitments.
+Consent	is	an	ongoing,	revocable	relationship	with	the	caller,	not	a
+one-time	checkbox.	Three	separate	permissions	are	tracked
+independently:	whether	the	call	may	be	recorded	at	all,	whether	the
+AI	may	analyse	it,	and	whether	the	anonymised	data	may	later	be
+used	to	improve	the	system.	Consent	is	re-checked	during	the	call
+itself,	at	moments	the	system	detects	as	signiﬁcant,	and	this	re-check
+is	initiated	by	the	system,	not	the	human	agent,	so	the	emotional
+dynamic	between	caller	and	agent	is	never	used	to	extract	consent.	If
+the	caller	revokes	consent	at	any	point,	AI	analysis	stops	immediately,
+while	the	human	agent’s	ability	to	help	the	caller	continues
+uninterrupted.
+Conﬁdentiality	is	enforced	as	a	set	of	concrete	controls,	not	just	a
+policy	statement:
+Encryption
+	
+of	call	recordings	and	transcripts	at	rest	and	in
+transit.
+Need-to-know	access	control
+	
+–	a	case	record	is	visible	only	to
+the	agent	who	handled	the	call	and	the	speciﬁc	supervisor
+assigned	to	that	case;	there	is	no	general	cross-case	search	or
+browsing	of	victim	records.
+Audit	logging
+	
+–	every	access	to	a	caller’s	recording,	transcript,	or
+risk	proﬁle	is	logged	with	who	accessed	it	and	when,	so	any
+inappropriate	access	is	independently	discoverable	after	the	fact.
+Deﬁned	retention	and	deletion
+	
+–	recordings	and	transcripts	are
+retained	only	as	long	as	the	case	requires,	with	a	caller-initiated
+deletion	request	honoured	for	any	data	covered	by	the	consent
+they	gave.
+No	re-identiﬁcation	in	aggregate	views
+	
+–	the	administrator
+analytics	dashboard	(Section	2.19)	shows	only	anonymised,
+aggregate	statistics;	individual	victim	identities	are	structurally
+excluded	from	that	view,	not	merely	hidden	by	convention.
+We	take	this	last	point	further	than	a	general	assurance,	because	it	is
+precisely	where	a	comparable	real-world	system	failed.	In	2022,	a
+major	crisis-text	helpline	was	found	to	have	shared	conversation	data
+–	described	by	the	organisation	as	“anonymised”	–	with	a	for-proﬁt
+commercial	partner,	and	privacy	researchers	subsequently	noted	that
+data	described	as	anonymised	in	other	contexts	has	repeatedly	been
+shown	to	be	re-identiﬁable.	Separately,	the	helpline’s	own	data-ethics
+advisory	board	was	not	consulted	before	the	decision	was	made,
+despite	existing	on	paper	for	that	exact	purpose.	We	treat	both	of
+these	as	speciﬁc,	named	failure	modes	to	design	against,	not	general
+cautionary	tales.	First,	on	anonymisation:	aggregate	dashboard
+ﬁgures	are	subject	to	a	minimum	group-size	threshold	before	being
+displayed	at	all	(a	statistic	covering	fewer	than	a	deﬁned	minimum
+number	of	cases	is	suppressed	rather	than	shown),	precisely	to
+--- PAGE 9 ---
+prevent	a	small,	identiﬁable	group	–	for	instance,	a	speciﬁc	village	or
+a	speciﬁc	rare	risk	combination	in	a	speciﬁc	district	–	from	being	re-
+identiﬁable	even	in	“aggregate”	form.	Second,	on	oversight:	any
+proposal	to	use	caller	data	beyond	the	direct	purpose	of	helping	that
+speciﬁc	caller	–	including	the	opt-in	“improve	the	system”	pathway
+described	above	–	requires	active,	minuted	sign-oﬀ	from	a	standing
+data-ethics	review	body	that	meets	on	a	ﬁxed	schedule	regardless	of
+whether	a	proposal	is	pending,	speciﬁcally	so	that	oversight	cannot
+quietly	lapse	the	way	it	did	in	the	comparable	real-world	case.	No
+secondary	use	of	caller	data	proceeds	on	the	strength	of	a	terms-of-
+service	disclosure	alone.
+2.9	Human	Oversight	as	a	Layered	Safety
+Net,	Not	a	Single	Checkpoint
+Three	independent	layers	exist	so	a	single	missed	signal	–	by	the	AI	or
+by	a	person	–	does	not	go	unnoticed:	(1)	the	agent	handling	the	call	in
+real	time,	who	retains	full	authority	to	override,	modify,	or	ignore	any
+AI	suggestion;	(2)	a	scheduled	follow-up	at	72	hours	and	again	at	7
+days	for	any	caller	assessed	as	Low	or	Moderate	risk;	and	(3)
+supervisory	review	after	the	fact,	where	a	portion	of	Low/Moderate
+calls	are	spot-checked	and	every	Critical-risk	call	is	reviewed	the
+same	day.
+2.10	What	the	System	Explicitly	Does	Not
+Do
+We	detect	conversational	and	acoustic	indicators	associated	with
+elevated	vulnerability;	we	do	not	diagnose	depression,	PTSD,
+dissociation,	or	any	other	psychiatric	condition.	The	system	does	not
+claim	to	determine	with	certainty	what	a	caller	is	feeling.	It	detects
+observable,	describable	signals	–	speciﬁc	words,	speciﬁc	patterns	of
+silence,	speciﬁc	vocal	characteristics	–	and	presents	them	to	a	trained
+human	as	decision-support	information,	each	paired	with	a	conﬁdence
+estimate.	Its	job	is	to	make	sure	a	distress	signal	is	never	missed	by
+an	overworked	or	momentarily	distracted	human	agent,	not	to	replace
+the	clinical	and	legal	judgment	that	only	a	trained	person	can
+exercise.	This	applies	equally	to	all	eight	dimensions:	every	dimension
+name	(including	“Depression	indicators”	and	“Dissociation”)	describes
+a	pattern	the	system	ﬂags	for	human	review,	not	a	clinical	ﬁnding	the
+system	asserts.
+2.11	Degradation	Under	Real-World
+Conditions
+The	system	is	designed	to	fail	safely	rather	than	fail	silently.	If	speech
+recognition	becomes	unavailable	mid-call,	the	system	falls	back	to
+keypad-based	IVRS	input	and	tells	the	agent	explicitly	that	no
+transcript	is	available.	If	voice	analysis	fails,	the	system	continues
+scoring	based	on	transcript	content	and	the	agent’s	own	notes.	If
+conﬁdence	across	all	signals	drops	too	low	to	be	reliable,	a	visible
+“Low	conﬁdence”	uncertainty	indicator	is	raised,	the	threshold	for
+suggesting	any	high-stakes	action	is	deliberately	raised,	and	the	call	is
+routed	to	a	human	reviewer	rather	than	the	system	guessing.	If	the
+connection	drops	entirely,	no	captured	data	is	silently	discarded,	and
+--- PAGE 10 ---
+processing	resumes	cleanly	on	reconnection.	In	every	failure	scenario:
+the	system	never	takes	or	suggests	an	irreversible	external	action
+while	it	is	uncertain.
+A	distinct	and,	in	practice,	more	common	risk	than	an	outright
+component	failure	is	silent	accuracy	drift:	a	system	that	keeps	running
+and	keeps	producing	scores,	but	whose	scores	quietly	become	less
+reliable	as	real-world	conditions	–	background	noise,	an	unfamiliar
+dialect,	a	poor-quality	rural	line	–	diverge	from	the	conditions	it	was
+calibrated	on.	Published	research	on	multimodal	distress-detection
+pipelines	speciﬁcally	warns	that	this	kind	of	fusion	model	degradation
+under	real-world	distribution	shift	is	common	and	easy	to	miss,
+precisely	because	nothing	crashes	and	no	error	is	raised.	We	monitor
+for	this	directly	rather	than	assuming	it	away:	the	rate	at	which
+agents	override	or	contradict	the	system’s	suggested	actions	is
+tracked	on	an	ongoing	basis	as	a	proxy	signal,	and	a	sustained	rise	in
+override	rate	for	a	speciﬁc	language,	dialect,	or	call-quality	condition
+triggers	the	same	fairness-style	review	described	in	Section	2.14,
+even	though	nothing	in	the	pipeline	has	technically	“failed.”
+2.12	Dataset	and	Validation	Strategy	–
+Honesty	About	What	Powers	the	Model
+There	is	currently	no	large,	publicly	available	Indian	dataset	of	caste-
+atrocity-related	trauma	disclosures,	and	we	do	not	pretend	otherwise.
+We	treat	this	as	the	solution’s	single	biggest	open	risk	and	address	it
+directly	rather	than	glossing	over	it,	in	three	parts.
+What	powers	the	prototype	today.
+	
+The	system’s	word-and-phrase-
+level	detection	is	built	to	be	transparent	and	directly	traceable	–	every
+score	can	be	explained	by	pointing	to	the	exact	words	or	silence
+pattern	that	caused	it,	rather	than	relying	on	an	opaque	model	trained
+on	data	that	does	not	exist.	Where	deeper	language	understanding	is
+used	to	catch	indirect	disclosures,	negation,	or	unusual	phrasing,	it	is
+calibrated	using	a	small	set	of	realistic	vignettes	developed	together
+with	licensed	mental-health	professionals,	used	strictly	to	ﬁne-tune
+and	calibrate,	not	to	replace	the	transparent,	rules-based	foundation.
+How	we	validate	what	we	have,	honestly.
+	
+Rather	than	an
+unveriﬁable	accuracy	claim,	the	prototype	is	evaluated	against	an
+expert-labelled	vignette	test	set	held	out	from	calibration,	and	we
+report	the	metrics	that	actually	matter	for	a	safety-critical	triage	tool:
+recall	on	the	highest-severity	vignettes	(did	the	system	ever	miss	a
+case	an	expert	ﬂagged	as	high-risk?),	false-negative	rate	speciﬁcally
+on	self-harm	and	intimidation	vignettes	(the	two	dimensions	where	a
+miss	is	most	costly),	and	inter-rater	agreement	between	the	system’s
+dimension-level	output	and	the	mental-health	professionals’
+independent	labelling	of	the	same	vignette.	We	report	these	numbers
+as	they	are,	including	where	they	are	weak,	rather	than	presenting	a
+single	polished	accuracy	ﬁgure.
+To	make	this	concrete	rather	than	aspirational,	we	anchor	our	target
+against	the	published	performance	of	comparable,	already-deployed
+crisis-line	machine-learning	systems:	a	recent	peer-reviewed
+evaluation	of	a	real	crisis-text-line	suicidality	classiﬁer	reported	a
+false-negative	rate	near	17%	and	a	false-positive	rate	near	25%	in
+production	use.	Our	stated	goal	for	the	self-harm-risk	and	intimidation
+dimensions	–	the	two	where	a	miss	is	most	dangerous	–	is	to	meet	or
+--- PAGE 11 ---
+improve	on	that	published	false-negative	baseline	during	pilot
+validation,	and	we	treat	falling	short	of	it	as	a	reason	to	delay	wider
+deployment	of	that	speciﬁc	dimension,	not	a	footnote	to	explain	away.
+How	we	close	the	data	gap	over	time,	without	waiting	for	it	to
+be	closed	to	be	useful.
+	
+The	system	is	deliberately	architected	so
+that	(a)	it	is	useful	and	safe	on	day	one	using	the	transparent,	rules-
+plus-vignette	foundation,	and	(b)	it	improves	in	a	structured	way	as
+real	data	becomes	available,	without	ever	requiring	an	architecture
+change.	The	path	to	real	data	is	itself	consent-gated	and	ethics-
+reviewed:	only	calls	where	a	caller	has	explicitly	opted	in	to
+“anonymised	data	may	be	used	to	improve	the	system”	(Section	2.8)
+ever	become	training	signal,	aggregation	and	anonymisation	happen
+before	any	such	data	leaves	the	helpline’s	systems,	and	mental-health
+professionals	remain	in	the	loop	to	review	and	label	before	any
+retraining.	Until	that	pipeline	has	produced	a	dataset	large	enough	to
+meaningfully	change	the	model’s	behaviour,	the	safety	architecture	is
+the	actual	mitigation	for	the	data	gap:	low-conﬁdence	outputs	are
+visibly	ﬂagged	(Section	2.17)	and	are	structurally	prevented	from
+triggering	high-stakes	actions	(Section	2.5,	Section	2.11)	regardless	of
+how	the	underlying	scores	were	produced.	In	other	words,	we	do	not
+need	the	dataset	to	exist	yet	for	the	system	to	be	safe	to	deploy	–	we
+need	the	human-gating	and	conﬁdence-reporting	to	be	strict,	which
+they	already	are.
+2.13	Measured	Real-World	Performance
+We	report	measured,	not	estimated,	processing	speed	end-to-end	on
+standard,	non-specialized	hardware	(CPU-only,	no	dedicated	GPU):
+Processing	Stage
+Measured	Time
+Speech-to-text	transcription
+~4.15	s	per	2-second	audio
+window	(mean	of	20	runs,	SD
+0.12	s)
+Silence-pattern	detection
+under	1	ms
+Eight-dimension	risk	scoring
+under	1	ms
+SVI	calculation
+under	1	ms
+Suggested-action	determination
+under	1	ms
+We	are	direct	about	the	implication	of	this	table:	on	unoptimized	CPU-
+only	hardware,	the	speech-to-text	stage	alone	runs	slower	than	real
+time,	and	this	is	currently	the	bottleneck	of	the	whole	pipeline.	Our
+answer	to	a	judge	asking	“how	is	4.15	seconds	real-time?”	is:	the
+architecture	is	streaming,	and	the	current	CPU-only	implementation
+establishes	functional	correctness	end-to-end	–	it	demonstrates	that
+the	pipeline	works,	not	the	latency	of	a	production	deployment.	All
+downstream	risk-scoring	stages	already	execute	in	under	1
+millisecond.	Production	deployment	would	use	a	distilled	or	otherwise
+optimized	speech-to-text	model,	or	GPU/edge	acceleration,	either	of
+which	reliably	brings	this	stage	down	to	a	fraction	of	a	second.	We
+report	the	unoptimized	number	rather	than	a	projected	one	because
+an	honest,	veriﬁable	measurement	is	worth	more	to	a	technical	judge
+than	an	optimistic	estimate	we	haven’t	yet	demonstrated.
+2.14	Fairness	Across	Callers
+--- PAGE 12 ---
+The	system’s	accuracy	at	correctly	identifying	genuine	risk	is	checked
+separately	across	caller	gender,	language	and	dialect,	and	recording
+quality.	If	the	system	performs	meaningfully	worse	for	any	one	group
+than	another	on	any	risk	dimension,	that	speciﬁc	dimension	is	not
+used	in	production	for	that	group	until	the	gap	is	closed.	This	is	a	hard
+constraint	on	deployment,	not	an	aspirational	goal.
+2.15	Why	This	Approach	Is	Better	Than
+the	Common	Alternative
+The	conventional	approach	treats	this	as	an	emotion-detection
+problem:	analyse	tone,	run	a	sentiment	classiﬁer,	produce	a	single
+stress	score,	and	pass	it	to	a	rule	engine.	Our	solution	diﬀers	in	three
+ways.	First,	we	treat	this	explicitly	as	a	triage	problem	borrowed	from
+the	same	logic	that	governs	emergency-room	and	disaster	medicine.
+Second,	we	refuse	to	let	a	single	number	make	a	high-stakes	decision
+by	itself,	preserving	the	full	nuance	of	an	eight-dimension,	conﬁdence-
+scored	assessment	underneath	a	single	headline	ﬁgure.	Third,	we
+treat	human	judgment	as	the	irreplaceable	ﬁnal	layer	for	anything
+irreversible,	which	directly	protects	against	the	single	greatest	risk	in
+this	domain:	a	system	that	is	conﬁdently	wrong	at	exactly	the	moment
+a	vulnerable	person’s	safety	depends	on	it	being	right.
+2.16	Explainable	AI	Panel
+The	agent	screen	never	shows	a	bare	number.	Alongside	the	headline
+SVI	(e.g.,	“Critical	–	78/100”),	a	breakdown	panel	shows	each	of	the
+eight	dimensions	with	a	colour-coded	level	(e.g.,	Acute	distress:	High;
+Depression	indicators:	Moderate;	Self-harm	risk	indicators:	Moderate;
+Fear	of	retaliation:	High;	Intimidation	signals:	High;	Dissociation:
+Moderate;	Social	isolation:	High;	Chronic	trauma:	Moderate),	plus	a
+plain-language	“why”	line	generated	directly	from	the	speciﬁc	signals
+that	drove	the	score	–	for	example,	“Long	mid-sentence	pause
+detected,”	“Statement	indicating	fear	of	retaliation,”	“Flattened	vocal
+aﬀect	consistent	with	depression	indicators.”	This	turns	the	SVI	from
+a	number	the	agent	has	to	trust	into	a	number	the	agent	can	inspect.
+2.17	Conﬁdence	and	Uncertainty
+Reporting
+Every	one	of	the	eight	risk	dimensions	is	reported	as	risk	level	+
+conﬁdence,	not	risk	level	alone	(e.g.,	“Intimidation	signals:	High	–
+87%	conﬁdence,”	“Depression	indicators:	Moderate	–	72%
+conﬁdence”).	A	separate,	system-wide	AI	Conﬁdence	indicator	sits
+above	the	eight-dimension	panel	(e.g.,	“AI	Conﬁdence:	91%,”	or	“Low
+conﬁdence	–	noisy	audio”),	and	whenever	this	drops	below	a	safe
+threshold	the	interface	explicitly	states	that	the	AI	recommendation
+should	not	be	used	for	high-stakes	action	on	its	own.
+Current	research	on	clinical	decision-support	interfaces	shows	that
+displaying	uncertainty	is	generally	valuable	for	trust	and	appropriate
+reliance,	but	also	that	a	dense,	statistically	detailed	presentation	of
+that	uncertainty	can	itself	raise	a	user’s	stress	at	exactly	the	moment
+they	most	need	to	think	clearly.	We	take	this	ﬁnding	seriously	in	the
+interface	design	rather	than	only	in	the	underlying	model:	the
+--- PAGE 13 ---
+conﬁdence	indicator	shown	to	the	agent	is	deliberately	simple	–	a
+single	percentage	and	a	colour,	not	a	breakdown	of	the	statistical
+method	behind	it	–	so	that	communicating	honest	uncertainty	does	not
+become	its	own	source	of	pressure	on	an	already-stretched	helpline
+agent.
+2.18	Case	Timeline
+Alongside	the	live	risk	panel,	the	agent	screen	keeps	a	running,
+timestamped	timeline	of	the	call,	e.g.:
+00:12	--	Distress	detected
+00:24	--	Intimidation	signal	detected
+00:37	--	Long	unexplained	silence	detected
+00:48	--	SVI	increased	42	->	6 7
+01:02	--	High-risk	recommendation	generated
+This	gives	the	agent	–	and	any	supervisor	reviewing	the	call	afterward
+–	a	reconstructible	narrative	of	exactly	when	and	why	the	assessment
+changed,	supporting	the	same-day	review	of	every	Critical-risk	call
+described	in	Section	2.9.
+2.19	Administrator	Analytics	Dashboard
+Beyond	the	individual	caller,	a	district/state-level	dashboard	presents
+anonymised,	aggregate	information	for	supervisors	and
+administrators:	number	of	cases,	risk-level	distribution,	language
+distribution,	average	response	time,	counselling	/	legal-aid	/	medical-
+assistance	referral	volumes,	high-risk	case	counts,	follow-up
+completion	rates	for	the	72-hour/7-day	check-ins,	and	ongoing	false-
+positive/false-negative	monitoring	to	support	the	fairness	commitment
+in	Section	2.14.	Individual	victim	identities	are	never	exposed	in	this
+aggregate	view,	consistent	with	the	conﬁdentiality	controls	in	Section
+2.8.
+2.20	The	Silent	SOS	–	A	Duress	Signal	for
+When	Speaking	Freely	Is	Not	Safe
+Every	capability	described	so	far	assumes	the	caller	is	free	to	speak
+honestly	about	what	is	happening	to	them.	In	a	meaningful	number	of
+real	caste-atrocity	cases,	this	assumption	does	not	hold:	a	victim	may
+be	calling	from	inside	the	home	of	the	person	threatening	them,	in	the
+presence	of	family	members	who	told	them	not	to	call,	or	under	direct
+observation	by	someone	who	would	retaliate	if	the	call’s	true	purpose
+were	discovered.	No	system	that	relies	only	on	what	a	caller	says	or
+how	they	sound	can	help	someone	who	cannot	safely	say	or	sound
+anything	unusual	at	all.	This	is	not	a	gap	named	anywhere	in	the
+problem	statement,	and	it	is	not	a	gap	addressed	by	any	comparable
+helpline	or	crisis-line	system	we	are	aware	of	–	which	is	precisely	why
+we	consider	it	worth	solving.
+The	mechanism	is	a	pre-agreed,	silent	duress	code,	conceptually
+similar	to	a	bank’s	duress	PIN.	At	the	start	of	any	call	or	IVRS	session,
+alongside	the	ordinary	consent	ﬂow,	the	caller	is	told	–	once,	and	only
+if	they	choose	to	engage	with	this	feature	–	that	they	may	at	any	point
+enter	a	speciﬁc	keypad	sequence	silently,	without	saying	anything	out
+--- PAGE 14 ---
+loud,	to	indicate	that	they	are	not	able	to	speak	freely.	Entering	this
+code	does	not	change	anything	audible	on	the	caller’s	end:	the	call
+continues	to	sound	completely	ordinary	to	anyone	who	might	be
+listening	nearby.	What	changes	is	entirely	on	the	system	and	agent
+side.	The	agent’s	screen	immediately	and	discreetly	indicates	that	a
+duress	signal	has	been	received,	and	the	agent’s	script	silently	shifts
+to	a	mode	built	for	exactly	this	situation:	closed,	yes-or-no	questions
+that	the	caller	can	answer	with	a	single	keypress	rather	than	a	spoken
+sentence	(“If	you	are	in	the	same	location	as	the	person	who	harmed
+you,	press	1.	If	you	are	safe	to	continue	speaking	normally	in	a	few
+minutes,	press	2.”).	The	SVI	and	risk	dimensions	continue	to	update
+based	on	whatever	signal	is	available,	and	the	case	is	automatically
+ﬂagged	for	the	highest	tier	of	urgency	and	same-day	supervisory
+review,	regardless	of	what	the	audible	portion	of	the	call	did	or	did	not
+contain.
+This	feature	is	included	because	it	directly	serves	the	single	most
+vulnerable	subset	of	the	population	this	problem	statement	is	about:
+victims	who	are	being	actively	controlled	or	surveilled	by	the	person
+who	harmed	them	at	the	exact	moment	they	are	trying	to	seek	help.	It
+requires	no	exotic	technology	–	keypad-tone	detection	during	a	live
+call	is	a	well-established,	decades-old	capability,	and	silent	duress
+signalling	itself	is	a	long-established	security	pattern	used	in	banking
+and	physical-security	contexts,	and,	closer	to	this	domain,	at	least	one
+domestic-violence	hotline	has	reportedly	used	a	comparable	silent
+keypad	signal.	What	has	not	been	done,	as	far	as	we	can	ﬁnd,	is
+integrating	this	signal	into	a	continuously-updating,	AI-assisted
+trauma-triage	pipeline,	where	the	signal	doesn’t	just	trigger	a	single
+alert	but	dynamically	reshapes	the	entire	remainder	of	the	interaction.
+We	also	design	speciﬁcally	against	the	reason	similar	mechanisms
+have	failed	elsewhere.	A	U.S.	Federal	Trade	Commission	review	of
+duress-PIN	mechanisms	at	ATMs	found	they	were	never	meaningfully
+adopted	in	practice,	concluding	that	the	operational	cost	and	the	risk
+of	false	alarms	outweighed	the	beneﬁt.	We	address	both	failure	modes
+directly.	False	alarms	are	reduced	by	requiring	a	speciﬁc,	multi-digit
+sequence	deliberately	chosen	to	be	extremely	unlikely	to	be	entered
+by	accident	during	ordinary	call	navigation,	rather	than	a	single
+keypress.	And	unlike	a	mechanism	that	triggers	an	irreversible
+external	dispatch	on	its	own,	a	Silent	SOS	signal	here	does	not	bypass
+the	human-gating	architecture	described	throughout	this	document	–
+it	raises	the	call’s	priority	and	reshapes	the	agent’s	script,	but	any
+subsequent	police	or	witness-protection	action	still	passes	through	the
+same	senior-approval	gate	as	every	other	Critical-risk
+recommendation	(Section	2.5),	so	a	false	trigger	costs	a	more	cautious
+conversation,	not	an	unwarranted	dispatch.
+2.21	Tamper-Evident	Audit	Trail	for	Legal
+and	Evidentiary	Integrity
+The	audit	log	described	throughout	this	document	(Section	2.8)
+already	records	every	access	to	a	caller’s	data.	We	extend	this	into	a
+tamper-evident	record:	each	audit-log	entry	includes	a	cryptographic
+hash	of	the	entry	immediately	before	it,	forming	a	hash	chain	across
+the	entire	log	for	a	given	case.	If	any	entry	in	the	chain	were	ever
+altered	or	deleted	after	the	fact,	the	hash	chain	from	that	point
+forward	would	no	longer	verify	–	making	tampering	mathematically
+detectable	rather	than	merely	against	policy.
+--- PAGE 15 ---
+This	matters	speciﬁcally	in	this	domain	because	a	victim’s	ﬁrst
+disclosure,	and	the	system’s	contemporaneous,	timestamped
+assessment	of	their	distress	and	vulnerability	at	that	moment,	may
+later	become	relevant	to	legal	proceedings	under	the	SC/ST
+(Prevention	of	Atrocities)	Act	–	for	instance,	in	establishing	that	a
+credible	complaint	and	a	clear	risk	signal	existed	at	ﬁrst	contact,
+independent	of	what	happened	administratively	afterward.	A	tamper-
+evident	log	means	a	court,	a	review	body,	or	the	caller’s	own	legal
+counsel	can	trust	that	the	record	of	what	the	system	detected,	and
+when,	has	not	been	quietly	altered	by	anyone	with	system	access	after
+the	fact.	This	is	a	comparatively	small	addition	to	what	has	already
+been	built,	and	it	converts	the	audit	log	from	an	internal	operations
+tool	into	something	that	can	credibly	support	the	victim’s	own	legal
+position	later.
+2.22	Closing	the	Referral	Black	Hole	–
+Real-Time	Availability	and	Warm	Hand-oﬀ
+The	most	common	point	of	failure	in	victim	support	systems	generally
+is	not	detection	–	it	is	what	happens	immediately	after	a	referral	is
+made.	A	victim	told	to	“please	contact	this	counsellor”	or	handed	a
+phone	number	for	legal	aid	very	often	never	follows	up,	not	from	lack
+of	need	but	because	the	moment	of	willingness	passes,	the	number
+goes	unanswered,	or	the	service	is	at	capacity.	This	failure	mode	is
+well	documented	across	support	services	generally	and	is	not	speciﬁc
+to	this	helpline,	which	is	exactly	why	solving	it	here	is	a	meaningful,
+transferable	improvement	rather	than	a	narrow	ﬁx.
+When	a	counselling	or	legal-aid	referral	is	conﬁrmed	during	a	call
+(Section	2.5),	the	system	checks	real-time	appointment	availability	at
+the	nearest	appropriate,	already-empanelled	counselling	centre	or
+legal-aid	clinic,	and	oﬀers	to	book	a	speciﬁc	slot	immediately,	live,
+while	the	caller	is	still	on	the	line	–	a	warm	hand-oﬀ	with	a	conﬁrmed
+appointment,	not	a	name	and	a	number	to	follow	up	on	alone	later.
+Where	the	caller	consents,	the	receiving	counsellor	or	legal-aid
+worker	is	given	the	case’s	risk-dimension	summary	in	advance
+(Section	2.16),	so	the	victim	does	not	have	to	re-explain	their	situation
+from	nothing	to	a	second	stranger	immediately	after	having	just
+disclosed	it	to	the	ﬁrst.
+This	directly	strengthens	the	“who	beneﬁts	and	how	do	we	measure
+it”	question	central	to	demonstrating	real	impact:	the	system	does	not
+stop	at	generating	a	recommendation,	but	measurably	improves	the
+odds	that	the	recommended	support	is	actually	received,	which	is	the
+outcome	that	was	always	the	point.
+2.23	Agent	Secondary-Trauma	Protection
+–	Protecting	the	Protector
+Every	feature	described	so	far	protects	the	caller.	This	one	addresses
+a	real	and	well-documented	problem	that	the	problem	statement	does
+not	ask	about	at	all:	helpline	agents	who	spend	entire	shifts	absorbing
+repeated,	severe	distress	disclosures	are	themselves	at	serious	risk	of
+vicarious	trauma	and	burnout,	a	documented	occupational	hazard
+across	crisis-line	and	helpline	staﬀing	generally.	An	agent	who	is
+--- PAGE 16 ---
+quietly	burning	out	is	also	a	less	reliable	safety	net	for	the	very
+victims	this	system	exists	to	protect,	which	makes	this	a	genuine
+extension	of	the	solution’s	own	goals,	not	a	tangential	addition.
+We	propose	applying	the	same	acoustic	and	conversational	analysis
+techniques	already	built	for	callers	(Section	2.6),	pointed	instead	–
+with	the	agent’s	own	informed	consent,	as	a	workplace-wellbeing	tool
+they	opt	into,	never	a	covert	performance-monitoring	system	–	at	the
+agent’s	own	voice	across	the	course	of	a	shift.	Signs	of	accumulating
+strain	(ﬂattening	vocal	aﬀect,	slowing	response	times,	increasingly
+short	or	clipped	responses	across	successive	calls)	generate	a	private,
+supervisor-visible	signal	suggesting	the	agent	may	beneﬁt	from	a
+break,	never	a	score	attached	to	their	name	for	evaluation	purposes,
+and	never	something	the	agent	themselves	cannot	see	or	dispute.	The
+framing	is	deliberately	protective,	not	evaluative:	this	exists	to	catch
+an	agent	quietly	struggling	before	it	aﬀects	their	wellbeing	or	a
+caller’s	experience,	in	the	same	spirit	as	the	victim-facing	safety	net
+described	in	Section	2.9.
+Existing	crisis-line	practice	for	detecting	vicarious	trauma	and
+burnout	relies	almost	entirely	on	periodic	self-report	check-ins	and
+clinical	supervision,	and	published	reviews	of	this	practice	speciﬁcally
+note	that	most	studies	in	this	area	do	not	use	any	validated
+measurement	instrument	at	all.	Rather	than	inventing	our	own	ad	hoc
+heuristic	for	what	counts	as	“strain,”	we	anchor	the	acoustic	signal
+against	an	already-validated,	widely	used	occupational	instrument	for
+exactly	this	purpose	–	the	Professional	Quality	of	Life	Scale	(ProQOL),
+which	speciﬁcally	measures	compassion	fatigue	and	burnout	in
+helping	professions	–	so	the	automated	signal	is	calibrated	against	a
+real	clinical	standard	rather	than	a	number	we	invented,	and	so	its
+output	can	be	meaningfully	compared	against	the	periodic	self-report
+the	agent	would	otherwise	ﬁll	out.
+This	reframes	the	system	as	a	whole	from	“a	tool	that	watches
+victims”	to	“a	system	that	safeguards	everyone	in	the	chain	of	care”	–
+and	we	are	not	aware	of	this	being	addressed	by	any	comparable
+helpline	technology,	which	is	precisely	the	kind	of	unclaimed,
+genuinely	useful	ground	worth	occupying.
+2.24	Accessibility	Bridge	for	Non-Verbal
+Disclosure
+Everything	described	so	far	is	built	around	a	voice	call.	A	meaningful
+population	the	problem	statement’s	own	list	of	channels	already
+gestures	toward	–	via	its	inclusion	of	the	chatbot,	mobile	application,
+and	portal	–	cannot	or	should	not	rely	on	the	voice	channel	at	all:
+callers	who	are	deaf	or	hard	of	hearing,	callers	with	speech-aﬀecting
+disabilities,	and	callers	for	whom	typing	quietly	is	the	only	safe	way	to
+communicate	in	their	present	circumstances.
+We	extend	the	same	eight-dimension	risk	analysis	(Section	2.2)	to	the
+text-based	channels	using	exactly	the	lexical	layer	already	built	for
+voice	calls	(Section	2.6),	so	a	caller	interacting	purely	through	the
+chatbot	or	SMS-based	portal	receives	the	identical	quality	of	trauma-
+and-vulnerability	assessment	as	a	caller	on	a	voice	line	–	the	same
+SVI,	the	same	explainable	panel,	the	same	human-gated
+recommendations	–	rather	than	a	stripped-down,	second-class	version
+of	the	system.	This	is	a	comparatively	small	engineering	extension,
+since	the	lexical	analysis	layer	is	channel-agnostic	by	design,	but	it
+--- PAGE 17 ---
+ensures	that	a	population	already	explicitly	included	in	the	problem
+statement’s	list	of	approved	interfaces	is	not,	in	practice,	given	a
+materially	inferior	version	of	the	protection	this	system	provides.
+2.25	The	36-Hour	Build	Plan	–	MVP	First,
+Wow-Factors	as	Ordered	Stretch	Goals
+This	build	plan	deliberately	separates	two	things	that	are	easy	to	blur
+under	time	pressure:	the	MVP	(Section	2.29)	that	must	be	complete
+and	stable	on	its	own,	and	every	enhancement	layered	on	top	of	it.
+The	sequencing	below	builds	and	hardens	the	MVP	ﬁrst,	in	full,	before
+a	single	hour	is	spent	on	any	stretch-goal	feature	–	because	a	working
+core	that	honestly	satisﬁes	the	problem	statement	beats	an
+impressive-looking	pile	of	half-ﬁnished	features	every	time	a	judge
+asks	to	see	something	actually	run.
+Hours	0-3	–	Foundation.
+	
+Finalize	technology	choices,	assign
+ownership	of	each	MVP	pipeline	stage,	and	lock	the	exact	data	format
+passed	between	components	before	writing	code.
+Hours	3-12	–	MVP	core	pipeline,	built	and	tested	in	isolation.
+Speech-to-text	with	word-level	timing;	a	simple	duration-based	silence
+ﬂag	(not	yet	the	full	placement-classiﬁed	Silence	Fingerprint);	the
+eight-dimension	rules-layer	risk	scorer;	SVI	and	bucket	calculation	–
+each	built	and	veriﬁed	independently	against	controlled	test	inputs.
+Hours	12-20	–	MVP	end-to-end	wiring.
+	
+Connect	the	veriﬁed
+components	into	a	single	live	pipeline	with	a	real	call-style	interface,
+live-updating	risk	scores	and	SVI,	a	basic	suggested-actions	display,
+the	human-in-the-loop	conﬁrm/override	layer,	and	–	built	and	tested
+with	the	same	priority	as	everything	else	in	this	window,	never
+deferred	–	the	senior-approval	gate	for	police/witness-
+protection/emergency	actions	and	a	single,	clear,	upfront	consent
+step.
+Hours	20-24	–	MVP	integration	testing.
+	
+Test	with	messy,	real-
+world-like	input:	pauses	in	unexpected	places,	Hindi-English	code-
+switching,	background	noise,	a	caller	who	barely	speaks.	By	the	end
+of	hour	24,	the	MVP	must	stand	alone	as	a	complete,	demoable	system
+that	fully	and	literally	satisﬁes	the	Problem	Statement’s	Expected
+Solution	Requirements	(Section	1.3)	–	with	zero	stretch-goal	features
+attempted	yet.
+Hours	24-36	–	Stretch	goals,	attempted	strictly	in	this	priority
+order,	each	begun	only	once	the	previous	one	is	fully	working:
+1.	
+(Hours	24-27)	The	Silent	SOS	(Section	2.20).
+	
+Highest-priority
+stretch	goal,	because	it	protects	the	single	most	vulnerable
+subgroup	this	problem	statement	is	about.
+2.	
+(Hours	27-29)	Agent	Secondary-Trauma	Protection	(Section
+2.23).
+	
+Second	priority	–	the	most	genuinely	novel	addition,	and
+self-contained	enough	to	build	and	test	quickly	on	top	of	the
+existing	acoustic	layer.
+3.	
+(Hours	29-30)	Tamper-Evident	hash-chained	audit	log
+(Section	2.21).
+	
+A	cheap,	low-risk	upgrade	of	the	MVP’s	existing
+plain	audit	log.
+4.	
+(Hours	30-33)	Polish	layer.
+	
+The	full	Silence	Fingerprint
+(placement	classiﬁcation,	crying/breathing	overlap),	the
+Explainable	“why”	panel,	and	per-dimension	conﬁdence	reporting.
+--- PAGE 18 ---
+5.	
+(Hours	33-35)	Referral	real-time	availability	and	warm	hand-
+oﬀ	(Section	2.22),
+	
+demonstrated	against	a	small,	mocked
+directory	of	counselling/legal-aid	slots.
+6.	
+(Hours	35-36)	Rehearsal.
+	
+The	Case	Timeline,	Administrator
+Analytics	Dashboard,	and	a	dedicated,	polished	Accessibility
+Bridge	experience	(Section	2.24)	are	presented	as	documented
+roadmap	items	on	slides	if	not	reached,	rather	than	attempted	live
+at	the	last	hour.
+If	time	runs	out	at	any	point	in	this	sequence,	the	team	stops	and
+demos	the	MVP	plus	whichever	stretch	goals	are	fully	complete	–
+never	a	partially	wired	stretch	feature	sitting	on	top	of	an	otherwise-
+solid	core.
+2.26	What	the	Prototype	Looks	Like
+The	ﬁnished	prototype	is	two	connected	screens,	run	on	two	machines
+side	by	side,	mirroring	a	real	helpline	interaction.
+The	caller-facing	screen
+	
+resembles	a	simple,	phone-style	interface:
+a	caller-ID-style	header	identifying	the	line	as	NHAA	14566,	a
+language	selector	for	Hindi,	English,	or	mixed	Hindi-English,	a	call-
+connect	button,	an	active	call	timer,	and	a	live	waveform.	Before	the
+call	is	treated	as	connected,	a	short,	plainly	worded	consent	message
+is	shown	and	read	aloud,	and	the	caller’s	choices	are	recorded	before
+anything	else	happens.	A	brief,	optional	mention	of	the	Silent	SOS
+keypad	code	(Section	2.20)	is	included	in	this	same	consent	step,
+worded	carefully	so	its	existence	is	available	to	anyone	who	needs	it
+without	drawing	attention	to	it.
+The	agent-facing	screen
+	
+is	where	the	system’s	reasoning	becomes
+visible.	A	live	transcript	builds	line	by	line	in	the	language	actually
+spoken,	without	forced	English	translation.	Beneath	it,	eight
+horizontal	bars	represent	the	eight	risk	dimensions,	each	ﬁlling	and
+changing	colour	in	real	time,	paired	with	the	conﬁdence	indicator
+from	Section	2.17.	Above	these,	the	headline	SVI	is	shown	as	a	large,
+colour-coded	ﬁgure	–	green/yellow/orange/red	for
+Low/Moderate/High/Critical.	A	distinct	visual	alert	appears	when	the
+system	detects	an	unusual,	unexplained	silence,	and	a	separate,
+unmistakable	alert	appears	if	a	Silent	SOS	code	is	entered,	silently
+switching	the	on-screen	script	to	the	yes/no	duress	format.	The
+explainable	“why”	panel	(Section	2.16)	and	the	running	case	timeline
+(Section	2.18)	sit	alongside	the	risk	bars.	Below	all	of	this	sits	the
+suggested-actions	panel:	counselling,	legal-aid,	and	medical-
+assistance	options	the	agent	can	conﬁrm	quickly	once	the	caller
+agrees	–	with	a	live,	bookable	appointment	slot	shown	directly	in	the
+panel	(Section	2.22)	–	a	fast-tracked	emergency-medical-dispatch
+option	for	acute	physical	danger,	and	police-intervention	or	witness-
+protection	options	that	remain	visibly	locked,	marked	as	requiring	a
+second,	senior	approval,	until	that	sign-oﬀ	actually	happens.
+A	separate	administrator	view	(Section	2.19)	demonstrates	the
+aggregate	dashboard	for	judges	evaluating	scalability	beyond	a	single
+call,	and	a	small	supervisor-only	panel	demonstrates	the	agent-
+wellbeing	signal	(Section	2.23)	alongside	it,	framed	explicitly	as	a
+wellbeing	safeguard	rather	than	a	performance	metric.
+Together,	these	screens	let	anyone	watching	the	prototype	see	the
+entire	intended	interaction	unfold	exactly	as	designed:	a	caller	speaks
+naturally	in	their	own	language	–	or	signals	silently	if	they	cannot
+--- PAGE 19 ---
+speak	freely	at	all	–	the	system	listens	and	reasons	across	text,	voice,
+and	silence	simultaneously	across	all	eight	required	indicators,	the
+risk	picture	builds	visibly	and	honestly	in	front	of	the	agent,	every
+referral	is	followed	all	the	way	through	to	a	real,	booked	outcome
+rather	than	stopping	at	a	recommendation,	and	any	action	serious
+enough	to	be	irreversible	remains	visibly,	provably	gated	behind	a
+human	decision	at	every	step	–	AI	recommends;	trained	humans
+decide.
+2.27	How	This	Solution	Compares	Against
+Documented	Limitations	of	Existing
+Systems
+Before	ﬁnalising	this	design,	we	reviewed	the	published	literature	on
+comparable	systems	–	speech-based	depression	and	PTSD	detection,
+crisis-hotline	machine	learning,	duress-signalling	mechanisms,	and
+vicarious-trauma	monitoring	–	speciﬁcally	to	identify	the	limitations
+those	systems	are	documented	to	have,	rather	than	assuming	our	own
+design	was	already	complete.	The	table	below	is	that	review,	stated
+plainly,	including	the	points	where	our	ﬁrst	design	fell	short	and	has
+since	been	revised.
+#
+Documented
+Limitation	in
+Existing	Research
+or	Deployed
+Systems
+Addressed	in	This
+Solution
+1
+Cross-lingual/cross-
+dataset	models
+degrade	sharply
+outside	training
+conditions
+Yes	–	transparent
+rules-layer	detection
+is	language-agnostic
+by	design,	not
+dependent	on	cross-
+lingual	transfer	of	a
+trained	model
+2
+Training	datasets	in
+this	space	are	small
+and	non-
+representative	(e.g.,
+189	subjects	in	the
+standard	academic
+benchmark)
+Yes	–	explicitly
+acknowledged;	the
+system	uses
+calibration	on	a	small
+expert-built	vignette
+set,	not	full	training,
+and	states	this	limit
+honestly
+3
+Acoustic-only
+emotion	detection	is
+unreliable	across
+speakers,	dialects,
+and	recording
+conditions
+Yes	–	acoustic	signals
+are	explicitly	treated
+as	supporting
+evidence	only,	never
+the	primary	decision-
+maker
+4
+Pause/silence	signal
+strength	is	not
+consistent	across	all
+languages
+Yes	–	the	Silence
+Fingerprint	is
+calibrated	and
+validated	per
+language,	with
+reduced	reliance	on
+it	for	any	language
+where	it	proves
+--- PAGE 20 ---
+unreliable
+5
+Even	the	best
+published	crisis-line
+machine-learning
+systems	retain
+meaningful	error
+rates
+Yes	–	a	concrete
+numeric	target
+(matching	or	beating
+a	published	false-
+negative	baseline)	is
+stated	for	the
+highest-stakes
+dimensions,	rather
+than	an	unveriﬁable
+claim	of	high
+accuracy
+6
+Model	training	can
+be	unstable	and
+introduce	class-
+speciﬁc	bias
+depending	on
+random	initialization
+Yes	–	the
+deterministic	rules
+layer	is	inherently
+stable;	any	optional
+learned	layer	is
+subject	to	explicit
+stability	testing
+before	deployment
+7
+Most	deployed	crisis-
+line	systems	lack
+explainability	for
+their	risk	scores
+Yes	–	exceeded,	via
+the	explainable	panel
+showing	the	speciﬁc
+signals	behind	every
+score
+8
+Demographic	bias
+frequently	goes
+undetected	in
+production	systems
+Yes	–	fairness
+auditing	is	a	hard
+deployment	gate,	not
+an	aspirational	goal
+9
+A	one-time	terms-of-
+service	click	does	not
+constitute
+meaningful	consent
+from	someone	in
+crisis
+Yes	–	exceeded,	via
+granular,	revocable,
+system-initiated
+ongoing	consent
+10
+Data	described	as
+“anonymised”	has
+repeatedly	been
+shown	to	be	re-
+identiﬁable	in
+practice
+Yes	–	minimum
+group-size	thresholds
+are	enforced	before
+any	aggregate
+statistic	is	displayed,
+speciﬁcally	to
+prevent	small-group
+re-identiﬁcation
+11
+Ethics	oversight
+bodies	have	been
+bypassed	in	real
+data-use	decisions	at
+comparable
+organisations
+Yes	–	any	secondary
+use	of	caller	data
+requires	active,
+minuted	sign-oﬀ	from
+a	standing,	regularly-
+meeting	ethics	body,
+not	a	dormant	one
+12
+Duress-signal
+mechanisms	have
+historically	been
+abandoned	due	to
+false-alarm	rates	and
+cost-beneﬁt	failure
+Yes	–	a	deliberately
+low-false-trigger-
+probability	sequence
+is	required,	and	any
+resulting	escalation
+still	passes	through
+the	same	human-
+approval	gate	as	any
+--- PAGE 21 ---
+other
+recommendation
+13
+Displaying	AI
+uncertainty	can	itself
+increase	user	stress
+if	presented	in	a
+dense	or	technical
+form
+Yes	–	the	conﬁdence
+indicator	shown	to
+agents	is	deliberately
+simple	(a	percentage
+and	a	colour),	not	a
+statistical	breakdown
+14
+Vicarious-trauma
+monitoring	in	crisis
+workers	typically
+relies	on	self-report
+with	no	validated
+instrument
+Yes	–	the	agent-
+wellbeing	signal	is
+calibrated	against
+the	ProQOL	scale,	a
+validated
+occupational
+instrument,	rather
+than	an	invented
+heuristic
+15
+Multimodal	pipelines
+can	silently	degrade
+in	real-world
+accuracy	without	any
+visible	failure
+Yes	–	ongoing
+monitoring	of	agent
+override	rates	by
+language,	dialect,
+and	call	quality	is
+used	as	a	proxy
+signal	for	this	kind	of
+silent	drift
+Every	limitation	we	could	ﬁnd	documented	against	a	comparable	real
+system	or	in	the	relevant	published	research	is	addressed	above,	with
+the	speciﬁc	design	change	made	and	the	speciﬁc	source	that
+motivated	it.	Where	an	existing	solution’s	ﬂaw	was	structural	(for
+example,	consent-by-click-through,	or	an	ethics	board	that	exists
+without	real	authority),	our	response	is	also	structural,	not	a	policy
+statement	layered	on	top	of	an	unchanged	design.
+2.28	Existing	Solutions	Today,	Compared
+Directly	Against	This	Solution
+The	table	below	compares	this	solution	against	every	category	of	real,
+currently	operating	or	published	system	relevant	to	this	problem:
+international	and	Indian	crisis	helplines,	published	academic	distress-
+detection	research,	and	established	physical-security	duress
+mechanisms.	Assessments	of	external	systems	are	based	only	on	what
+each	organisation	has	publicly	documented	or	what	has	been
+independently	published	about	them,	since	none	of	these	systems’	full
+internal	implementations	are	publicly	disclosed;	where	something	is
+not	publicly	documented,	it	is	marked	as	such	rather	than	assumed
+absent.
+Capability
+Crisis	Text
+Line	(US)
+iCall
+(India)
+Vandrevala
+Foundation
+(India)
+Samaritans
+(UK)
+Tracks	multiple
+independent	risk
+dimensions,	not	one
+Partial	–	ML
+risk	ﬂag,	not
+No	–	human
+counsellor
+judgement
+No	–	human
+counsellor
+judgement
+No	–	human
+counsellor
+judgement
+--- PAGE 22 ---
+score
+multi-axis
+only
+only
+only
+Explainable	“why”
+evidence	shown	to	the
+person	acting	on	it
+Not	publicly
+documented
+at
+deployment
+Not
+applicable
+(human
+judgement)
+Not
+applicable
+(human
+judgement)
+Not
+applicable
+(human
+judgement)
+Reports
+conﬁdence/uncertainty
+alongside	every	signal
+Not	publicly
+documented
+Not
+applicable
+Not
+applicable
+Not
+applicable
+Native	multilingual,
+code-switching-aware
+(no	translation	step)
+English-
+primary
+Yes	–
+multiple
+Indian
+languages,
+human-
+mediated
+Yes	–
+multiple
+Indian
+languages,
+human-
+mediated
+English-
+primary
+Treats	silence/pauses
+as	a	structured	signal
+No
+Not
+applicable
+(human
+intuition
+only)
+Not
+applicable
+(human
+intuition
+only)
+Not
+applicable
+(human
+intuition
+only)
+Human-gate	for
+irreversible	actions
+enforced	in	code,	not
+policy
+Not	publicly
+documented
+Yes,	but	as
+trained-
+human
+process,	not
+code-
+enforced
+Yes,	but	as
+trained-
+human
+process,	not
+code-
+enforced
+Yes,	but	as
+trained-
+human
+process,	not
+code-
+enforced
+Silent	duress/SOS
+signal	for	a	caller	who
+cannot	speak	freely
+No
+Not	publicly
+documented
+Not	publicly
+documented
+No
+Standing,	actively-
+convened	ethics
+oversight	of	data	use
+Documented
+failure	–
+board
+existed	but
+was
+bypassed
+Not	publicly
+documented
+Not	publicly
+documented
+Not	publicly
+documented
+Monitors	and	protects
+the	wellbeing	of	the
+human	responder
+Relies	on
+self-report;
+documented
+gap	in
+validated
+tools
+Relies	on
+supervision
+and	self-
+report
+Relies	on
+supervision
+and	self-
+report
+Relies	on
+supervision
+and	self-
+report
+Designed	speciﬁcally
+around	caste-atrocity
+context	(fear	of	a
+compromised
+authority,	intimidation,
+chronic	pattern)
+No	–
+general
+crisis
+population
+No	–
+general
+mental-
+health
+population
+No	–
+general
+mental-
+health
+population
+No	–
+general
+mental-
+health
+population
+--- PAGE 23 ---
+The	pattern	across	this	table	is	consistent:	existing	crisis-line	services
+are	strong	on	trained	human	empathy	but	structurally	lack	multi-
+dimensional,	explainable,	conﬁdence-scored	AI	assistance;	existing
+academic	research	systems	have	the	beginnings	of	the	underlying
+detection	techniques	but	are	not	built	as	deployable,	human-gated,
+consent-governed	operational	systems;	and	existing	physical-security
+duress	mechanisms	solve	the	“cannot	speak	freely”	problem	in
+isolation	but	were	never	integrated	into	an	ongoing	psychological
+assessment.	No	system	we	could	identify	combines	all	of	these	into
+one	design	–	which	is	the	speciﬁc	gap	this	solution	is	built	to	ﬁll.
+2.29	MVP	Scope	–	The	Core	This	Solution
+Cannot	Work	Without
+Everything	described	in	this	document	up	to	this	point	is	the	complete
+solution.	This	section	exists	to	answer	a	diﬀerent,	equally	important
+question:	if	time,	resources,	or	a	36-hour	clock	forced	a	cut,	what	is
+the	smallest	version	of	this	system	that	still	honestly	and	safely	does
+what	the	problem	statement	asks	–	and	what	is	genuinely	an
+enhancement	layered	on	top	of	that	core,	not	a	corner	cut	from	it?
+The	guiding	principle	for	this	MVP	is	that	it	must	be	noble	by
+construction:	every	feature	removed	from	it	is	removed	because	it
+reﬁnes	something	the	MVP	already	does	safely,	never	because	it
+removes	a	safeguard.	Two	things	are	never	deferred,	at	any	build
+stage,	no	matter	how	little	time	remains:	the	human-approval	gate	for
+irreversible	actions,	and	the	existence	of	real	caller	consent	before
+analysis	begins.	A	version	of	this	system	without	either	of	those	is	not
+a	smaller	version	of	the	solution	–	it	is	a	diﬀerent	and	unacceptable
+one.
+2.29.1	The	MVP	Core	(Non-Negotiable)
+1.	
+Real-time	voice	or	text	capture	on	at	least	one	channel
+,
+supporting	Hindi,	English,	and	natural	Hindi-English	code-
+switching.
+2.	
+Real	speech-to-text	transcription	with	word-level
+timestamps
+	
+–	no	pre-scripted	or	staged	transcript	content.
+3.	
+All	eight	independently-scored	risk	dimensions
+	
+(Section	2.2).
+These	are	included	in	full	at	the	MVP	stage,	not	cut	down	to	a
+smaller	subset,	because	the	underlying	rules-layer	architecture
+makes	the	eighth	dimension	no	more	expensive	to	add	than	the
+ﬁrst	–	the	cost	that	scales	with	time	is	in	the	polish	layered	on	top
+of	the	scores,	not	the	number	of	dimensions	scored.
+4.	
+The	single	0-100	Stress	Vulnerability	Index
+,	computed	from
+the	eight	dimensions	using	the	open,	documented	weighting
+formula	(Section	2.3).
+5.	
+Low	/	Moderate	/	High	/	Critical	categorization
+,	exactly	as	the
+problem	statement	speciﬁes	(Section	2.4).
+6.	
+A	basic	suggested-actions	display
+,	mapped	to	the	risk	category,
+covering	all	six	support	types	named	in	the	problem	statement.
+7.	
+The	human-gate	senior-approval	state	machine
+	
+for	police
+intervention,	witness	protection,	and	non-medical	emergency
+escalation	(Section	2.5)	–	enforced	in	code,	present	from	the	very
+ﬁrst	working	version,	because	this	is	the	system’s	core	ethical
+claim,	not	an	enhancement	to	it.
+--- PAGE 24 ---
+8.	
+A	single,	clear,	plainly	worded	upfront	consent	step
+	
+before
+any	recording	or	analysis	begins	–	even	before	the	fuller	granular,
+mid-call-re-asked	consent	system	(Section	2.8)	is	built	out.
+9.	
+A	basic,	honest,	append-only	audit	log
+	
+of	what	happened
+during	each	call	–	even	before	it	is	upgraded	to	the	tamper-
+evident,	hash-chained	version	(Section	2.21).
+10.	
+A	working	agent	console
+	
+showing	the	live	transcript,	the	eight
+risk-dimension	bars,	the	colour-coded	SVI	badge,	and	the	action
+buttons	the	agent	actually	uses	to	conﬁrm,	override,	or	escalate.
+This	list,	on	its	own,	fully	and	literally	satisﬁes	every	bullet	point	in
+the	Problem	Statement’s	Expected	Solution	Requirements	(Section
+1.3).	That	is	the	intended	reading	of	“MVP”	here:	not	a	stripped-down
+demo	of	an	idea,	but	a	complete,	ethically	sound,	literal	answer	to
+exactly	what	was	asked	–	which	everything	else	in	this	document	then
+builds	on	top	of,	rather	than	the	other	way	around.
+2.29.2	Fast-Follow	(Built	Once	the	MVP	Is	Stable,
+Valuable	but	Not	Load-Bearing)
+The	full	Silence	Fingerprint,	with	placement	classiﬁcation	and
+crying/breathing-overlap	detection	(the	MVP	uses	a	simpler
+duration-only	silence	ﬂag	feeding	the	dissociation	score	in	the
+meantime).
+The	Explainable	“why”	evidence	lines	and	per-dimension
+conﬁdence	percentages	(the	MVP	shows	the	eight	scores	without
+the	underlying	evidence	trail	or	conﬁdence	number).
+The	full	granular,	multi-purpose,	mid-call-re-asked	consent	system
+(the	MVP	uses	one	clear	upfront	consent	step).
+The	tamper-evident,	hash-chained	upgrade	to	the	audit	log	(the
+MVP	log	is	a	plain,	honest	record	without	the	cryptographic
+chaining).
+The	Case	Timeline	view	and	the	Administrator	Analytics
+Dashboard	(the	MVP	is	focused	on	a	single	call,	not	yet	a
+supervisory	or	district-level	tool).
+2.29.3	The	Wow-Factor	Layer	(Genuinely	Optional,
+Attempted	Only	If	Time	Allows,	in	Priority	Order)
+1.	
+The	Silent	SOS
+	
+(Section	2.20)	–	highest	priority,	because	it
+protects	the	single	most	vulnerable	subgroup	this	problem
+statement	is	about:	victims	who	cannot	safely	speak	freely	at	all.
+2.	
+Agent	Secondary-Trauma	Protection
+	
+(Section	2.23)	–	the	most
+genuinely	novel	addition,	and	cheap	to	build	once	the	caller-facing
+acoustic	layer	already	exists.
+3.	
+Closing	the	Referral	Black	Hole
+	
+(Section	2.22)	–	real-time
+booking	and	warm	hand-oﬀ,	which	requires	a	mocked	external
+service	and	is	correspondingly	more	eﬀort.
+4.	
+A	dedicated,	polished	Accessibility	Bridge	experience
+(Section	2.24)	–	baseline	text-channel	support	already	exists	for
+free,	since	the	lexical	scoring	engine	is	channel-agnostic	by	design;
+this	item	is	speciﬁcally	about	turning	that	baseline	into	a	ﬁrst-
+class,	tested,	equally-polished	experience	rather	than	an	incidental
+side	eﬀect.
+This	ordering	reﬂects	impact	per	hour	of	eﬀort,	not	novelty	for	its	own
+sake:	features	that	protect	the	most	vulnerable	callers,	or	that	cost
+little	to	add	given	what	the	MVP	already	built,	come	before	features
+--- PAGE 25 ---
+that	are	valuable	but	comparatively	expensive	or	comparatively	less
+urgent.
+2.30	On	Novelty:	What	We	Invented	Versus
+What	We	Integrated
+Before	presenting	further	additions,	it	is	worth	being	precise	about	a
+question	worth	asking	of	any	system	in	this	space:	is	any	of	this
+actually	new?	The	honest	answer,	stated	plainly	rather	than	left	for	a
+judge	to	discover,	is	that	most	of	the	individual	techniques	used
+throughout	this	document	are	not	new.	Multi-dimensional	risk	scoring
+is	established	in	clinical	psychology.	Silence	as	a	distress	signal	is
+established	in	speech-pathology	research.	Duress	codes	are	decades
+old.	Human-in-the-loop	review	is	standard	practice	in	serious	clinical
+AI.	Automating	a	validated	wellbeing	instrument	is	a	natural	extension
+of	existing	occupational-health	tools,	not	an	invention	of	a	new	one.
+What	is	genuinely	new	is	the	speciﬁc	combination	and	the	speciﬁc
+context:	no	system	identiﬁed	in	Section	2.28’s	review	combines
+rigorous,	multi-axis,	explainable	triage	with	a	code-enforced	human
+safety	gate,	designed	speciﬁcally	for	a	population	where	the
+institution	meant	to	protect	them	can	itself	be	the	danger.	That	is
+integration	novelty,	not	invention	novelty,	and	the	distinction	matters	–
+claiming	otherwise	invites	a	credibility	failure	the	moment	a
+technically	literate	judge	asks	a	direct	question	about	it.
+The	four	capabilities	described	below	are	diﬀerent	in	kind	from
+everything	before	them	in	this	document:	as	far	as	we	have	been	able
+to	determine,	they	do	not	exist,	even	individually,	in	any	comparable
+published	system.	They	are	presented	separately,	and	with	the	same
+honesty	about	their	limitations	as	everything	else	in	this	document,
+because	a	genuinely	new	idea	deserves	more	scrutiny	of	its	risks,	not
+less.
+2.31	Cross-Call	Pattern	Linkage	–
+Community-Level	Early	Warning
+Every	system	reviewed	in	Section	2.28,	and	this	solution	as	described
+up	to	this	point,	treats	each	call	in	complete	isolation.	No	system	asks
+whether	separate,	unconnected	callers	are	independently	describing
+the	same	perpetrator,	the	same	location,	or	a	correlated	pattern	of
+intimidation	within	the	same	time	window.	A	single	agent	handling
+one	call	has	no	way	to	see	this;	a	supervisor	reviewing	calls	one	at	a
+time	does	not	either.
+We	propose	a	privacy-preserving	pattern-linkage	layer	that	compares
+anonymised	case	descriptors	–	never	caller	identities	–	across	calls
+within	a	district:	features	such	as	a	named	individual,	a	village	or
+locality,	or	a	speciﬁc	method	of	intimidation	described	independently
+by	multiple	callers.	When	a	correlation	crosses	a	deﬁned	threshold,	a
+supervisor	–	never	the	system	alone,	and	never	automatically	–	is
+shown	a	ﬂag:	for	example,	that	three	unrelated	callers	in	the	same
+district	within	the	past	week	independently	described	fear	of
+retaliation	involving	the	same	named	individual.	This	turns
+individually-scoped	triage	into	a	community-level	early-warning
+--- PAGE 26 ---
+signal,	which	is	a	capability	absent	from	every	system	in	Section
+2.28’s	comparison,	because	none	of	them	are	designed	to	look	beyond
+the	single	caller	in	front	of	them.
+This	capability	carries	real	risk	and	must	be	built	with	a	matching
+level	of	caution:	the	descriptors	compared	must	be	limited	to	features
+that	cannot	re-identify	a	speciﬁc	caller	on	their	own,	the	matching
+threshold	must	be	set	conservatively	to	avoid	false	correlations	that
+stigmatise	an	innocent	third	party,	and	any	resulting	action	is	limited
+to	raising	a	ﬂag	for	a	human	review,	never	to	any	automated
+escalation.	This	is	the	most	operationally	sensitive	of	the	four	new
+additions	in	this	section,	and	we	present	it	as	a	capability	requiring
+institutional	partnership	and	formal	privacy	review	before	any	pilot	–
+not	a	feature	suitable	for	a	36-hour	build.
+2.32	AI	as	a	Live	Trauma-Informed
+Interview	Coach
+Every	capability	described	earlier	in	this	document	has	the	system
+observing	and	scoring	what	the	agent	already	does.	A	diﬀerent	kind	of
+addition	is	an	AI	that	actively	coaches	the	agent’s	pacing	during	the
+call	itself,	grounded	in	established	forensic-interview	science	–	open-
+ended	questioning,	tolerance	for	silence,	avoidance	of	leading
+phrasing	–	research	that	already	exists	and	is	well	validated	for
+eliciting	disclosures	without	re-traumatising	the	person	disclosing
+them,	but	which	is	not,	as	far	as	we	have	found,	applied	as	a	real-time,
+in-call	coaching	layer	anywhere	in	this	space.
+Concretely:	the	moment	the	Silence	Fingerprint	detects	a	likely
+dissociative	pause,	a	small,	unobtrusive	on-screen	cue	suggests	to	the
+agent	“let	this	silence	continue	–	do	not	ﬁll	it.”	When	the	risk	proﬁle
+suggests	the	caller	may	be	describing	something	they	have	not	fully
+disclosed,	a	cue	suggests	“ask	an	open-ended	question	here,	not	a
+yes/no	one.”	This	shifts	the	AI	from	an	observer	of	the	conversation	to
+an	active	collaborator	in	how	the	conversation	itself	is	conducted,
+directly	in	service	of	not	re-traumatising	the	caller	through	well-
+intentioned	but	poorly-paced	questioning.
+The	necessary	guardrail:	coaching	is	always	a	suggestion	the	agent
+can	see	and	dismiss,	never	an	instruction	the	agent	must	follow,	and	it
+never	overrides	the	agent’s	own	judgement	or	training.	An	agent	who
+has	reason	to	deviate	from	a	coaching	prompt	–	because	they	know
+something	about	the	speciﬁc	caller	or	situation	the	system	does	not	–
+must	be	free	to	do	so	without	friction,	exactly	as	with	every	other
+suggestion	this	system	makes.
+2.33	Outcome	Feedback	Loop	–	Closing
+the	Field’s	Biggest	Blind	Spot
+Every	system	identiﬁed	in	our	literature	review,	including	the	most
+rigorously	validated	academic	research,	measures	its	own	accuracy
+against	expert	labels	applied	after	the	fact	–	never	against	what
+actually	happened	to	the	person	afterward.	This	is	the	single	largest
+blind	spot	we	found	across	the	entire	ﬁeld:	a	system	can	be	validated
+as	matching	a	mental-health	professional’s	judgement	perfectly	and
+--- PAGE 27 ---
+still	be	systematically	steering	people	toward	support	that	does	not
+actually	help	them,	and	nothing	in	the	existing	literature	would	catch
+this.
+We	propose	closing	this	gap	directly:	with	separate,	explicit	consent
+obtained	at	the	time	of	the	original	call,	the	system	checks	back	with
+the	caller	some	weeks	later	–	distinct	from	the	72-hour	and	7-day
+safety	check-ins	described	in	Section	2.9,	which	exist	to	catch
+deterioration,	not	to	evaluate	the	system	–	speciﬁcally	to	ask,	in	a	low-
+pressure	way,	whether	the	support	they	received	actually	helped.	That
+real-world	outcome,	not	merely	an	expert’s	contemporaneous	label,	is
+fed	into	a	human-reviewed	process	for	recalibrating	the	SVI	weighting
+scheme	(Section	2.3)	over	time.
+The	necessary	guardrails:	this	outcome	check	is	opt-in,	entirely
+separate	from	the	safety	check-ins,	and	never	used	to	evaluate	or
+penalise	the	agent	who	handled	the	original	call.	No	weight	is	ever
+recalibrated	automatically	from	this	feedback	–	every	proposed
+adjustment	is	reviewed	by	the	same	qualiﬁed	mental-health
+professionals	and	domain	authorities	already	responsible	for	the	SVI
+weighting	scheme,	exactly	as	described	in	Section	2.3,	so	that
+outcome	data	informs	human	judgement	rather	than	silently
+reshaping	the	model	on	its	own.
+2.34	Physical	Safety	Bridge	via	the
+Community	Health	Worker	Network
+Every	safety	net	described	in	this	document	up	to	this	point	–	the
+agent,	the	72-hour	and	7-day	check-ins,	supervisor	review	–	is	phone-
+based.	This	is	a	hard	ceiling	shared	by	every	crisis-line	system
+identiﬁed	in	Section	2.28’s	comparison:	if	a	Critical-risk	caller
+becomes	unreachable	by	phone,	none	of	these	systems	have	any	way
+to	verify	their	physical	safety.
+India	has	an	existing,	extensive	network	of	community	health	workers
+–	ASHA	and	Anganwadi	workers	–	already	embedded	in	rural	and
+semi-urban	communities	nationwide,	whose	ordinary	duties	already
+include	home	visits	for	unrelated	health	purposes.	We	propose	that	a
+Critical-risk	case	where	phone	follow-up	fails	or	is	judged	unsafe	can,
+with	the	caller’s	prior	consent	and	under	the	same	senior-approval
+gate	that	governs	police	and	witness-protection	actions	(Section	2.5),
+be	routed	to	the	already-present	local	ASHA	or	Anganwadi	worker	for
+a	discreet,	in-person	welfare	check	–	framed	to	anyone	observing	it	as
+a	routine	health	visit,	never	announced	as	connected	to	the	original
+call.	This	closes	the	phone-only	ceiling	shared	by	every	comparable
+system,	using	existing	government	infrastructure	rather	than
+proposing	anything	new	to	build	or	fund.
+This	is	the	addition	that	requires	the	most	caution	of	the	four,	and	we
+say	so	directly.	A	poorly	handled	welfare	visit	risks	alerting	a
+perpetrator	that	the	victim	sought	help,	which	could	itself	cause	harm
+–	precisely	the	failure	mode	this	entire	document	is	built	to	avoid
+elsewhere.	For	this	reason,	this	capability	is	presented	as	a
+documented,	high-value	direction	for	institutional	partnership	and
+careful	protocol	design	with	the	relevant	state	health	authorities,	not
+as	a	feature	to	be	built	or	demonstrated	in	a	hackathon	setting.
+2.35	Where	These	Four	Additions	Fit
+--- PAGE 28 ---
+None	of	the	four	capabilities	in	this	section	belong	in	the	MVP
+(Section	2.29.1)	or	the	wow-factor	layer	(Section	2.29.3):	each
+requires	either	formal	privacy	review,	institutional	partnership	with	a
+state	health	department,	or	a	level	of	real-world	testing	that	a	36-hour
+build	cannot	responsibly	provide.	We	present	them	as	a	fourth,
+explicitly	separate	tier	–	a	frontier	layer,	beyond	both	the	MVP	and	the
+stretch	goals,	intended	to	be	pursued	during	the	pilot	phase	described
+in	this	document’s	broader	rollout,	not	attempted	live	in	front	of	a
+judging	panel.	Presenting	genuinely	new	ideas	honestly,	including
+exactly	why	they	are	not	yet	ready	to	demonstrate,	is	worth	more	to
+this	document’s	credibility	than	quietly	folding	them	in	as	if	they	were
+as	build-ready	as	everything	that	precedes	them.

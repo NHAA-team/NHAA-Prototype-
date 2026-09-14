@@ -1,0 +1,92 @@
+[
+  {
+    "phrase": "Little interest or pleasure in doing things",
+    "language": "en",
+    "source": "PHQ-9 item 1"
+  },
+  {
+    "phrase": "काम करने में कम रुचि या खुशी महसूस होना",
+    "language": "hi",
+    "source": "PHQ-9 item 1"
+  },
+  {
+    "phrase": "Feeling down, depressed, or hopeless",
+    "language": "en",
+    "source": "PHQ-9 item 2"
+  },
+  {
+    "phrase": "उदास, निराश या हताश महसूस करना",
+    "language": "hi",
+    "source": "PHQ-9 item 2"
+  },
+  {
+    "phrase": "Trouble falling or staying asleep, or sleeping too much",
+    "language": "en",
+    "source": "PHQ-9 item 3"
+  },
+  {
+    "phrase": "नींद आने में परेशानी या बहुत ज्यादा सोना",
+    "language": "hi",
+    "source": "PHQ-9 item 3"
+  },
+  {
+    "phrase": "Feeling tired or having little energy",
+    "language": "en",
+    "source": "PHQ-9 item 4"
+  },
+  {
+    "phrase": "थकान महसूस होना या कम ऊर्जा होना",
+    "language": "hi",
+    "source": "PHQ-9 item 4"
+  },
+  {
+    "phrase": "Poor appetite or overeating",
+    "language": "en",
+    "source": "PHQ-9 item 5"
+  },
+  {
+    "phrase": "भूख कम लगना या बहुत ज्यादा खाना",
+    "language": "hi",
+    "source": "PHQ-9 item 5"
+  },
+  {
+    "phrase": "Feeling bad about yourself - or that you are a failure or have let yourself or your family down",
+    "language": "en",
+    "source": "PHQ-9 item 6"
+  },
+  {
+    "phrase": "अपने बारे में बुरा महसूस करना - या यह कि आप असफल हैं",
+    "language": "hi",
+    "source": "PHQ-9 item 6"
+  },
+  {
+    "phrase": "Trouble concentrating on things",
+    "language": "en",
+    "source": "PHQ-9 item 7"
+  },
+  {
+    "phrase": "चीजों पर ध्यान केंद्रित करने में परेशानी",
+    "language": "hi",
+    "source": "PHQ-9 item 7"
+  },
+  {
+    "phrase": "Moving or speaking so slowly that other people could have noticed",
+    "language": "en",
+    "source": "PHQ-9 item 8"
+  },
+  {
+    "phrase": "इतनी धीमी गति से चलना या बोलना कि दूसरों का ध्यान जाए",
+    "language": "hi",
+    "source": "PHQ-9 item 8"
+  },
+  {
+    "phrase": "Thoughts that you would be better off dead, or of hurting yourself",
+    "language": "en",
+    "source": "PHQ-9 item 9"
+  },
+  {
+    "phrase": "यह विचार आना कि मर जाना बेहतर होगा, या खुद को चोट पहुंचाना",
+    "language": "hi",
+    "source": "PHQ-9 item 9"
+  }
+]

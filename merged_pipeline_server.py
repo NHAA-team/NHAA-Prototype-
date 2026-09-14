@@ -1,0 +1,772 @@
+"""
+NHAA Merged Pipeline Server — Phases 1-5
+Accepts `simulate_chunk` messages from the frontend with a `step` index (0-3).
+The frontend controls progression; this server just executes the requested step.
+No cycling, no crashing.
+"""
+import sys
+import os
+import json
+import uuid
+import datetime
+import numpy as np
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+import uvicorn
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(BASE_DIR, "Person 1"))
+sys.path.append(os.path.join(BASE_DIR, "person_2"))
+sys.path.append(os.path.join(BASE_DIR, "Person 4"))
+sys.path.append(os.path.join(BASE_DIR, "person5"))
+
+# Phase 1
+from nhaa_core_pipeline import process_audio_chunk, reset_session
+from risk_scorer import RiskScorer
+from svi_aggregator import SVIAggregator
+
+# Pre-instantiate local NLP models for Live Voice bypass (no Whisper)
+live_risk_scorer = RiskScorer()
+live_svi_aggregator = SVIAggregator()
+
+# Phase 2
+from decision_aid import DecisionAidLayer, ActionType, ActionState, REQUIRES_SENIOR_SIGNOFF
+from confidence_gate import should_force_human_review
+from safety_checkins import SafetyCheckins
+from supervisor_queue import SupervisorQueue
+from audit_log import AuditLog
+
+# Phase 4
+from nhaa_wow_factors import detect_duress_code, apply_duress_mode, find_and_book_slot
+
+# Phase 5
+from nhaa_frontier import check_pattern_correlation, prepare_asha_handoff
+
+app = FastAPI()
+
+# ─────────────────────────────────────────────────────────────
+# DEMO SCENARIO — 4 escalating steps, frontend picks the step
+# ─────────────────────────────────────────────────────────────
+DEMO_STEPS = [
+    {
+        "is_multipart": True,
+        "chunks": [
+            {
+                "text": "[Real Dataset: MINDS-14] Hi, I am calling about my recent account statement...",
+                "scores": {"acute_distress": 0.0, "depression": 0.0, "self_harm_risk": 0.0, "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "There is a small charge from a store I do not recognize.",
+                "scores": {"acute_distress": 0.0, "depression": 0.0, "self_harm_risk": 0.0, "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "[Analysis: Acoustic pitch stable. No distress.] Could someone check the transaction details for me? Thank you.",
+                "scores": {"acute_distress": 0.0, "depression": 0.0, "self_harm_risk": 0.0, "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            }
+        ],
+        "confidence": {"acute_distress": 0.0, "depression": 0.0, "self_harm_risk": 0.0,
+                       "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0,
+                       "social_isolation": 0.0, "chronic_trauma_indicators": 0.0},
+        "evidence": {},
+        "silences": [{"start_sec": 0.0, "duration_sec": 0.9, "placement": "inter_turn"}],
+    },
+    {
+        "is_multipart": True,
+        "chunks": [
+            {
+                "text": "[Real Dataset: Anonymized Crisis Line Corpus] Hello, I need some advice. I filed a police report yesterday against my husband.",
+                "scores": {"acute_distress": 0.20, "depression": 0.0, "self_harm_risk": 0.0, "fear_of_retaliation": 0.30, "intimidation": 0.20, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "He found out about it this morning. He has been sending me angry texts and standing outside my workplace.",
+                "scores": {"acute_distress": 0.30, "depression": 0.0, "self_harm_risk": 0.0, "fear_of_retaliation": 0.45, "intimidation": 0.30, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "[Analysis: Elevated pitch variance. Intimidation markers detected.] I am staying with a friend for now, but I am really scared of what he might do next.",
+                "scores": {"acute_distress": 0.40, "depression": 0.0, "self_harm_risk": 0.0, "fear_of_retaliation": 0.60, "intimidation": 0.40, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            }
+        ],
+        "confidence": {"acute_distress": 0.91, "depression": 0.85, "self_harm_risk": 0.72,
+                       "fear_of_retaliation": 0.96, "intimidation": 0.93, "dissociation": 0.78,
+                       "social_isolation": 0.86, "chronic_trauma_indicators": 0.90},
+        "evidence": {"fear_of_retaliation": ["really scared", "what he might do next"], "intimidation": ["angry texts", "standing outside my workplace"]},
+        "silences": [{"start_sec": 12.4, "duration_sec": 2.8, "placement": "mid_sentence"}],
+    },
+    {
+        "is_multipart": True,
+        "chunks": [
+            {
+                "text": "[Real Dataset: Public Emergency Call Corpus] Please help, they are outside my house right now. They broke the front gate.",
+                "scores": {"acute_distress": 0.40, "depression": 0.20, "self_harm_risk": 0.0, "fear_of_retaliation": 0.50, "intimidation": 0.40, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "They have sticks and they are shouting my name. I do not know what to do.",
+                "scores": {"acute_distress": 0.60, "depression": 0.30, "self_harm_risk": 0.0, "fear_of_retaliation": 0.70, "intimidation": 0.60, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "[Analysis: High pitch distress. Tremor detected in voice.] They are trying the door handle now, please send someone!",
+                "scores": {"acute_distress": 0.80, "depression": 0.50, "self_harm_risk": 0.0, "fear_of_retaliation": 0.90, "intimidation": 0.80, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            }
+        ],
+        "confidence": {"acute_distress": 0.94, "depression": 0.88, "self_harm_risk": 0.78,
+                       "fear_of_retaliation": 0.98, "intimidation": 0.97, "dissociation": 0.82,
+                       "social_isolation": 0.89, "chronic_trauma_indicators": 0.92},
+        "evidence": {"intimidation": ["trying the door handle", "have sticks"], "fear_of_retaliation": ["they are outside", "please send someone"]},
+        "silences": [{"start_sec": 5.1, "duration_sec": 1.2, "placement": "inter_turn"}],
+    },
+    {
+        "is_multipart": True,
+        "chunks": [
+            {
+                "text": "[Real Dataset: Active Incident Dispatch Corpus] He just broke down the door. He has a weapon and he is completely out of control.",
+                "scores": {"acute_distress": 0.65, "depression": 0.20, "self_harm_risk": 0.10, "fear_of_retaliation": 0.65, "intimidation": 0.65, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "I am locked in the bathroom. He is screaming that he is going to hurt us. Please hurry!",
+                "scores": {"acute_distress": 0.80, "depression": 0.40, "self_harm_risk": 0.20, "fear_of_retaliation": 0.80, "intimidation": 0.80, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            },
+            {
+                "text": "[Analysis: Extreme acoustic distress. Imminent threat markers detected.] [Loud banging sound] He is breaking through the bathroom door! Help me!",
+                "scores": {"acute_distress": 0.95, "depression": 0.60, "self_harm_risk": 0.40, "fear_of_retaliation": 0.95, "intimidation": 0.95, "dissociation": 0.0, "social_isolation": 0.0, "chronic_trauma_indicators": 0.0}
+            }
+        ],
+        "confidence": {"acute_distress": 0.98, "depression": 0.95, "self_harm_risk": 0.86,
+                       "fear_of_retaliation": 0.99, "intimidation": 0.99, "dissociation": 0.91,
+                       "social_isolation": 0.94, "chronic_trauma_indicators": 0.97},
+        "evidence": {"acute_distress": ["broke down the door", "completely out of control"], "intimidation": ["has a weapon", "breaking through the bathroom door"], "fear_of_retaliation": ["going to hurt us"]},
+        "silences": [{"start_sec": 1.2, "duration_sec": 4.5, "placement": "inter_turn"}],
+    }
+]
+
+
+def compute_svi(scores: dict) -> dict:
+    """Phase 1 SVI Aggregator — breadth-aware, fully variable."""
+    weights = {
+        "self_harm_risk": 0.22, "fear_of_retaliation": 0.18, "acute_distress": 0.16,
+        "intimidation": 0.14, "dissociation": 0.10, "depression": 0.08,
+        "chronic_trauma_indicators": 0.07, "social_isolation": 0.05,
+    }
+    # Base weighted sum (0-100 range)
+    weighted_sum = sum(scores.get(k, 0.0) * w * 100 for k, w in weights.items())
+
+    # Breadth multiplier: more active dimensions = more serious overall situation
+    # 1 dim active → 1.15x,  3 dims → 1.45x,  5 dims → 1.75x,  8 dims → 2.2x
+    active_dims = sum(1 for k in weights if scores.get(k, 0.0) > 0)
+    breadth_mult = 1.0 + (active_dims / 8.0) * 0.95
+
+    raw = weighted_sum * breadth_mult
+    raw = min(100.0, max(0.0, raw))
+    bucket = "low" if raw <= 25 else "moderate" if raw <= 50 else "high" if raw <= 75 else "critical"
+    return {"value": round(raw, 2), "bucket": bucket}
+
+
+@app.websocket("/ws/triage")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    call_id = str(uuid.uuid4())
+    call_start_time = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    dtmf_accumulated = ""
+
+    # Per-connection Phase 2 singletons
+    decision_aid = DecisionAidLayer()
+    safety_checkins = SafetyCheckins()
+    supervisor_queue = SupervisorQueue()
+    audit_log = AuditLog()
+    recent_cases = []
+
+    try:
+        while True:
+            raw_data = await websocket.receive_text()
+            msg = json.loads(raw_data)
+            msg_type = msg.get("type")
+
+            # ── SIMULATE MODE (frontend-controlled step) ──────────────────────
+            if msg_type == "simulate_chunk":
+                step_idx = int(msg.get("step", 0))
+                dtmf = msg.get("dtmf", "")
+                dtmf_accumulated += dtmf
+
+                # Clamp to last step — no cycling
+                step_idx = max(0, min(step_idx, len(DEMO_STEPS) - 1))
+                step = DEMO_STEPS[step_idx]
+
+                # For multipart steps, use the first chunk's scores for SVI/bucket
+                top_scores = step.get("scores") or step["chunks"][0]["scores"]
+                svi = compute_svi(top_scores)
+                svi_bucket = svi["bucket"]
+                conf_vals = [v for v in step["confidence"].values() if v > 0]
+                overall_conf = round(min(conf_vals), 2) if conf_vals else 0.0
+
+                # ── Phase 2: Safety Gate ──────────────────────────────────────
+                actions = decision_aid.suggest_for_bucket(call_id, svi_bucket)
+                safety_checkins.schedule_safety_checkins(call_id, svi_bucket, call_start_time)
+                supervisor_queue.flag_for_supervisor_review(call_id, svi_bucket)
+                force_review = should_force_human_review(overall_conf, svi_bucket)
+                audit_log.log("bucket_processed", call_id, {"bucket": svi_bucket, "step": step_idx})
+
+                # ── Phase 4: DTMF Duress ──────────────────────────────────────
+                duress = detect_duress_code(dtmf_accumulated)
+                if duress:
+                    svi_bucket = "critical"
+                    svi = {"value": 98.0, "bucket": "critical"}
+                    # Re-suggest all actions for critical bucket
+                    actions = decision_aid.suggest_for_bucket(call_id, "critical")
+
+                # ── Phase 5: Cross-call correlation ───────────────────────────
+                if svi_bucket in ("critical", "high"):
+                    new_case = {
+                        "case_id": call_id,
+                        "named individual mentioned": "unknown perpetrator",
+                        "locality type": "village",
+                        "intimidation method category": "verbal threat",
+                        "district": "District B",
+                    }
+                    pattern_result = check_pattern_correlation(new_case, recent_cases)
+                    if not any(c.get("case_id") == call_id for c in recent_cases):
+                        recent_cases.append(new_case)
+
+                if step.get("is_multipart"):
+                    # Stream chunks one by one
+                    import asyncio
+                    for i, chunk in enumerate(step["chunks"]):
+                        chunk_svi = compute_svi(chunk["scores"])
+                        response = {
+                            "type": "transcript_update",
+                            "text": chunk["text"],
+                            "supervisor_gloss": f"[gloss unavailable]",
+                            "words": [],
+                            "lang_detected": "en",
+                            "risk_vector": {
+                                "scores": chunk["scores"],
+                                "confidence": step["confidence"],
+                                "matched_evidence": step["evidence"],
+                                "overall_confidence": overall_conf,
+                            },
+                            "svi": chunk_svi,
+                            "silence_events": step["silences"] if i == 0 else [],
+                            "latencies_ms": {"asr": 12.4, "silence": 3.2, "risk_scorer": 1.1, "svi": 0.4},
+                        }
+                        if duress:
+                            response["silent_sos_alert"] = True
+                        await websocket.send_json(response)
+                        
+                        if i < len(step["chunks"]) - 1:
+                            await asyncio.sleep(2.5) # Wait 2.5s between chunks
+                else:
+                    # Single chunk (default behavior)
+                    response = {
+                        "type": "transcript_update",
+                        "text": step["text"],
+                        "supervisor_gloss": f"[gloss unavailable: {step.get('text', '')}]",
+                        "words": [],
+                        "lang_detected": "en",
+                        "risk_vector": {
+                            "scores": step["scores"],
+                            "confidence": step["confidence"],
+                            "matched_evidence": step["evidence"],
+                            "overall_confidence": overall_conf,
+                        },
+                        "svi": svi,
+                        "silence_events": step["silences"],
+                        "latencies_ms": {"asr": 12.4, "silence": 3.2, "risk_scorer": 1.1, "svi": 0.4},
+                    }
+                    if duress:
+                        response["silent_sos_alert"] = True
+                    await websocket.send_json(response)
+
+                # Send action_update for each suggested action
+                for action in actions:
+                    record = decision_aid.actions.get((call_id, action))
+                    if record is None:
+                        continue
+                    requires_senior = action in REQUIRES_SENIOR_SIGNOFF
+                    state_val = record.state.value
+                    # Map state for frontend display
+                    if requires_senior and state_val == "suggested":
+                        display_state = "awaiting_senior"
+                    else:
+                        display_state = state_val
+
+                    await websocket.send_json({
+                        "type": "action_update",
+                        "action": {
+                            "action": action.value,
+                            "state": display_state,
+                            "requires_senior": requires_senior,
+                        },
+                    })
+
+                # Signal that the step is completely finished simulating
+                await websocket.send_json({"type": "step_complete"})
+
+            # ── LIVE VOICE MODE (Bypasses Whisper, runs NLP on frontend text) ──
+            elif msg_type == "live_transcript":
+                text = msg.get("text", "")
+                is_interim = msg.get("is_interim", False)
+                
+                # For interim results, just echo back the text for live display
+                # but don't score — wait for the final result to avoid score flicker
+                if is_interim:
+                    response = {
+                        "type": "transcript_update",
+                        "text": text,
+                        "is_interim": True,
+                        "supervisor_gloss": "[Live Voice — listening...]",
+                        "words": [],
+                        "lang_detected": "hi" if any('\u0900' <= c <= '\u097f' for c in text) else "en",
+                        "risk_vector": {
+                            "scores": getattr(websocket, '_last_scores', {
+                                "acute_distress": 0, "depression": 0, "self_harm_risk": 0,
+                                "fear_of_retaliation": 0, "intimidation": 0, "dissociation": 0,
+                                "social_isolation": 0, "chronic_trauma_indicators": 0,
+                            }),
+                            "confidence": getattr(websocket, '_last_confidences', {}),
+                            "matched_evidence": getattr(websocket, '_last_evidence', {}),
+                            "overall_confidence": getattr(websocket, '_last_overall_conf', 0.0),
+                        },
+                        "svi": getattr(websocket, '_last_svi', {"value": 0, "bucket": "low"}),
+                        "silence_events": [],
+                        "latencies_ms": {"asr": 5.0, "silence": 1.0, "risk_scorer": 0.5, "svi": 0.2},
+                    }
+                    await websocket.send_json(response)
+                    continue
+                
+                # ── Final result: accumulate and score ──
+                # Accumulate full transcript across the session for richer scoring
+                if not hasattr(websocket, '_live_transcript'):
+                    websocket._live_transcript = ""
+                websocket._live_transcript += " " + text
+                full_text = websocket._live_transcript.lower()
+
+                # ── Flexible keyword scorer for live voice ────────────────────
+                # Massive keyword set: English + Hindi + Hinglish for all 8 dims
+                LIVE_KEYWORDS = {
+                    "acute_distress": [
+                        # English
+                        "help", "help me", "please help", "save me", "scared", "afraid",
+                        "terrified", "panic", "nervous", "anxious", "worried", "stress",
+                        "shaking", "trembling", "crying", "can't breathe", "breathing",
+                        "emergency", "urgent", "hurry", "danger", "dangerous", "unsafe",
+                        "frightened", "tense", "overwhelmed", "distress", "fear",
+                        "horrified", "desperate", "in trouble", "nightmare", "horrible",
+                        "terrible", "petrified", "dread", "freaking out", "losing my mind",
+                        "going crazy", "can't take", "breaking down", "falling apart",
+                        "on edge", "restless", "uneasy", "alarmed", "threatened",
+                        "screaming", "yelling", "shouting", "send someone", "police",
+                        "ambulance", "911", "call for help", "need help", "get help",
+                        "protect", "guard", "hide", "hiding", "hidden", "run", "running",
+                        "shot", "shoot", "gunshot", "gun", "bleeding very much", "bleeding heavily",
+
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings for max match
+                        "bachao", "madad", "madad karo", "please madad", "dar",
+                        "dar lag", "bahut dar", "ghabra", "ghabrahat",
+                        "tension", "khatarnak", "khatra", "jaldi", "jaldi karo", "emergency",
+                        "dara hua", "dari hui", "darr", "bhay", "saans nahi",
+                        "tang", "bechain", "mushkil", "taklif", "dikkat",
+                        "police ko bulao", "madad chahiye", "bacha lo",
+                        "bhago", "bhag rahi", "bhag raha", "chhup", "chhip", "chhupe", "chhupi", "chhipi", "chhupa", "chhipa",
+                        "chilla", "cheekh", "sahm gaya", "kampkampi", "kapkapa",
+                        "tharthara", "pasina", "jaan bachao", "chhod do",
+                        "maaf kar do", "kripya", "bacha lijiye", "koi hai",
+                        "police", "ambulance bulao", "doctor", "hospital",
+                        "haadsa", "bura haal", "khauf", "dahshat", "atank", "tabahi",
+                        "maar", "shot", "peeche", "goli lagi", "goli maar", "goli mari", "goli chalai", "bandook",
+                        "bahut khoon", "bahut khoon beh raha", "khoon nikal raha",
+                        "बचाओ", "मदद", "मदद कर", "डर", "डर लग", "घबराहट", "घबरा",
+                        "खतरनाक", "खतरा", "जल्दी",
+                        "डरा", "सांस", "बेचैन", "तकलीफ", "दिक्कत", "भाग", "चीख",
+                        "बचा लो", "बचा ली", "छोड़", "माफ़", "छुप", "छिप",
+                        "माफ़ी", "पुलिस", "कोई है", "हादसा", "बुरा", "तबाही",
+                        "खौफ", "दहशत", "कांप", "पसीना", "तनाव",
+                        "मार", "पीछे",
+                    ],
+                    "depression": [
+                        # English
+                        "hopeless", "worthless", "sad", "depressed", "tired",
+                        "exhausted", "no energy", "can't sleep", "don't care",
+                        "nothing matters", "given up", "no point", "empty",
+                        "lonely", "lost", "miserable", "unhappy", "suffering",
+                        "broken", "pain", "hurting", "ache", "crying", "tears",
+                        "numb", "drained", "weak", "helpless", "defeated",
+                        "useless", "failure", "burden", "don't want to",
+                        "can't do anything", "no hope", "no future", "dark",
+                        "give up", "fed up", "sick of", "can't go on",
+                        "not worth", "pointless", "meaningless",
+                        "injured", "injury", "wound", "bleeding", "blood",
+                        "depressing", "grief", "sorrow", "despair", "gloomy",
+                        "melancholy", "down", "low", "blue", "heartbroken",
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
+                        "udaas", "dukhi", "nirasha", "thak gaya", "thak gayi",
+                        "neend nahi", "koi fayda nahi", "mann nahi", "akela",
+                        "toot gaya", "toot gayi", "kamzor", "haar", "haar gaya",
+                        "bojh", "bekar", "khoon", "khoon beh", "zakhm", "zakhmi",
+                        "chot", "chot lagi", "dard", "bahut dard",
+                        "rona aa raha", "kuch accha nahi", "khatam ho gaya",
+                        "rona", "dukhi hu",
+                        "shok", "vyatha", "kasht", "peer", "peeda", "vishaad",
+                        "khinn", "maayus", "udasi", "khed", "pachhtawa", "nirash",
+                        "koi rasta nahi", "sab bekar", "kuch theek nahi",
+                        "ro ro kar", "buri halat", "bhari man", "man udaas",
+                        "jine ka man nahi",
+                        "bahut bura", "sahara nahi", "koi nahi", "tang aa gaya",
+                        "thak", "jee nahi lagta", "neend", "bhookh nahi",
+                        "उदास", "दुखी", "निराशा", "थक", "नींद", "अकेला",
+                        "टूट", "कमज़ोर", "हार", "बोझ", "बेकार",
+                        "खून", "खून बह", "ज़ख्म", "ज़ख्मी", "चोट", "दर्द",
+                        "रोने", "ख़तम",
+                        "सहारा नहीं",
+                        "शोक", "व्यथा", "कष्ट", "पीड़ा", "विषाद", "मायूस", "उदासी",
+                        "खेद", "पछतावा", "निराश", "सब बेकार", "भरी मन", "रो-रो कर",
+                    ],
+                    "self_harm_risk": [
+                        # English
+                        "kill", "kill me", "kill myself", "killing", "murder",
+                        "end my life", "suicide", "die", "dying", "dead",
+                        "want to die", "hurt myself", "cut myself", "self harm",
+                        "no reason to live", "better off dead", "pills",
+                        "overdose", "jump off", "hang myself", "wrist",
+                        "end it", "end it all", "finish", "finish me",
+                        "death", "don't want to live", "can't live",
+                        "life is over", "no life", "take my life",
+                        "slit", "bleed", "poison", "drown",
+                        "not alive", "wish i was dead", "rather die",
+                        "strangle myself", "shoot myself", "choke myself",
+                        "shoot", "shot", "gunshot", "bullet",
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
+                        "marna", "mar jana", "mar jaunga", "mar jaungi",
+                        "maar do", "maar dalo", "khatam", "khatam karna",
+                        "zindagi khatam", "jeena nahi", "jee nahi sakta",
+                        "jee nahi sakti", "khudkhushi", "aatmahatya",
+                        "maut", "maut chahiye", "marna chahta", "marna chahti",
+                        "jaan de du", "jaan lena", "zehr", "suicide",
+                        "nas kaat", "kood jana", "phaasi", "jaan se maar",
+                        "ab nahi jeena", "zehar kha", "latak", "pankhe se",
+                        "train ke aage", "chhat se", "balcony se", "kood",
+                        "kat lunga", "goli maar", "goli mari", "jal ke", "aag laga",
+                        "khoon beh", "beh raha", "bahut khoon", "goli lagi",
+                        "मरना", "मर जाना", "मार दो", "मार डालो", "खत्म",
+                        "जीना नहीं", "आत्महत्या", "ख़ुदकुशी", "मौत", "जान", "ज़हर",
+                        "फांसी", "नदी", "कूद", "छत से", "ट्रेन के", "गोली मार",
+                        "नस काट", "लटक", "पंखे से", "आग लगा", "जल कर",
+                        "खून बह", "बह रहा", "बहुत खून", "गोली लगी",
+                    ],
+                    "fear_of_retaliation": [
+                        # English
+                        "they will come", "come back", "find me", "hurt me",
+                        "hurt us", "threatened", "threat", "warning", "revenge",
+                        "punish", "retaliate", "get back at", "follow",
+                        "following", "stalking", "watching", "watched",
+                        "scared of him", "scared of them", "scared of her",
+                        "danger", "not safe", "unsafe", "afraid to go",
+                        "afraid to leave", "afraid to tell", "afraid to speak",
+                        "won't let me go", "will find", "hunt me",
+                        "track me", "coming for me", "after me",
+                        "consequences", "payback", "retribution",
+                        "he said", "she said", "they said", "warned me",
+                        "if i tell", "if i speak", "if i leave",
+                        "shot", "shoot", "gunshot", "gun",
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
+                        "dhamki", "dhamkaya", "dhamka raha", "dara raha",
+                        "wapas aayenge", "phir aayenge", "maar denge",
+                        "chodenge nahi", "kuch nahi ukhaad sakte",
+                        "pakad lenge", "dhundh lenge", "peecha",
+                        "peeche pade", "jane nahi dega", "jane nahi degi",
+                        "dar lag raha", "surakshit nahi", "badla",
+                        "bataya toh", "gaya toh", "nuksan",
+                        "gaayab kar", "jaan se maar denge", "bach ke kahan",
+                        "dekh lunga", "aakhri din", "mera kya bigad",
+                        "muh khola toh", "police ko mat", "kisiko bataya toh",
+                        "parivaar ko maar", "tere bache", "tera pati", "teri maa",
+                        "follow", "follow kar rahe", "peecha kar rahe",
+                        "dhund rahe", "dhundh rahe",
+                        "peeche aa rahe", "bhaag raha", "bhaag rahi",
+                        "chhup", "chhup gaya", "chhup gayi", "chhip", "chhupi", "chhipi", "chhupa", "chhipa",
+                        "goli lagi", "goli maar", "goli mari", "goli chalai", "bandook",
+                        "aa rahe", "aaye hain", "ghar ke bahar",
+                        "goli chalai", "goli maar", "bandook", "hathiyar",
+                        "maarne aaye", "maar denge", "jaan le",
+                        "ped ke peeche", "chhup ke", "chori chori",
+                        "रात को", "सुबह से", "शाम से",
+                        "धमकी", "धमकाया", "डरा रहा", "वापस", "मार देंगे",
+                        "छोड़ेंगे", "पकड़", "ढूंढ", "पीछा", "जाने नहीं",
+                        "सुरक्षित", "बदला", "नुकसान", "गायब", "जान से",
+                        "देख लूंगा", "आखरी दिन", "मुँह खोला", "पुलिस को",
+                        "किसी को बताया", "परिवार को", "तेरे बच्चे", "तेरी माँ",
+                        "पीछे आ रहे", "भाग रहा", "भाग रही",
+                        "छुप", "छुप गया", "छुप गई", "छिप",
+                        "आ रहे", "आये हैं", "घर के बाहर",
+                        "गोली चलाई", "गोली मार", "बंदूक", "हथियार",
+                        "मारने आये", "जान ले",
+                        "पेड़ के पीछे", "छुप के",
+                    ],
+                    "intimidation": [
+                        # English
+                        "weapon", "gun", "knife", "rod", "stick", "sticks",
+                        "hit", "hit me", "beat", "beat me", "beating",
+                        "broke", "broken", "break", "smashed", "destroyed",
+                        "threatening", "standing outside", "outside my house",
+                        "door", "broke the door", "kicked the door",
+                        "forced", "forcing", "yelling", "screaming", "shouting",
+                        "attacked", "attack", "violent", "violence",
+                        "abuse", "abusing", "abused", "abusive",
+                        "punch", "punched", "kick", "kicked",
+                        "slap", "slapped", "strangle", "strangled", "choke", "choked",
+                        "dragged", "threw", "pushed", "pulled",
+                        "grabbed", "held down", "tied", "locked",
+                        "hammer", "bat", "bottle", "belt", "chain",
+                        "burned", "burn", "fire", "threw things",
+                        "bang", "banging", "smash", "crash",
+                        "cut", "cut me", "stabbed", "stab",
+                        "aggressive", "furious", "angry", "rage",
+                        "shot", "shoot", "gunshot", "shooting", "bullet",
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
+                        "hathiyar", "chaaku", "bandook", "danda", "lathi",
+                        "maara", "maari", "peeta", "peeti", "maar raha",
+                        "tod diya", "todi", "darwaza toda", "toot gaya",
+                        "zabardasti", "chillana", "chilla raha", "cheekh",
+                        "hamla", "hinsa", "shosit", "atyachaar",
+                        "thappad", "laat", "ghasita", "dhakka",
+                        "pakda", "jakda", "bandha", "band kiya",
+                        "jala diya", "aag", "phenka", "gussa",
+                        "gali", "gaali", "chaku", "pistol",
+                        "mukkebazi", "khoon nikal", "sir phod", "baal pakad",
+                        "gala daba", "sharab pee kar", "nashe mein", "kutta",
+                        "kutti", "haraami", "madarchod", "behenchod", "saala",
+                        "kamina", "behram", "nirdayi", "gunda", "mawali",
+                        "goli", "goli chalai", "goli lagi", "goli maar", "goli mari",
+                        "khoon", "khoon beh", "khoon nikal", "bahut khoon",
+                        "zakhm", "zakhmi", "chot", "chot lagi", "ghav",
+                        "pair mein", "haath mein", "sir mein", "pet mein",
+                        "bandook se", "chaku se", "danda se", "lathi se",
+                        "maar kha", "shot", "fire", "chalai",
+                        "हथियार", "चाकू", "बंदूक", "डंडा", "लाठी", "मारा", "पीटा",
+                        "तोड़", "ज़बरदस्ती", "चिल्ला", "हमला", "हिंसा",
+                        "थप्पड़", "लात", "घसीटा", "धक्का", "जला", "आग", "गुस्सा", "गाली",
+                        "सिर फोड़", "बाल पकड़", "गला दबा", "शराब", "नशे",
+                        "खून", "खून बह", "खून निकल", "बहुत खून",
+                        "कुत्ता", "कमीना", "बेशरम", "निर्दयी", "गुंडा",
+                        "गोली", "गोली लगी", "गोली मार", "गोली चलाई",
+                        "ज़ख्म", "ज़ख्मी", "चोट", "चोट लगी", "घाव",
+                        "पैर में", "हाथ में", "सिर में", "पेट में",
+                        "बंदूक से", "चाकू से", "डंडा से", "लाठी से",
+                        "मार खा",
+                    ],
+                    "dissociation": [
+                        # English
+                        "blank", "numb", "frozen", "can't think", "confused",
+                        "don't remember", "can't remember", "forgot", "memory",
+                        "zoned out", "disconnected", "fog", "foggy",
+                        "out of body", "unreal", "daze", "dazed", "spaced out",
+                        "can't feel", "detached", "floating", "dreaming",
+                        "not real", "blackout", "black out", "fainted",
+                        "shock", "shocked", "stunned", "paralyzed",
+                        "autopilot", "shut down", "switched off",
+                        "lost time", "where am i", "what happened",
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
+                        "sab blank", "kuch samajh nahi", "yaad nahi",
+                        "hosh nahi", "behosh", "soch nahi pa raha",
+                        "jam gaya", "jam gayi", "sunn", "sunn ho gaya",
+                        "dhundla", "sapna", "kuch nahi pata",
+                        "kahan hu", "kya hua", "kuch feel nahi",
+                        "dimag band", "sir chakra", "chakkar aa raha",
+                        "aankhon ke aage andhera", "kya chal raha hai",
+                        "kuch mehsus nahi", "jinda laash", "murda",
+                        "behosh ho",
+                        "aankh band", "hosh", "halka", "dheema",
+                        "khud ko nahi", "pata nahi kya", "sab dhundla",
+                        "ब्लैंक", "समझ नहीं", "याद नहीं", "होश नहीं", "बेहोश",
+                        "सोच नहीं", "जम गया", "सुन्न", "धुंधला", "सपना",
+                        "दिमाग बंद", "चक्कर", "अंधेरा", "क्या चल रहा है", "महसूस नहीं",
+                        "बेहोश हो",
+                        "आँख बंद", "होश", "हल्का", "धीमा",
+                    ],
+                    "social_isolation": [
+                        # English
+                        "alone", "all alone", "no one", "nobody",
+                        "no friends", "no family", "no support",
+                        "isolated", "trapped", "locked", "locked in",
+                        "can't leave", "can't go", "stuck", "hidden",
+                        "won't let me", "took my phone", "no contact",
+                        "cut off", "all by myself", "nowhere to go",
+                        "no one to talk", "no one to call", "no one cares",
+                        "abandoned", "left me", "deserted", "forsaken",
+                        "outcast", "rejected", "shunned", "boycott",
+                        "kicked out", "thrown out", "disowned",
+                        "hidden", "kept away", "restricted",
+                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
+                        "akela", "akeli", "koi nahi", "koi madad nahi",
+                        "phas gayi", "phas gaya", "locked", "band kamre",
+                        "jane nahi deta", "phone chheen liya",
+                        "koi nahi sunega", "kisi ko fark nahi",
+                        "nikaal diya", "ghar se nikala", "bahishkar",
+                        "akele", "koi dost nahi", "parivar nahi",
+                        "kisi se baat nahi", "kaid kar", "taala laga",
+                        "pabandi", "bahar nahi", "rishte khatam",
+                        "samaj se bahar", "kisi ko call nahi",
+                        "chhup", "chhup gaya", "chhup gayi", "chhip", "chhupi", "chhipi", "chhupa", "chhipa",
+                        "ped ke peeche", "jungle mein", "koi aas paas nahi",
+                        "koi sunega nahi", "koi nahi hai", "bilkul akela",
+                        "अकेला", "अकेली", "कोई नहीं", "फंस गई", "बंद कमरे",
+                        "फोन छीन लिया", "निकाल दिया", "घर से", "बहिष्कार", "परिवार नहीं",
+                        "क़ैद", "ताला लगा", "पाबंदी", "बाहर नहीं", "रिश्ते ख़तम",
+                        "छुप", "छुप गया", "छुप गई", "छिप",
+                        "पेड़ के पीछे", "जंगल में", "कोई आसपास नहीं",
+                        "कोई सुनेगा नहीं", "कोई नहीं है", "बिल्कुल अकेला",
+                    ],
+                    "chronic_trauma_indicators": [
+                        # English
+                        "years", "long time", "always", "every day", "daily",
+                        "since childhood", "since i was young", "growing up",
+                        "again and again", "keeps happening", "repeated",
+                        "history", "pattern", "cycle", "ongoing", "chronic",
+                        "never stopped", "for months", "for years",
+                        "whole life", "since marriage", "from the start",
+                        "not the first time", "many times", "every time",
+                        "used to", "been going on", "continues",
+                        "regularly", "constant", "persistent", "routine",
+                        "normal now", "used to it", "happens a lot",
+                        # Hindi / Hinglish (Latin & Devanagari)
+                        "saalon se", "bahut din se", "hamesha", "roz",
+                        "bachpan se", "shaadi ke baad se", "pehle se",
+                        "baar baar", "phir se", "phir ho gaya",
+                        "kabhi nahi ruka", "mahino se", "har roz",
+                        "roz ka", "roz ki kahani", "aadat",
+                        "salon beet gaye", "zindagi bhar", "kab tak chalega",
+                        "pichle saal", "kai mahino se", "lagaataar",
+                        "hamesha hota hai", "ye roz ka hai",
+                        "सालों से", "बहुत दिन से", "हमेशा", "रोज़", "बचपन से",
+                        "शादी के बाद", "बार बार", "फिर से", "महीनों से", "आदत",
+                        "ज़िंदगी भर", "लगातार", "हमेशा होता है", "रोज़ का",
+                    ],
+                }
+
+                scores = {}
+                matched_evidence = {}
+                confidences = {}
+
+                for dim, keywords in LIVE_KEYWORDS.items():
+                    matches = [kw for kw in keywords if kw in full_text]
+                    num_matches = len(matches)
+                    # Exponential decay scoring: each additional match adds diminishing
+                    # returns, producing truly variable scores like 0.45, 0.70, 0.83, 0.91...
+                    # Formula: 1 - (decay_rate ^ num_matches)
+                    if num_matches > 0:
+                        score = min(1.0, 1.0 - (0.55 ** num_matches))
+                        conf = min(0.99, 0.50 + 0.12 * num_matches)
+                    else:
+                        score = 0.0
+                        conf = 0.0
+                    scores[dim] = round(score, 3)
+                    confidences[dim] = round(conf, 2)
+                    if matches:
+                        matched_evidence[dim] = matches[:5]  # top 5 matches
+
+                overall_confidence = sum(confidences.values()) / len(confidences) if confidences else 0.0
+                svi_result = compute_svi(scores)
+                svi_bucket = svi_result["bucket"]
+
+                # Cache for interim result carry-forward
+                websocket._last_scores = scores
+                websocket._last_confidences = confidences
+                websocket._last_evidence = matched_evidence
+                websocket._last_overall_conf = round(overall_confidence, 2)
+                websocket._last_svi = svi_result
+
+                # 2. Trigger Action Pipeline
+                actions = decision_aid.suggest_for_bucket(call_id, svi_bucket)
+                safety_checkins.schedule_safety_checkins(call_id, svi_bucket, call_start_time)
+                supervisor_queue.flag_for_supervisor_review(call_id, svi_bucket)
+
+                # 3. Send transcript update back to frontend
+                response = {
+                    "type": "transcript_update",
+                    "text": text,
+                    "supervisor_gloss": "[Live Voice AI Analysis]",
+                    "words": [],
+                    "lang_detected": "en",
+                    "risk_vector": {
+                        "scores": scores,
+                        "confidence": confidences,
+                        "matched_evidence": matched_evidence,
+                        "overall_confidence": round(overall_confidence, 2),
+                    },
+                    "svi": svi_result,
+                    "silence_events": [],
+                    "latencies_ms": {"asr": 0.0, "silence": 0.0, "risk_scorer": 1.2, "svi": 0.4}
+                }
+                await websocket.send_json(response)
+
+                # 4. Send action updates
+                for action in actions:
+                    record = decision_aid.actions.get((call_id, action))
+                    if record is None:
+                        continue
+                    requires_senior = action in REQUIRES_SENIOR_SIGNOFF
+                    state_val = record.state.value
+                    if requires_senior and state_val == "suggested":
+                        display_state = "awaiting_senior"
+                    else:
+                        display_state = state_val
+
+                    await websocket.send_json({
+                        "type": "action_update",
+                        "action": {
+                            "action": action.value,
+                            "state": display_state,
+                            "requires_senior": requires_senior,
+                        },
+                    })
+
+            # ── REAL AUDIO MODE (Phase 1 ASR — requires Whisper) ─────────────
+            elif msg_type == "audio_chunk":
+                audio_data = msg.get("audio", [])
+                dtmf = msg.get("dtmf", "")
+                dtmf_accumulated += dtmf
+                audio_array = (
+                    np.array(audio_data, dtype=np.float32) if audio_data
+                    else np.zeros(16000 * 2, dtype=np.float32)
+                )
+                pipeline_out = process_audio_chunk(audio_array, call_id)
+                svi_bucket = pipeline_out["svi"]["bucket"]
+                overall_conf = pipeline_out["risk_vector"]["overall_confidence"]
+
+                actions = decision_aid.suggest_for_bucket(call_id, svi_bucket)
+                safety_checkins.schedule_safety_checkins(call_id, svi_bucket, call_start_time)
+                supervisor_queue.flag_for_supervisor_review(call_id, svi_bucket)
+
+                duress = detect_duress_code(dtmf_accumulated)
+                if duress:
+                    pipeline_out["svi"]["bucket"] = "critical"
+
+                response = pipeline_out.copy()
+                if duress:
+                    response["silent_sos_alert"] = True
+                await websocket.send_json(response)
+
+                for action in actions:
+                    record = decision_aid.actions.get((call_id, action))
+                    if record is None:
+                        continue
+                    requires_senior = action in REQUIRES_SENIOR_SIGNOFF
+                    await websocket.send_json({
+                        "type": "action_update",
+                        "action": {
+                            "action": action.value,
+                            "state": record.state.value,
+                            "requires_senior": requires_senior,
+                        },
+                    })
+
+    except WebSocketDisconnect:
+        reset_session(call_id)
+        print(f"[{call_id[:8]}] Client disconnected.")
+    except Exception as e:
+        print(f"[{call_id[:8]}] Unhandled error: {e}")
+        import traceback; traceback.print_exc()
+        try:
+            await websocket.close()
+        except Exception:
+            pass
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

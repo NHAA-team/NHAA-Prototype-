@@ -1,0 +1,87 @@
+[
+  {
+    "phrase": "Some people from their community are staring at us when we walk by. They haven't said anything yet, but it feels unwelcoming. I feel uneasy.",
+    "language": "english",
+    "severity": "low"
+  },
+  {
+    "phrase": "Jab bhi hum unke mohalle se guzarte hain, wo log ajeeb nazron se dekhte hain. Koi kuch bolta nahi hai par dar lagta hai. Mahol theek nahi lag raha.",
+    "language": "hindi",
+    "severity": "low"
+  },
+  {
+    "phrase": "The shopkeeper gives us dirty looks now. He makes us wait longer than others. It's very humiliating.",
+    "language": "english",
+    "severity": "low"
+  },
+  {
+    "phrase": "Wo log meeting kar rahe the aur jab main wahan se nikla toh sab chup ho gaye. They are definitely planning something against me. I don't feel safe.",
+    "language": "hinglish",
+    "severity": "low"
+  },
+  {
+    "phrase": "Gaon ke kuye se paani nahi lene de rahe. They block my way and pass casteist remarks. It happens every day now.",
+    "language": "hinglish",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "They started calling me derogatory names in front of everyone at the market. When I objected, they pushed me. Nobody came to help.",
+    "language": "english",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "Aaj panchayat mein mujhe baithne nahi diya. Kaha ki meri aukaat nahi hai unke barabar baithne ki. Mujhe sabke samne zaleel kiya gaya.",
+    "language": "hindi",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "My neighbors have stopped talking to me completely. They spread rumors that I am a troublemaker. I feel completely isolated and harassed.",
+    "language": "english",
+    "severity": "moderate"
+  },
+  {
+    "phrase": "Aaj subah unhone mere pati ko raste mein roka aur gaali galoch ki. Kaha ki apni had mein raho warna theek nahi hoga. Hum akela mehsoos kar rahe hain.",
+    "language": "hindi",
+    "severity": "high"
+  },
+  {
+    "phrase": "They came to my workplace and created a scene. They told my manager to fire me because of my caste. They said they will not let me work peacefully anywhere.",
+    "language": "english",
+    "severity": "high"
+  },
+  {
+    "phrase": "Raat ko humare ghar ke bahar aakar shor macha rahe the. They threw garbage inside our compound and verbally abused us. It is mental torture.",
+    "language": "hinglish",
+    "severity": "high"
+  },
+  {
+    "phrase": "Gao ke pradhan ne humein dhamki di hai ki agar humne mandir jane ki koshish ki toh humara hukkah paani band kar diya jayega. Koi hamari madad nahi kar raha.",
+    "language": "hindi",
+    "severity": "high"
+  },
+  {
+    "phrase": "The upper caste men beat up my brother yesterday. They told him this is what happens when people like us try to speak up. They are threatening to come back tonight.",
+    "language": "english",
+    "severity": "critical"
+  },
+  {
+    "phrase": "Unke paas hathiyar hain aur wo log hume dhund rahe hain. They said they will kill the first person from our family they see. Humein kahin chupna padega.",
+    "language": "hinglish",
+    "severity": "critical"
+  },
+  {
+    "phrase": "Aaj khet mein kaam karte waqt unhone mujh par jaanlewa hamla kiya. Bol rahe the ki aage se yahan dikhi toh zinda gaad denge. Main jaan bacha kar bhagi hoon.",
+    "language": "hindi",
+    "severity": "critical"
+  },
+  {
+    "phrase": "They have surrounded our locality and are not letting anyone out. They are carrying rods and are physically attacking anyone who tries to leave. We are in grave danger.",
+    "language": "english",
+    "severity": "critical"
+  },
+  {
+    "phrase": "Wo hamare ghar ka darwaza todne ki koshish kar rahe hain. They are screaming casteist slurs and saying they will finish us today. Bacha lijiye.",
+    "language": "hinglish",
+    "severity": "critical"
+  }
+]

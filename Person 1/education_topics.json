@@ -1,0 +1,207 @@
+[
+  {
+    "intent": "how_to_report",
+    "trigger_phrases": [
+      "how do I report",
+      "how do I file",
+      "file a complaint",
+      "how to file a complaint",
+      "how to file complaint",
+      "complaint kaise karu",
+      "shikayat kaise karu",
+      "शिकायत कैसे करें",
+      "शिकायत दर्ज",
+      "complaint file karna hai",
+      "FIR kaise likhaun",
+      "shikayat darj kaise karein",
+      "where do I report",
+      "how to lodge complaint",
+      "kahan report karu"
+    ],
+    "response": {
+      "en": "You can file a complaint by calling the Women Helpline at 181, visiting your nearest police station to file an FIR, or calling 14566 (NHAA Helpline). You can also file a complaint online at the National Commission for Women website (ncw.nic.in). An agent can walk you through the process step by step.",
+      "hi": "आप 181 (महिला हेल्पलाइन) पर कॉल करके, अपने नज़दीकी पुलिस स्टेशन में FIR दर्ज करवा कर, या 14566 (NHAA हेल्पलाइन) पर कॉल करके शिकायत दर्ज करा सकती हैं। आप राष्ट्रीय महिला आयोग की वेबसाइट (ncw.nic.in) पर ऑनलाइन भी शिकायत कर सकती हैं।",
+      "hinglish": "Aap 181 (Women Helpline) par call karke, nearest police station mein FIR darj karwa ke, ya 14566 (NHAA Helpline) par call karke complaint file kar sakti hain. Online complaint ke liye ncw.nic.in par jaa sakti hain."
+    }
+  },
+  {
+    "intent": "what_happens_after_filing",
+    "trigger_phrases": [
+      "what happens after filing",
+      "what happens after complaint",
+      "complaint ke baad kya hota hai",
+      "FIR ke baad kya hoga",
+      "after FIR what next",
+      "shikayat ke baad",
+      "what is the process after reporting",
+      "complaint dene ke baad kya",
+      "then what happens"
+    ],
+    "response": {
+      "en": "After filing a complaint or FIR, the police are required to investigate. You will receive a copy of the FIR. A protection officer may be assigned to you under the Domestic Violence Act. You may also be connected with legal aid, shelter homes, or counseling services. You have the right to follow up on the status of your case at any time.",
+      "hi": "शिकायत या FIR दर्ज करने के बाद, पुलिस को जाँच करनी होती है। आपको FIR की कॉपी मिलेगी। घरेलू हिंसा अधिनियम के तहत आपको एक सुरक्षा अधिकारी नियुक्त किया जा सकता है। आप कानूनी सहायता, आश्रय गृह, या काउंसलिंग सेवाओं से भी जोड़ी जा सकती हैं।",
+      "hinglish": "Complaint ya FIR dene ke baad police ko investigation karni hoti hai. Aapko FIR ki copy milegi. Domestic Violence Act ke under aapko ek protection officer assign kiya ja sakta hai. Legal aid, shelter home ya counseling se bhi connect kiya ja sakta hai."
+    }
+  },
+  {
+    "intent": "how_to_support_someone",
+    "trigger_phrases": [
+      "how to support someone",
+      "how to help someone",
+      "someone confided in me",
+      "friend ne bataya",
+      "meri saheli ko madad chahiye",
+      "how can I help a friend",
+      "kisi ki madad kaise karu",
+      "what should I do if someone tells me",
+      "dost ne bataya hai",
+      "supporting a survivor"
+    ],
+    "response": {
+      "en": "If someone has confided in you: (1) Listen without judgment, (2) Believe them, (3) Let them know it is not their fault, (4) Don't pressure them to take any specific action, (5) Share helpline numbers — 14566, 181, or 112 for emergencies. Your support matters. You can also call 14566 yourself for guidance on how to help.",
+      "hi": "अगर किसी ने आप पर भरोसा करके अपनी बात बताई है: (1) बिना कोई राय दिए सुनें, (2) उन पर विश्वास करें, (3) उन्हें बताएं कि यह उनकी गलती नहीं है, (4) किसी कदम के लिए दबाव न डालें, (5) हेल्पलाइन नंबर शेयर करें — 14566, 181, या आपातकाल के लिए 112। आपका साथ महत्वपूर्ण है।",
+      "hinglish": "Agar kisi ne aapko apni baat bataayi hai: (1) Bina judge kiye sunein, (2) Unpar bharosa karein, (3) Unhe bataayein ki yeh unki galti nahi hai, (4) Koi bhi action lene ka pressure na dein, (5) Helpline numbers share karein — 14566, 181, ya emergency ke liye 112. Aapka support bahut zaroori hai."
+    }
+  },
+  {
+    "intent": "what_is_14566",
+    "trigger_phrases": [
+      "what is 14566",
+      "14566 kya hai",
+      "tell me about 14566",
+      "14566 number",
+      "NHAA helpline",
+      "yeh helpline kya hai",
+      "what is this helpline",
+      "helpline ke baare mein batao",
+      "what does 14566 do"
+    ],
+    "response": {
+      "en": "14566 is the NHAA (National Helpline Against Atrocities) helpline number. It provides free, confidential support 24/7 for people facing caste-based violence, discrimination, or atrocities. Trained agents can help you file complaints, connect you with legal aid, arrange counseling, and coordinate emergency response. All calls are confidential.",
+      "hi": "14566 NHAA (नेशनल हेल्पलाइन अगेंस्ट एट्रोसिटीज़) का हेल्पलाइन नंबर है। यह जाति-आधारित हिंसा, भेदभाव, या अत्याचार का सामना कर रहे लोगों को 24/7 मुफ्त और गोपनीय सहायता प्रदान करता है। प्रशिक्षित एजेंट शिकायत दर्ज करने, कानूनी सहायता, काउंसलिंग और आपातकालीन प्रतिक्रिया में मदद कर सकते हैं।",
+      "hinglish": "14566 NHAA (National Helpline Against Atrocities) ka helpline number hai. Yeh caste-based violence, discrimination, ya atrocities face karne wale logon ko 24/7 free aur confidential support deta hai. Trained agents complaint file karne, legal aid, counseling aur emergency response mein madad kar sakte hain."
+    }
+  },
+  {
+    "intent": "legal_aid_available",
+    "trigger_phrases": [
+      "what legal aid is available",
+      "legal help",
+      "legal aid",
+      "kya kanooni madad mil sakti hai",
+      "lawyer kaise milega",
+      "vakil chahiye",
+      "free legal help",
+      "muft kanooni sahayata",
+      "NALSA",
+      "legal services authority",
+      "kanoon ki madad"
+    ],
+    "response": {
+      "en": "Free legal aid is available through the National Legal Services Authority (NALSA) and District Legal Services Authorities (DLSA). Under the SC/ST (Prevention of Atrocities) Act, victims are entitled to free legal representation. You can access legal aid by calling NALSA at 15100, visiting your district court's legal services cell, or asking an NHAA agent at 14566 to connect you.",
+      "hi": "राष्ट्रीय विधिक सेवा प्राधिकरण (NALSA) और जिला विधिक सेवा प्राधिकरण (DLSA) के ज़रिए मुफ्त कानूनी सहायता उपलब्ध है। SC/ST (अत्याचार निवारण) अधिनियम के तहत पीड़ितों को मुफ्त कानूनी प्रतिनिधित्व का अधिकार है। NALSA को 15100 पर कॉल करके या 14566 पर NHAA एजेंट से संपर्क करके कानूनी सहायता प्राप्त कर सकते हैं।",
+      "hinglish": "Free legal aid NALSA (National Legal Services Authority) aur DLSA (District Legal Services Authority) ke through milti hai. SC/ST (Prevention of Atrocities) Act ke under victims ko free legal representation ka haq hai. NALSA ko 15100 par call karein, ya 14566 par NHAA agent se connect ho sakte hain."
+    }
+  },
+  {
+    "intent": "signs_someone_needs_help",
+    "trigger_phrases": [
+      "signs someone needs help",
+      "signs of abuse",
+      "kaise pata chale",
+      "how to know if someone needs help",
+      "kisi ko madad chahiye kaise jaanein",
+      "warning signs",
+      "indicators of violence",
+      "kaise pehchanein",
+      "red flags"
+    ],
+    "response": {
+      "en": "Signs someone may need help include: unexplained injuries or frequent 'accidents', withdrawal from friends/family/activities, fear of a specific person, sudden changes in behavior or mood, reluctance to go home, signs of anxiety when certain topics arise, or mentioning threats or intimidation. If you notice these, gently let them know help is available at 14566, 181, or 112.",
+      "hi": "किसी को मदद की ज़रूरत हो सकती है अगर: बिना कारण चोटें या बार-बार 'दुर्घटनाएँ' हों, दोस्तों/परिवार से दूरी, किसी विशेष व्यक्ति से डर, अचानक व्यवहार या मनोदशा में बदलाव, घर जाने में हिचकिचाहट, या धमकियों का ज़िक्र। अगर आप ये संकेत देखें तो प्यार से बताएं कि 14566, 181 या 112 पर मदद उपलब्ध है।",
+      "hinglish": "Signs ki kisi ko help chahiye: bina wajah injuries ya baar baar 'accidents', friends/family se door hona, kisi specific insaan se dar, achanak behavior ya mood mein badlav, ghar jaane mein hichkichahat, ya threats ka zikr. Agar aap yeh signs notice karein to pyaar se bataayein ki 14566, 181 ya 112 par madad milti hai."
+    }
+  },
+  {
+    "intent": "confidentiality",
+    "trigger_phrases": [
+      "is it confidential",
+      "will my name be shared",
+      "kya mera naam guptit rahega",
+      "privacy",
+      "confidentiality",
+      "gopniyata",
+      "kya yeh secret rahega",
+      "will anyone find out",
+      "kisi ko pata chalega kya",
+      "is this private",
+      "meri jaankari safe hai kya"
+    ],
+    "response": {
+      "en": "Yes, all interactions are confidential. Your identity and personal details are protected. Information is only shared with authorities if you give explicit consent, or if there is an immediate risk to life. The helpline follows strict data protection protocols. You can ask about our privacy policy at any time.",
+      "hi": "हाँ, सभी बातचीत गोपनीय है। आपकी पहचान और व्यक्तिगत जानकारी सुरक्षित रहती है। जानकारी केवल आपकी स्पष्ट सहमति से या जीवन को तत्काल खतरा होने पर ही अधिकारियों के साथ साझा की जाती है। हेल्पलाइन सख्त डेटा सुरक्षा प्रोटोकॉल का पालन करती है।",
+      "hinglish": "Haan, saari baatcheet confidential hai. Aapki identity aur personal details safe rehti hain. Information sirf aapki explicit consent se ya immediate risk to life hone par hi authorities ke saath share ki jaati hai. Helpline strict data protection protocols follow karti hai."
+    }
+  },
+  {
+    "intent": "reach_crisis_line",
+    "trigger_phrases": [
+      "how to reach crisis line",
+      "crisis helpline",
+      "emergency number",
+      "main helpline",
+      "helpline number batao",
+      "emergency mein kya karu",
+      "turant madad chahiye",
+      "kahan call karu",
+      "call karna hai",
+      "want to talk to someone",
+      "kisi se baat karni hai",
+      "need to speak to someone"
+    ],
+    "response": {
+      "en": "If you or someone you know needs immediate help:\n• NHAA Helpline: 14566 (24/7, free, confidential)\n• Women Helpline: 181\n• Police Emergency: 112\n• Child Helpline: 1098\nTrained counselors are available round the clock. You don't have to face this alone.",
+      "hi": "अगर आपको या किसी को तुरंत मदद चाहिए:\n• NHAA हेल्पलाइन: 14566 (24/7, मुफ्त, गोपनीय)\n• महिला हेल्पलाइन: 181\n• पुलिस आपातकालीन: 112\n• चाइल्ड हेल्पलाइन: 1098\nप्रशिक्षित काउंसलर 24 घंटे उपलब्ध हैं। आप अकेले नहीं हैं।",
+      "hinglish": "Agar aapko ya kisi ko turant madad chahiye:\n• NHAA Helpline: 14566 (24/7, free, confidential)\n• Women Helpline: 181\n• Police Emergency: 112\n• Child Helpline: 1098\nTrained counselors 24 ghante available hain. Aap akele nahi hain."
+    }
+  },
+  {
+    "intent": "what_is_sc_st_act",
+    "trigger_phrases": [
+      "what is SC ST act",
+      "prevention of atrocities act",
+      "SC/ST act kya hai",
+      "atrocities act",
+      "POA act",
+      "scheduled caste act",
+      "yeh kanoon kya hai",
+      "what law protects us",
+      "hamein kaun sa kanoon bachata hai"
+    ],
+    "response": {
+      "en": "The Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Act, 1989 is a law that protects SC/ST communities from caste-based violence, discrimination, and harassment. It prescribes severe penalties for offenders and provides for victim compensation, free legal aid, and special courts for faster justice. Cases under this Act are non-bailable.",
+      "hi": "अनुसूचित जाति एवं अनुसूचित जनजाति (अत्याचार निवारण) अधिनियम, 1989 एक कानून है जो SC/ST समुदायों को जाति-आधारित हिंसा, भेदभाव और उत्पीड़न से बचाता है। इसमें अपराधियों के लिए कड़ी सज़ा, पीड़ित मुआवज़ा, मुफ्त कानूनी सहायता, और त्वरित न्याय के लिए विशेष न्यायालयों का प्रावधान है। इस अधिनियम के तहत मामले गैर-ज़मानती हैं।",
+      "hinglish": "SC/ST (Prevention of Atrocities) Act, 1989 ek law hai jo SC/ST communities ko caste-based violence, discrimination aur harassment se protect karta hai. Isme offenders ke liye severe penalties, victim compensation, free legal aid, aur faster justice ke liye special courts ka provision hai. Is Act ke cases non-bailable hain."
+    }
+  },
+  {
+    "intent": "shelter_and_protection",
+    "trigger_phrases": [
+      "where can I stay",
+      "shelter home",
+      "safe place",
+      "surakshit jagah",
+      "kahan reh sakti hu",
+      "rehne ki jagah chahiye",
+      "one stop centre",
+      "sakhi centre",
+      "protection home",
+      "ashray griha"
+    ],
+    "response": {
+      "en": "Safe shelter is available through: (1) One Stop Centres (Sakhi Centres) — integrated support including shelter, legal aid, counseling, and medical help. (2) Short Stay Homes and Swadhar Greh shelters run by the government. (3) State Women's Commission shelter facilities. Call 14566 or 181 and an agent can help locate the nearest shelter or One Stop Centre for you.",
+      "hi": "सुरक्षित आश्रय उपलब्ध है: (1) वन स्टॉप सेंटर (सखी सेंटर) — जहाँ आश्रय, कानूनी सहायता, काउंसलिंग और चिकित्सा मदद एक ही जगह मिलती है। (2) सरकार द्वारा संचालित शॉर्ट स्टे होम और स्वाधार गृह। (3) राज्य महिला आयोग की आश्रय सुविधाएँ। 14566 या 181 पर कॉल करें और एजेंट आपके नज़दीकी शेल्टर का पता लगाने में मदद करेंगे।",
+      "hinglish": "Safe shelter available hai: (1) One Stop Centre (Sakhi Centre) — shelter, legal aid, counseling aur medical help ek jagah milti hai. (2) Government ke Short Stay Homes aur Swadhar Greh. (3) State Women's Commission ki shelter facilities. 14566 ya 181 par call karein, agent nearest shelter dhoondhne mein madad karenge."
+    }
+  }
+]
