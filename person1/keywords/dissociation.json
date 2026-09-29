@@ -1,0 +1,161 @@
+[
+    {
+        "phrase": "I don't remember what happened",
+        "language": "en",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "mujhe kuch yaad nahi kya hua",
+        "language": "hinglish",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "mujhe us raat ka kuch yaad nahi",
+        "language": "hi",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "everything feels unreal",
+        "language": "en",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "sab kuch ajeeb aur jhootha lag raha hai",
+        "language": "hinglish",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "aisa lagta hai jaise ye mere sath nahi ho raha",
+        "language": "hi",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "I feel like I am outside my body",
+        "language": "en",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "mujhe lagta hai main apne sharir me nahi hu",
+        "language": "hinglish",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "main sunn pad gayi hu",
+        "language": "hi",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "time just slipped away",
+        "language": "en",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "pata hi nahi chala waqt kaise nikal gaya",
+        "language": "hinglish",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "aisa laga ki waqt ruk gaya",
+        "language": "hi",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "I am watching myself from far away",
+        "language": "en",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "main khud ko dur se dekh rahi hu aisa lagta hai",
+        "language": "hinglish",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "mera mere dimaag par control nahi hai",
+        "language": "hi",
+        "source": "DES concept category"
+    },
+    {
+        "phrase": "It's like I'm completely detached from reality",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "My body is here but my mind is somewhere else",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I look at my hands and they don't seem real",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "Everything feels extremely foggy and distant",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I have no idea how I arrived at this place",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "aisa lagta hai main apne aap se alag ho gaya hu",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "mujhe aas paas ki duniya dhundhli lagti hai",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "kabhi kabhi poora din blank chala jata hai",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "sheeshe me dekhta hu toh lagta hai koi anjaan hai",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I feel completely disconnected from myself",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "meri memories bilkul blur ho gayi hain",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I am just moving like a robot",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "khatam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mehenga",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mausam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "bill",
+        "weight": -1.0
+    },
+    {
+        "phrase": "doodh",
+        "weight": -1.0
+    },
+    {
+        "phrase": "gaadi",
+        "weight": -1.0
+    }
+]

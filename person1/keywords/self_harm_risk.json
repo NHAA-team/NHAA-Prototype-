@@ -1,0 +1,106 @@
+[
+    {
+        "phrase": "I want to end my life",
+        "language": "en",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "I want to take my own life",
+        "language": "en",
+        "source": "crisis helpline corpus"
+    },
+    {
+        "phrase": "I am going to kill myself",
+        "language": "en",
+        "source": "crisis helpline corpus"
+    },
+    {
+        "phrase": "I am going to take my own life",
+        "language": "en",
+        "source": "crisis helpline corpus"
+    },
+    {
+        "phrase": "I want to die",
+        "language": "en",
+        "source": "crisis helpline corpus"
+    },
+    {
+        "phrase": "main apni zindagi khatam karna chahta hu",
+        "language": "hinglish",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "mujhe ab aur nahi jeena",
+        "language": "hinglish",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "there is no point in living anymore",
+        "language": "en",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "mujhe mar jana chahiye",
+        "language": "hinglish",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "sab kuch khatam karne ka mann karta hai",
+        "language": "hinglish",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "I feel like killing myself",
+        "language": "en",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "main khudkhushi kar lungi",
+        "language": "hinglish",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "ab aur saha nahi jata, mar jana behtar hai",
+        "language": "hinglish",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "I have nothing to live for",
+        "language": "en",
+        "source": "ICON 2021 corpus example"
+    },
+    {
+        "phrase": "bas khatam kar doon",
+        "language": "hi",
+        "source": "crisis helpline corpus"
+    },
+    {
+        "phrase": "sab khatam kar doon",
+        "language": "hi",
+        "source": "crisis helpline corpus"
+    },
+    {
+        "phrase": "khatam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mehenga",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mausam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "bill",
+        "weight": -1.0
+    },
+    {
+        "phrase": "doodh",
+        "weight": -1.0
+    },
+    {
+        "phrase": "gaadi",
+        "weight": -1.0
+    }
+]

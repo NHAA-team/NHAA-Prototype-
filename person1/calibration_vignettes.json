@@ -1,0 +1,42 @@
+[
+  {
+    "transcript": "Hello, I am calling to ask about the clinic hours.",
+    "expected_scores": {
+      "acute_distress": 0.0, "depression": 0.0, "self_harm_risk": 0.0,
+      "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0,
+      "social_isolation": 0.0, "chronic_trauma_indicators": 0.0
+    }
+  },
+  {
+    "transcript": "I want to end my life. I can't take this anymore.",
+    "expected_scores": {
+      "acute_distress": 0.8, "depression": 0.9, "self_harm_risk": 1.0,
+      "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0,
+      "social_isolation": 0.0, "chronic_trauma_indicators": 0.0
+    }
+  },
+  {
+    "transcript": "wo mere ghar ke bahar khade hain, unhone mujhe maarne ki dhamki di hai",
+    "expected_scores": {
+      "acute_distress": 0.9, "depression": 0.0, "self_harm_risk": 0.0,
+      "fear_of_retaliation": 0.9, "intimidation": 1.0, "dissociation": 0.0,
+      "social_isolation": 0.0, "chronic_trauma_indicators": 0.0
+    }
+  },
+  {
+    "transcript": "I feel so alone, nobody understands me, I just sit in my room all day crying.",
+    "expected_scores": {
+      "acute_distress": 0.4, "depression": 0.8, "self_harm_risk": 0.0,
+      "fear_of_retaliation": 0.0, "intimidation": 0.0, "dissociation": 0.0,
+      "social_isolation": 0.9, "chronic_trauma_indicators": 0.0
+    }
+  },
+  {
+    "transcript": "he beat me up again. I am so scared he will come back.",
+    "expected_scores": {
+      "acute_distress": 0.8, "depression": 0.3, "self_harm_risk": 0.0,
+      "fear_of_retaliation": 0.9, "intimidation": 0.9, "dissociation": 0.0,
+      "social_isolation": 0.0, "chronic_trauma_indicators": 0.7
+    }
+  }
+]

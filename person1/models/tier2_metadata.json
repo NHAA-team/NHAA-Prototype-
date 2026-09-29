@@ -1,0 +1,50 @@
+{
+  "self_harm_risk": {
+    "type": "centroid",
+    "n_pos_train": 47,
+    "model_path": "NHAA/person1/models/tier2_self_harm_risk.npy",
+    "is_fragile": true
+  },
+  "acute_distress": {
+    "type": "centroid",
+    "n_pos_train": 45,
+    "model_path": "NHAA/person1/models/tier2_acute_distress.npy",
+    "is_fragile": true
+  },
+  "intimidation": {
+    "type": "centroid",
+    "n_pos_train": 46,
+    "model_path": "NHAA/person1/models/tier2_intimidation.npy",
+    "is_fragile": true
+  },
+  "dissociation": {
+    "type": "centroid",
+    "n_pos_train": 15,
+    "model_path": "NHAA/person1/models/tier2_dissociation.npy",
+    "is_fragile": true
+  },
+  "chronic_trauma_indicators": {
+    "type": "centroid",
+    "n_pos_train": 16,
+    "model_path": "NHAA/person1/models/tier2_chronic_trauma_indicators.npy",
+    "is_fragile": true
+  },
+  "social_isolation": {
+    "type": "centroid",
+    "n_pos_train": 36,
+    "model_path": "NHAA/person1/models/tier2_social_isolation.npy",
+    "is_fragile": true
+  },
+  "fear_of_retaliation": {
+    "type": "logistic",
+    "n_pos_train": 65,
+    "model_path": "NHAA/person1/models/tier2_fear_of_retaliation.pkl",
+    "is_fragile": false
+  },
+  "depression": {
+    "type": "logistic",
+    "n_pos_train": 65,
+    "model_path": "NHAA/person1/models/tier2_depression.pkl",
+    "is_fragile": false
+  }
+}

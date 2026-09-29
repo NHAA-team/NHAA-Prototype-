@@ -2,8 +2,8 @@ import sys
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(BASE_DIR, "Person 1"))
-sys.path.append(os.path.join(BASE_DIR, "person_2"))
+sys.path.append(os.path.join(BASE_DIR, "person1"))
+sys.path.append(os.path.join(BASE_DIR, "person2"))
 
 # Just define the LIVE_KEYWORDS that matter to us here for a quick check
 LIVE_KEYWORDS = {

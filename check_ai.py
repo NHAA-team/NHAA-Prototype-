@@ -3,10 +3,10 @@ import os
 import wave
 import numpy as np
 
-# Add Person 1 to path
+# Add person1 to path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(BASE_DIR, "Person 1"))
-sys.path.append(os.path.join(BASE_DIR, "Person 4"))
+sys.path.append(os.path.join(BASE_DIR, "person1"))
+sys.path.append(os.path.join(BASE_DIR, "person4"))
 
 from nhaa_core_pipeline import process_audio_chunk
 

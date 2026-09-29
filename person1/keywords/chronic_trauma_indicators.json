@@ -1,0 +1,76 @@
+[
+    {
+        "phrase": "Had nightmares about the event(s) or thought about the event(s) when you did not want to?",
+        "language": "en",
+        "source": "PC-PTSD-5 item 1"
+    },
+    {
+        "phrase": "kya aapko us ghatna ke bare mein bure sapne aate hain?",
+        "language": "hinglish",
+        "source": "PC-PTSD-5 item 1"
+    },
+    {
+        "phrase": "Tried hard not to think about the event(s) or went out of your way to avoid situations that reminded you of the event(s)?",
+        "language": "en",
+        "source": "PC-PTSD-5 item 2"
+    },
+    {
+        "phrase": "kya aapne us ghatna ko bhulne ki koshish ki hai?",
+        "language": "hinglish",
+        "source": "PC-PTSD-5 item 2"
+    },
+    {
+        "phrase": "Been constantly on guard, watchful, or easily startled?",
+        "language": "en",
+        "source": "PC-PTSD-5 item 3"
+    },
+    {
+        "phrase": "kya aap hamesha dar me rehte hain ya achanak chonk jate hain?",
+        "language": "hinglish",
+        "source": "PC-PTSD-5 item 3"
+    },
+    {
+        "phrase": "Felt numb or detached from people, activities, or your surroundings?",
+        "language": "en",
+        "source": "PC-PTSD-5 item 4"
+    },
+    {
+        "phrase": "kya aap logon se alag thalag mehsus karte hain?",
+        "language": "hinglish",
+        "source": "PC-PTSD-5 item 4"
+    },
+    {
+        "phrase": "Felt guilty or unable to stop blaming yourself or others for the event(s) or any problems the event(s) may have caused?",
+        "language": "en",
+        "source": "PC-PTSD-5 item 5"
+    },
+    {
+        "phrase": "kya aap khud ko ya dusron ko dosh dete hain us ghatna ke liye?",
+        "language": "hinglish",
+        "source": "PC-PTSD-5 item 5"
+    },
+    {
+        "phrase": "khatam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mehenga",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mausam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "bill",
+        "weight": -1.0
+    },
+    {
+        "phrase": "doodh",
+        "weight": -1.0
+    },
+    {
+        "phrase": "gaadi",
+        "weight": -1.0
+    }
+]

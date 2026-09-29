@@ -4,19 +4,209 @@ Accepts `simulate_chunk` messages from the frontend with a `step` index (0-3).
 The frontend controls progression; this server just executes the requested step.
 No cycling, no crashing.
 """
+
 import sys
 import os
 import json
 import uuid
 import datetime
 import numpy as np
+import time
+import re
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import uvicorn
+import joblib
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from model_utils import get_dimension_scorer, OrdinalWrapper
+
+DIMS = [
+    'self_harm_risk', 'intimidation', 'fear_of_retaliation', 'dissociation',
+    'social_isolation', 'acute_distress', 'depression', 'chronic_trauma_indicators'
+]
+print("Loading REAL_SCORERS...")
+REAL_SCORERS = {dim: get_dimension_scorer(dim) for dim in DIMS}
+_ordinal_path = os.path.join(os.path.dirname(__file__), '..', 'bucket_ordinal_regularized.joblib')
+if not os.path.exists(_ordinal_path):
+    _ordinal_path = 'bucket_ordinal_regularized.joblib'
+REAL_ORDINAL = joblib.load(_ordinal_path)
+print("Models loaded.")
+
+# STARTUP SANITY CHECK
+import logging
+logger = logging.getLogger(__name__)
+
+t_path = os.path.join(os.path.dirname(__file__), "..", 'optimal_thresholds.joblib')
+if os.path.exists(t_path):
+    t_vals = joblib.load(t_path)
+    print(f"[SANITY CHECK] Loaded optimal_thresholds: {t_vals}")
+else:
+    print("[SANITY CHECK] WARNING: optimal_thresholds.joblib not found. Using defaults.")
+
+test_sentences = [
+    "I don't want to kill myself",
+    "I want to kill myself",
+    "I am not going to end my life",
+    "mujhe apni jaan leni hai",
+    "I'm going to hurt myself",
+    "I have a plan, I'm going to overdose on these pills right now",
+    "meri jaan lene ka pakka faisla kar liya hai, aaj raat hi karunga"
+]
+print("[SANITY CHECK] Running positive self-harm checks...")
+for text in test_sentences:
+    scores = {}
+    for dim in DIMS:
+        scores[dim] = float(REAL_SCORERS[dim]([text.lower()])[0])
+    
+    X = np.zeros((1, len(DIMS)))
+    for j, dim in enumerate(DIMS):
+        X[0, j] = scores.get(dim, 0.0)
+    bucket = REAL_ORDINAL.predict(X)[0]
+    
+    if text in ["I have a plan, I'm going to overdose on these pills right now", "meri jaan lene ka pakka faisla kar liya hai, aaj raat hi karunga"]:
+        if bucket not in ['critical']:
+            msg = f"[SANITY WARNING] Critical-SH text '{text}' bucketed as {bucket.upper()} (SH_Score={scores.get('self_harm_risk', 0):.3f}). Expected CRITICAL!"
+            print(msg)
+            logger.warning(msg)
+        else:
+            print(f"[SANITY OK] '{text}' -> {bucket.upper()}")
+    elif text in ["I want to kill myself", "mujhe apni jaan leni hai", "I'm going to hurt myself"]:
+        if bucket not in ['critical']:
+            msg = f"[SANITY WARNING] Direct-intent text '{text}' bucketed as {bucket.upper()} (SH_Score={scores.get('self_harm_risk', 0):.3f}). Expected CRITICAL!"
+            print(msg)
+            logger.warning(msg)
+        else:
+            print(f"[SANITY OK] '{text}' -> {bucket.upper()}")
+    else:
+        print(f"[SANITY INFO] '{text}' -> {bucket.upper()}")
+print("[SANITY CHECK] Complete.")
+
+def clean_demo_text(text):
+    return re.sub(r'\[.*?\]\s*', '', text)
+
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+_dl_model = None
+_dl_tokenizer = None
+_device = 'mps' if torch.backends.mps.is_available() else 'cpu'
+dl_model_path = os.path.join(os.path.dirname(__file__), "..", "deep_learning_triage_model")
+
+if os.path.exists(dl_model_path):
+    print("Loading State-of-the-Art Deep Learning Transformer...")
+    _dl_tokenizer = AutoTokenizer.from_pretrained(dl_model_path)
+    _dl_model = AutoModelForSequenceClassification.from_pretrained(dl_model_path).to(_device)
+    _dl_model.eval()
+    print("Deep Learning Transformer loaded successfully!")
+
+def get_real_scores(text: str):
+    if _dl_model is not None:
+        with torch.no_grad():
+            inputs = _dl_tokenizer([text], padding=True, truncation=True, max_length=128, return_tensors="pt").to(_device)
+            logits = _dl_model(**inputs).logits
+            probs = torch.sigmoid(logits)[0].cpu().numpy()
+            
+        scores = {}
+        for i, dim in enumerate(DIMS):
+            scores[dim] = float(probs[i])
+        return scores
+    else:
+        scores = {}
+        for dim in DIMS:
+            val = REAL_SCORERS[dim]([text])[0]
+            scores[dim] = float(val)
+        return scores
+
+def compute_svi_real(scores: dict):
+    if _dl_model is not None:
+        # Deep Learning Algebraic SVI
+        max_score = max(scores.values()) if scores else 0.0
+        
+        if max_score >= 0.75:
+            bucket = "critical"
+        elif max_score >= 0.60:
+            bucket = "high"
+        elif max_score >= 0.50:
+            bucket = "moderate"
+        else:
+            bucket = "low"
+            
+        weights = {
+            "self_harm_risk": 0.22, "fear_of_retaliation": 0.18, "acute_distress": 0.16,
+            "intimidation": 0.14, "dissociation": 0.10, "depression": 0.08,
+            "chronic_trauma_indicators": 0.07, "social_isolation": 0.05,
+        }
+        weighted_sum = sum(scores.get(k, 0.0) * w * 100 for k, w in weights.items())
+        active_dims = sum(1 for k in weights if scores.get(k, 0.0) > 0.4)
+        breadth_mult = 1.0 + (active_dims / 8.0) * 0.95
+        raw = weighted_sum * breadth_mult
+        raw = min(100.0, max(0.0, raw))
+        
+        # Scale to display bucket
+        BUCKET_RANGES = {
+            "low":      (0,  24),
+            "moderate": (25, 49),
+            "high":     (50, 74),
+            "critical": (75, 100),
+        }
+        BUCKET_RAW_RANGES = {
+            "low":      (0,  10),
+            "moderate": (8,  25),
+            "high":     (18, 45),
+            "critical": (28, 60),
+        }
+        lo_raw, hi_raw = BUCKET_RAW_RANGES.get(bucket, (0, 100))
+        lo_disp, hi_disp = BUCKET_RANGES.get(bucket, (0, 100))
+        t = (raw - lo_raw) / max(hi_raw - lo_raw, 1.0)
+        t = max(0.0, min(1.0, t))
+        display_val = lo_disp + t * (hi_disp - lo_disp)
+        
+        return {"bucket": bucket, "value": int(display_val)}
+    else:
+        # Fallback to Original ML
+        X = np.zeros((1, len(DIMS)))
+        for j, dim in enumerate(DIMS):
+            X[0, j] = scores.get(dim, 0.0)
+        
+        bucket = REAL_ORDINAL.predict(X)[0]
+        
+        weights = {
+            "self_harm_risk": 0.22, "fear_of_retaliation": 0.18, "acute_distress": 0.16,
+            "intimidation": 0.14, "dissociation": 0.10, "depression": 0.08,
+            "chronic_trauma_indicators": 0.07, "social_isolation": 0.05,
+        }
+        weighted_sum = sum(scores.get(k, 0.0) * w * 100 for k, w in weights.items())
+        active_dims = sum(1 for k in weights if scores.get(k, 0.0) > 0.4)
+        breadth_mult = 1.0 + (active_dims / 8.0) * 0.95
+        raw = weighted_sum * breadth_mult
+        raw = min(100.0, max(0.0, raw))
+        
+        BUCKET_RANGES = {
+            "low":      (0,  24),
+            "moderate": (25, 49),
+            "high":     (50, 74),
+            "critical": (75, 100),
+        }
+        BUCKET_RAW_RANGES = {
+            "low":      (0,  10),
+            "moderate": (8,  25),
+            "high":     (18, 45),
+            "critical": (28, 60),
+        }
+    lo_raw, hi_raw = BUCKET_RAW_RANGES.get(bucket, (0, 100))
+    lo_disp, hi_disp = BUCKET_RANGES.get(bucket, (0, 100))
+    t = (raw - lo_raw) / max(hi_raw - lo_raw, 1.0)
+    t = max(0.0, min(1.0, t))
+    display_val = lo_disp + t * (hi_disp - lo_disp)
+    
+    return {"value": round(display_val, 1), "bucket": bucket}
+
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(BASE_DIR, "Person 1"))
-sys.path.append(os.path.join(BASE_DIR, "person_2"))
-sys.path.append(os.path.join(BASE_DIR, "Person 4"))
+sys.path.append(os.path.join(BASE_DIR, "person1"))
+sys.path.append(os.path.join(BASE_DIR, "person2"))
+sys.path.append(os.path.join(BASE_DIR, "person4"))
 sys.path.append(os.path.join(BASE_DIR, "person5"))
 
 # Phase 1
@@ -190,8 +380,10 @@ async def websocket_endpoint(websocket: WebSocket):
                 step = DEMO_STEPS[step_idx]
 
                 # For multipart steps, use the first chunk's scores for SVI/bucket
-                top_scores = step.get("scores") or step["chunks"][0]["scores"]
-                svi = compute_svi(top_scores)
+                # Use actual real models
+                text_to_score = " ".join([clean_demo_text(c["text"]) for c in step["chunks"]])
+                top_scores = get_real_scores(text_to_score)
+                svi = compute_svi_real(top_scores)
                 svi_bucket = svi["bucket"]
                 conf_vals = [v for v in step["confidence"].values() if v > 0]
                 overall_conf = round(min(conf_vals), 2) if conf_vals else 0.0
@@ -228,7 +420,8 @@ async def websocket_endpoint(websocket: WebSocket):
                     # Stream chunks one by one
                     import asyncio
                     for i, chunk in enumerate(step["chunks"]):
-                        chunk_svi = compute_svi(chunk["scores"])
+                        chunk_real_scores = get_real_scores(clean_demo_text(chunk["text"]))
+                        chunk_svi = compute_svi_real(chunk_real_scores)
                         response = {
                             "type": "transcript_update",
                             "text": chunk["text"],
@@ -236,7 +429,7 @@ async def websocket_endpoint(websocket: WebSocket):
                             "words": [],
                             "lang_detected": "en",
                             "risk_vector": {
-                                "scores": chunk["scores"],
+                                "scores": chunk_real_scores,
                                 "confidence": step["confidence"],
                                 "matched_evidence": step["evidence"],
                                 "overall_confidence": overall_conf,
@@ -260,7 +453,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         "words": [],
                         "lang_detected": "en",
                         "risk_vector": {
-                            "scores": step["scores"],
+                            "scores": top_scores,
                             "confidence": step["confidence"],
                             "matched_evidence": step["evidence"],
                             "overall_confidence": overall_conf,
@@ -330,339 +523,25 @@ async def websocket_endpoint(websocket: WebSocket):
                     await websocket.send_json(response)
                     continue
                 
-                # ── Final result: accumulate and score ──
-                # Accumulate full transcript across the session for richer scoring
-                if not hasattr(websocket, '_live_transcript'):
-                    websocket._live_transcript = ""
-                websocket._live_transcript += " " + text
-                full_text = websocket._live_transcript.lower()
+                # ── Final result: score ──
+                # For chat mode testing, score the current text independently 
+                # so it matches the sanity checks without TF-IDF dilution from previous messages.
+                full_text = text
 
-                # ── Flexible keyword scorer for live voice ────────────────────
-                # Massive keyword set: English + Hindi + Hinglish for all 8 dims
-                LIVE_KEYWORDS = {
-                    "acute_distress": [
-                        # English
-                        "help", "help me", "please help", "save me", "scared", "afraid",
-                        "terrified", "panic", "nervous", "anxious", "worried", "stress",
-                        "shaking", "trembling", "crying", "can't breathe", "breathing",
-                        "emergency", "urgent", "hurry", "danger", "dangerous", "unsafe",
-                        "frightened", "tense", "overwhelmed", "distress", "fear",
-                        "horrified", "desperate", "in trouble", "nightmare", "horrible",
-                        "terrible", "petrified", "dread", "freaking out", "losing my mind",
-                        "going crazy", "can't take", "breaking down", "falling apart",
-                        "on edge", "restless", "uneasy", "alarmed", "threatened",
-                        "screaming", "yelling", "shouting", "send someone", "police",
-                        "ambulance", "911", "call for help", "need help", "get help",
-                        "protect", "guard", "hide", "hiding", "hidden", "run", "running",
-                        "shot", "shoot", "gunshot", "gun", "bleeding very much", "bleeding heavily",
-
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings for max match
-                        "bachao", "madad", "madad karo", "please madad", "dar",
-                        "dar lag", "bahut dar", "ghabra", "ghabrahat",
-                        "tension", "khatarnak", "khatra", "jaldi", "jaldi karo", "emergency",
-                        "dara hua", "dari hui", "darr", "bhay", "saans nahi",
-                        "tang", "bechain", "mushkil", "taklif", "dikkat",
-                        "police ko bulao", "madad chahiye", "bacha lo",
-                        "bhago", "bhag rahi", "bhag raha", "chhup", "chhip", "chhupe", "chhupi", "chhipi", "chhupa", "chhipa",
-                        "chilla", "cheekh", "sahm gaya", "kampkampi", "kapkapa",
-                        "tharthara", "pasina", "jaan bachao", "chhod do",
-                        "maaf kar do", "kripya", "bacha lijiye", "koi hai",
-                        "police", "ambulance bulao", "doctor", "hospital",
-                        "haadsa", "bura haal", "khauf", "dahshat", "atank", "tabahi",
-                        "maar", "shot", "peeche", "goli lagi", "goli maar", "goli mari", "goli chalai", "bandook",
-                        "bahut khoon", "bahut khoon beh raha", "khoon nikal raha",
-                        "बचाओ", "मदद", "मदद कर", "डर", "डर लग", "घबराहट", "घबरा",
-                        "खतरनाक", "खतरा", "जल्दी",
-                        "डरा", "सांस", "बेचैन", "तकलीफ", "दिक्कत", "भाग", "चीख",
-                        "बचा लो", "बचा ली", "छोड़", "माफ़", "छुप", "छिप",
-                        "माफ़ी", "पुलिस", "कोई है", "हादसा", "बुरा", "तबाही",
-                        "खौफ", "दहशत", "कांप", "पसीना", "तनाव",
-                        "मार", "पीछे",
-                    ],
-                    "depression": [
-                        # English
-                        "hopeless", "worthless", "sad", "depressed", "tired",
-                        "exhausted", "no energy", "can't sleep", "don't care",
-                        "nothing matters", "given up", "no point", "empty",
-                        "lonely", "lost", "miserable", "unhappy", "suffering",
-                        "broken", "pain", "hurting", "ache", "crying", "tears",
-                        "numb", "drained", "weak", "helpless", "defeated",
-                        "useless", "failure", "burden", "don't want to",
-                        "can't do anything", "no hope", "no future", "dark",
-                        "give up", "fed up", "sick of", "can't go on",
-                        "not worth", "pointless", "meaningless",
-                        "injured", "injury", "wound", "bleeding", "blood",
-                        "depressing", "grief", "sorrow", "despair", "gloomy",
-                        "melancholy", "down", "low", "blue", "heartbroken",
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
-                        "udaas", "dukhi", "nirasha", "thak gaya", "thak gayi",
-                        "neend nahi", "koi fayda nahi", "mann nahi", "akela",
-                        "toot gaya", "toot gayi", "kamzor", "haar", "haar gaya",
-                        "bojh", "bekar", "khoon", "khoon beh", "zakhm", "zakhmi",
-                        "chot", "chot lagi", "dard", "bahut dard",
-                        "rona aa raha", "kuch accha nahi", "khatam ho gaya",
-                        "rona", "dukhi hu",
-                        "shok", "vyatha", "kasht", "peer", "peeda", "vishaad",
-                        "khinn", "maayus", "udasi", "khed", "pachhtawa", "nirash",
-                        "koi rasta nahi", "sab bekar", "kuch theek nahi",
-                        "ro ro kar", "buri halat", "bhari man", "man udaas",
-                        "jine ka man nahi",
-                        "bahut bura", "sahara nahi", "koi nahi", "tang aa gaya",
-                        "thak", "jee nahi lagta", "neend", "bhookh nahi",
-                        "उदास", "दुखी", "निराशा", "थक", "नींद", "अकेला",
-                        "टूट", "कमज़ोर", "हार", "बोझ", "बेकार",
-                        "खून", "खून बह", "ज़ख्म", "ज़ख्मी", "चोट", "दर्द",
-                        "रोने", "ख़तम",
-                        "सहारा नहीं",
-                        "शोक", "व्यथा", "कष्ट", "पीड़ा", "विषाद", "मायूस", "उदासी",
-                        "खेद", "पछतावा", "निराश", "सब बेकार", "भरी मन", "रो-रो कर",
-                    ],
-                    "self_harm_risk": [
-                        # English
-                        "kill", "kill me", "kill myself", "killing", "murder",
-                        "end my life", "suicide", "die", "dying", "dead",
-                        "want to die", "hurt myself", "cut myself", "self harm",
-                        "no reason to live", "better off dead", "pills",
-                        "overdose", "jump off", "hang myself", "wrist",
-                        "end it", "end it all", "finish", "finish me",
-                        "death", "don't want to live", "can't live",
-                        "life is over", "no life", "take my life",
-                        "slit", "bleed", "poison", "drown",
-                        "not alive", "wish i was dead", "rather die",
-                        "strangle myself", "shoot myself", "choke myself",
-                        "shoot", "shot", "gunshot", "bullet",
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
-                        "marna", "mar jana", "mar jaunga", "mar jaungi",
-                        "maar do", "maar dalo", "khatam", "khatam karna",
-                        "zindagi khatam", "jeena nahi", "jee nahi sakta",
-                        "jee nahi sakti", "khudkhushi", "aatmahatya",
-                        "maut", "maut chahiye", "marna chahta", "marna chahti",
-                        "jaan de du", "jaan lena", "zehr", "suicide",
-                        "nas kaat", "kood jana", "phaasi", "jaan se maar",
-                        "ab nahi jeena", "zehar kha", "latak", "pankhe se",
-                        "train ke aage", "chhat se", "balcony se", "kood",
-                        "kat lunga", "goli maar", "goli mari", "jal ke", "aag laga",
-                        "khoon beh", "beh raha", "bahut khoon", "goli lagi",
-                        "मरना", "मर जाना", "मार दो", "मार डालो", "खत्म",
-                        "जीना नहीं", "आत्महत्या", "ख़ुदकुशी", "मौत", "जान", "ज़हर",
-                        "फांसी", "नदी", "कूद", "छत से", "ट्रेन के", "गोली मार",
-                        "नस काट", "लटक", "पंखे से", "आग लगा", "जल कर",
-                        "खून बह", "बह रहा", "बहुत खून", "गोली लगी",
-                    ],
-                    "fear_of_retaliation": [
-                        # English
-                        "they will come", "come back", "find me", "hurt me",
-                        "hurt us", "threatened", "threat", "warning", "revenge",
-                        "punish", "retaliate", "get back at", "follow",
-                        "following", "stalking", "watching", "watched",
-                        "scared of him", "scared of them", "scared of her",
-                        "danger", "not safe", "unsafe", "afraid to go",
-                        "afraid to leave", "afraid to tell", "afraid to speak",
-                        "won't let me go", "will find", "hunt me",
-                        "track me", "coming for me", "after me",
-                        "consequences", "payback", "retribution",
-                        "he said", "she said", "they said", "warned me",
-                        "if i tell", "if i speak", "if i leave",
-                        "shot", "shoot", "gunshot", "gun",
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
-                        "dhamki", "dhamkaya", "dhamka raha", "dara raha",
-                        "wapas aayenge", "phir aayenge", "maar denge",
-                        "chodenge nahi", "kuch nahi ukhaad sakte",
-                        "pakad lenge", "dhundh lenge", "peecha",
-                        "peeche pade", "jane nahi dega", "jane nahi degi",
-                        "dar lag raha", "surakshit nahi", "badla",
-                        "bataya toh", "gaya toh", "nuksan",
-                        "gaayab kar", "jaan se maar denge", "bach ke kahan",
-                        "dekh lunga", "aakhri din", "mera kya bigad",
-                        "muh khola toh", "police ko mat", "kisiko bataya toh",
-                        "parivaar ko maar", "tere bache", "tera pati", "teri maa",
-                        "follow", "follow kar rahe", "peecha kar rahe",
-                        "dhund rahe", "dhundh rahe",
-                        "peeche aa rahe", "bhaag raha", "bhaag rahi",
-                        "chhup", "chhup gaya", "chhup gayi", "chhip", "chhupi", "chhipi", "chhupa", "chhipa",
-                        "goli lagi", "goli maar", "goli mari", "goli chalai", "bandook",
-                        "aa rahe", "aaye hain", "ghar ke bahar",
-                        "goli chalai", "goli maar", "bandook", "hathiyar",
-                        "maarne aaye", "maar denge", "jaan le",
-                        "ped ke peeche", "chhup ke", "chori chori",
-                        "रात को", "सुबह से", "शाम से",
-                        "धमकी", "धमकाया", "डरा रहा", "वापस", "मार देंगे",
-                        "छोड़ेंगे", "पकड़", "ढूंढ", "पीछा", "जाने नहीं",
-                        "सुरक्षित", "बदला", "नुकसान", "गायब", "जान से",
-                        "देख लूंगा", "आखरी दिन", "मुँह खोला", "पुलिस को",
-                        "किसी को बताया", "परिवार को", "तेरे बच्चे", "तेरी माँ",
-                        "पीछे आ रहे", "भाग रहा", "भाग रही",
-                        "छुप", "छुप गया", "छुप गई", "छिप",
-                        "आ रहे", "आये हैं", "घर के बाहर",
-                        "गोली चलाई", "गोली मार", "बंदूक", "हथियार",
-                        "मारने आये", "जान ले",
-                        "पेड़ के पीछे", "छुप के",
-                    ],
-                    "intimidation": [
-                        # English
-                        "weapon", "gun", "knife", "rod", "stick", "sticks",
-                        "hit", "hit me", "beat", "beat me", "beating",
-                        "broke", "broken", "break", "smashed", "destroyed",
-                        "threatening", "standing outside", "outside my house",
-                        "door", "broke the door", "kicked the door",
-                        "forced", "forcing", "yelling", "screaming", "shouting",
-                        "attacked", "attack", "violent", "violence",
-                        "abuse", "abusing", "abused", "abusive",
-                        "punch", "punched", "kick", "kicked",
-                        "slap", "slapped", "strangle", "strangled", "choke", "choked",
-                        "dragged", "threw", "pushed", "pulled",
-                        "grabbed", "held down", "tied", "locked",
-                        "hammer", "bat", "bottle", "belt", "chain",
-                        "burned", "burn", "fire", "threw things",
-                        "bang", "banging", "smash", "crash",
-                        "cut", "cut me", "stabbed", "stab",
-                        "aggressive", "furious", "angry", "rage",
-                        "shot", "shoot", "gunshot", "shooting", "bullet",
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
-                        "hathiyar", "chaaku", "bandook", "danda", "lathi",
-                        "maara", "maari", "peeta", "peeti", "maar raha",
-                        "tod diya", "todi", "darwaza toda", "toot gaya",
-                        "zabardasti", "chillana", "chilla raha", "cheekh",
-                        "hamla", "hinsa", "shosit", "atyachaar",
-                        "thappad", "laat", "ghasita", "dhakka",
-                        "pakda", "jakda", "bandha", "band kiya",
-                        "jala diya", "aag", "phenka", "gussa",
-                        "gali", "gaali", "chaku", "pistol",
-                        "mukkebazi", "khoon nikal", "sir phod", "baal pakad",
-                        "gala daba", "sharab pee kar", "nashe mein", "kutta",
-                        "kutti", "haraami", "madarchod", "behenchod", "saala",
-                        "kamina", "behram", "nirdayi", "gunda", "mawali",
-                        "goli", "goli chalai", "goli lagi", "goli maar", "goli mari",
-                        "khoon", "khoon beh", "khoon nikal", "bahut khoon",
-                        "zakhm", "zakhmi", "chot", "chot lagi", "ghav",
-                        "pair mein", "haath mein", "sir mein", "pet mein",
-                        "bandook se", "chaku se", "danda se", "lathi se",
-                        "maar kha", "shot", "fire", "chalai",
-                        "हथियार", "चाकू", "बंदूक", "डंडा", "लाठी", "मारा", "पीटा",
-                        "तोड़", "ज़बरदस्ती", "चिल्ला", "हमला", "हिंसा",
-                        "थप्पड़", "लात", "घसीटा", "धक्का", "जला", "आग", "गुस्सा", "गाली",
-                        "सिर फोड़", "बाल पकड़", "गला दबा", "शराब", "नशे",
-                        "खून", "खून बह", "खून निकल", "बहुत खून",
-                        "कुत्ता", "कमीना", "बेशरम", "निर्दयी", "गुंडा",
-                        "गोली", "गोली लगी", "गोली मार", "गोली चलाई",
-                        "ज़ख्म", "ज़ख्मी", "चोट", "चोट लगी", "घाव",
-                        "पैर में", "हाथ में", "सिर में", "पेट में",
-                        "बंदूक से", "चाकू से", "डंडा से", "लाठी से",
-                        "मार खा",
-                    ],
-                    "dissociation": [
-                        # English
-                        "blank", "numb", "frozen", "can't think", "confused",
-                        "don't remember", "can't remember", "forgot", "memory",
-                        "zoned out", "disconnected", "fog", "foggy",
-                        "out of body", "unreal", "daze", "dazed", "spaced out",
-                        "can't feel", "detached", "floating", "dreaming",
-                        "not real", "blackout", "black out", "fainted",
-                        "shock", "shocked", "stunned", "paralyzed",
-                        "autopilot", "shut down", "switched off",
-                        "lost time", "where am i", "what happened",
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
-                        "sab blank", "kuch samajh nahi", "yaad nahi",
-                        "hosh nahi", "behosh", "soch nahi pa raha",
-                        "jam gaya", "jam gayi", "sunn", "sunn ho gaya",
-                        "dhundla", "sapna", "kuch nahi pata",
-                        "kahan hu", "kya hua", "kuch feel nahi",
-                        "dimag band", "sir chakra", "chakkar aa raha",
-                        "aankhon ke aage andhera", "kya chal raha hai",
-                        "kuch mehsus nahi", "jinda laash", "murda",
-                        "behosh ho",
-                        "aankh band", "hosh", "halka", "dheema",
-                        "khud ko nahi", "pata nahi kya", "sab dhundla",
-                        "ब्लैंक", "समझ नहीं", "याद नहीं", "होश नहीं", "बेहोश",
-                        "सोच नहीं", "जम गया", "सुन्न", "धुंधला", "सपना",
-                        "दिमाग बंद", "चक्कर", "अंधेरा", "क्या चल रहा है", "महसूस नहीं",
-                        "बेहोश हो",
-                        "आँख बंद", "होश", "हल्का", "धीमा",
-                    ],
-                    "social_isolation": [
-                        # English
-                        "alone", "all alone", "no one", "nobody",
-                        "no friends", "no family", "no support",
-                        "isolated", "trapped", "locked", "locked in",
-                        "can't leave", "can't go", "stuck", "hidden",
-                        "won't let me", "took my phone", "no contact",
-                        "cut off", "all by myself", "nowhere to go",
-                        "no one to talk", "no one to call", "no one cares",
-                        "abandoned", "left me", "deserted", "forsaken",
-                        "outcast", "rejected", "shunned", "boycott",
-                        "kicked out", "thrown out", "disowned",
-                        "hidden", "kept away", "restricted",
-                        # Hindi / Hinglish (Latin & Devanagari) — root substrings
-                        "akela", "akeli", "koi nahi", "koi madad nahi",
-                        "phas gayi", "phas gaya", "locked", "band kamre",
-                        "jane nahi deta", "phone chheen liya",
-                        "koi nahi sunega", "kisi ko fark nahi",
-                        "nikaal diya", "ghar se nikala", "bahishkar",
-                        "akele", "koi dost nahi", "parivar nahi",
-                        "kisi se baat nahi", "kaid kar", "taala laga",
-                        "pabandi", "bahar nahi", "rishte khatam",
-                        "samaj se bahar", "kisi ko call nahi",
-                        "chhup", "chhup gaya", "chhup gayi", "chhip", "chhupi", "chhipi", "chhupa", "chhipa",
-                        "ped ke peeche", "jungle mein", "koi aas paas nahi",
-                        "koi sunega nahi", "koi nahi hai", "bilkul akela",
-                        "अकेला", "अकेली", "कोई नहीं", "फंस गई", "बंद कमरे",
-                        "फोन छीन लिया", "निकाल दिया", "घर से", "बहिष्कार", "परिवार नहीं",
-                        "क़ैद", "ताला लगा", "पाबंदी", "बाहर नहीं", "रिश्ते ख़तम",
-                        "छुप", "छुप गया", "छुप गई", "छिप",
-                        "पेड़ के पीछे", "जंगल में", "कोई आसपास नहीं",
-                        "कोई सुनेगा नहीं", "कोई नहीं है", "बिल्कुल अकेला",
-                    ],
-                    "chronic_trauma_indicators": [
-                        # English
-                        "years", "long time", "always", "every day", "daily",
-                        "since childhood", "since i was young", "growing up",
-                        "again and again", "keeps happening", "repeated",
-                        "history", "pattern", "cycle", "ongoing", "chronic",
-                        "never stopped", "for months", "for years",
-                        "whole life", "since marriage", "from the start",
-                        "not the first time", "many times", "every time",
-                        "used to", "been going on", "continues",
-                        "regularly", "constant", "persistent", "routine",
-                        "normal now", "used to it", "happens a lot",
-                        # Hindi / Hinglish (Latin & Devanagari)
-                        "saalon se", "bahut din se", "hamesha", "roz",
-                        "bachpan se", "shaadi ke baad se", "pehle se",
-                        "baar baar", "phir se", "phir ho gaya",
-                        "kabhi nahi ruka", "mahino se", "har roz",
-                        "roz ka", "roz ki kahani", "aadat",
-                        "salon beet gaye", "zindagi bhar", "kab tak chalega",
-                        "pichle saal", "kai mahino se", "lagaataar",
-                        "hamesha hota hai", "ye roz ka hai",
-                        "सालों से", "बहुत दिन से", "हमेशा", "रोज़", "बचपन से",
-                        "शादी के बाद", "बार बार", "फिर से", "महीनों से", "आदत",
-                        "ज़िंदगी भर", "लगातार", "हमेशा होता है", "रोज़ का",
-                    ],
-                }
-
-                scores = {}
-                matched_evidence = {}
-                confidences = {}
-
-                for dim, keywords in LIVE_KEYWORDS.items():
-                    matches = [kw for kw in keywords if kw in full_text]
-                    num_matches = len(matches)
-                    # Exponential decay scoring: each additional match adds diminishing
-                    # returns, producing truly variable scores like 0.45, 0.70, 0.83, 0.91...
-                    # Formula: 1 - (decay_rate ^ num_matches)
-                    if num_matches > 0:
-                        score = min(1.0, 1.0 - (0.55 ** num_matches))
-                        conf = min(0.99, 0.50 + 0.12 * num_matches)
-                    else:
-                        score = 0.0
-                        conf = 0.0
-                    scores[dim] = round(score, 3)
-                    confidences[dim] = round(conf, 2)
-                    if matches:
-                        matched_evidence[dim] = matches[:5]  # top 5 matches
-
-                overall_confidence = sum(confidences.values()) / len(confidences) if confidences else 0.0
-                svi_result = compute_svi(scores)
+                # --- ML PIPELINE REPLACEMENT ---
+                t0 = time.time()
+                scores = get_real_scores(full_text)
+                t_scores = time.time()
+                svi_result = compute_svi_real(scores)
+                t_svi = time.time()
                 svi_bucket = svi_result["bucket"]
+                
+                print(f"Latency: scores={t_scores-t0:.3f}s, svi={t_svi-t_scores:.3f}s")
+
+                confidences = {k: min(1.0, v + 0.1) for k, v in scores.items()}
+                matched_evidence = {}
+                overall_confidence = sum(confidences.values()) / len(confidences) if confidences else 0.0
+                # -------------------------------
 
                 # Cache for interim result carry-forward
                 websocket._last_scores = scores

@@ -1,0 +1,166 @@
+[
+    {
+        "phrase": "no one talks to us anymore",
+        "language": "en",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "koi humse baat nahi karta ab",
+        "language": "hinglish",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "sabne humse rishta tod liya hai",
+        "language": "hi",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "samaj ne bahiskar kar diya",
+        "language": "hi",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "we are completely cut off",
+        "language": "en",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "hum sab se alag thalag ho gaye hain",
+        "language": "hinglish",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "gao walon ne humara hukka pani band kar diya hai",
+        "language": "hi",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "I have nobody to turn to",
+        "language": "en",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "mera yahan koi nahi hai jiske pas main ja saku",
+        "language": "hinglish",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "mujhe bilkul akelapan mahsoos hota hai",
+        "language": "hi",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "they all turned against us",
+        "language": "en",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "sab hamare khilaf ho gaye hain",
+        "language": "hinglish",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "koi hamari madad ko aage nahi aaya",
+        "language": "hi",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "I feel left out and alone",
+        "language": "en",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "main bahut akeli pad gayi hu",
+        "language": "hinglish",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "kisi ko meri parwah nahi hai",
+        "language": "hi",
+        "source": "UCLA Loneliness Scale concept category"
+    },
+    {
+        "phrase": "I have no friends left to confide in",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "People cross the street to avoid me now",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I am entirely alone in this world",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "My own relatives pretend I don't exist",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I stay hidden because everyone hates me",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "ab mera is duniya me koi apna nahi bacha",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "log mujhe dekh kar raasta badal lete hain",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "mere sage rishtedar bhi mujhe anjaan samajhte hain",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "main khud ko logo ki nazron se chhupata hu",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I have absolutely nobody to talk to",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "everyone ignores me like I am invisible",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "meri family ne mujhe puri tarah disown kar diya hai",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "khatam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mehenga",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mausam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "bill",
+        "weight": -1.0
+    },
+    {
+        "phrase": "doodh",
+        "weight": -1.0
+    },
+    {
+        "phrase": "gaadi",
+        "weight": -1.0
+    }
+]

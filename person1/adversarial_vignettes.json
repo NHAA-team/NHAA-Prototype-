@@ -1,0 +1,242 @@
+[
+  {
+    "text": "I never said I want to end my life, I just need someone to talk to.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Explicit negation of distress phrase."
+  },
+  {
+    "text": "mujhe nahi lagta ki main apni zindagi khatam karna chahta hu.",
+    "language": "hi",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Hindi explicit negation of self-harm."
+  },
+  {
+    "text": "I never said there is no point in living anymore.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Strong negation with 'never'."
+  },
+  {
+    "text": "They said they wouldn't come back, so I am fine.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "fear_of_retaliation",
+    "rationale": "Negation of retaliation threat."
+  },
+  {
+    "text": "mujhe nahi lagta ki wo phir aayenge, main theek hu.",
+    "language": "hi",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "fear_of_retaliation",
+    "rationale": "Hindi negation of fear."
+  },
+  {
+    "text": "Nobody is following me anymore, it all stopped.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "intimidation",
+    "rationale": "Negation of surveillance claim."
+  },
+  {
+    "text": "I am not feeling nervous or on edge at all.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "acute_distress",
+    "rationale": "Negation of GAD-7 symptom."
+  },
+  {
+    "text": "I don't feel alone, I have a great support system.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "negation-suppressed",
+    "target_dimension": "social_isolation",
+    "rationale": "Negation of isolation."
+  },
+  {
+    "text": "Oh great, I'm just dying to go back to that awful house.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "sarcasm",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Sarcastic use of 'dying', not literal."
+  },
+  {
+    "text": "Yeah sure, I'm absolutely thrilled about being alone forever.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "sarcasm",
+    "target_dimension": "social_isolation",
+    "rationale": "Sarcastic complaint, not genuine isolation disclosure."
+  },
+  {
+    "text": "What a lovely day to be scared for my life, really wonderful.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "sarcasm",
+    "target_dimension": "fear_of_retaliation",
+    "rationale": "Sarcasm around danger phrase."
+  },
+  {
+    "text": "I was watching a movie about someone killing themselves.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "benign-context",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Trigger words in benign entertainment context."
+  },
+  {
+    "text": "My friend told me she has nothing to live for, I am worried about her.",
+    "language": "en",
+    "expected_fire": false,
+    "expected_mechanism": "sarcasm",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Third-person concern, not self-disclosure."
+  },
+  {
+    "text": "I am going to take my own life tonight.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Euphemistic disclosure of suicidal ideation."
+  },
+  {
+    "text": "main ab apni zindagi yahi par khatam karna chahta hu.",
+    "language": "hi",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Hindi euphemistic suicidal ideation."
+  },
+  {
+    "text": "there is absolutely no point in living my life anymore.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Indirect suicidal ideation through disappearance wish."
+  },
+  {
+    "text": "they threatened to kill my family if i speak up.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "intimidation",
+    "rationale": "Novel phrasing of intimidation — confirmed score ~0.80 with MiniLM."
+  },
+  {
+    "text": "my life is in grave danger and no one will help.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "fear_of_retaliation",
+    "rationale": "Novel phrasing of systemic fear."
+  },
+  {
+    "text": "agar maine bataya to wo mere bacchon ko maar denge.",
+    "language": "hi",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "fear_of_retaliation",
+    "rationale": "Hindi fear of family harm — confirmed score ~0.87 with MiniLM."
+  },
+  {
+    "text": "I feel completely numb, like I am watching my life from outside my body.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "chronic_trauma_indicators",
+    "rationale": "Depersonalization — matches chronic trauma indicators semantically with MiniLM."
+  },
+  {
+    "text": "I have felt numb or detached from people around me ever since that night.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "chronic_trauma_indicators",
+    "rationale": "Exact PCL-5 symptom phrase in caller speech — tests exact match in chronic trauma dimension."
+  },
+  {
+    "text": "nahi, nahi... matlab, haan, kabhi kabhi lagta hai ki bas sab khatam kar doon.",
+    "language": "hinglish",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Messy hedging self-correction — the distress disclosure at the end must NOT be negated by the 'nahi' at the start."
+  },
+  {
+    "text": "mujhe nahi... I mean haan... I want to end my life.",
+    "language": "hinglish",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "self_harm_risk",
+    "rationale": "Code-switched self-correction with negation far from the actual disclosure."
+  },
+  {
+    "text": "wo log humein paani bhi nahi bharne dete, kuein se dur rakhte hain.",
+    "language": "hi",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "intimidation",
+    "rationale": "Caste-based resource denial, novel phrasing."
+  },
+  {
+    "text": "we are completely cut off from everyone else.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "social_isolation",
+    "rationale": "Exact match for isolation."
+  },
+  {
+    "text": "us raat ka darr abhi bhi mere saath hai, neend nahi aati.",
+    "language": "hi",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "chronic_trauma_indicators",
+    "rationale": "Hindi PTSD symptom: trauma re-experiencing and insomnia."
+  },
+  {
+    "text": "I have been feeling nervous, anxious or on edge all day.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "acute_distress",
+    "rationale": "Exact GAD-7 phrasing."
+  },
+  {
+    "text": "I have been feeling down, depressed, or hopeless lately.",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "depression",
+    "rationale": "PHQ-9 anhedonia phrasing."
+  },
+  {
+    "text": "bas itna pata hai ki agle din ka koi bharosa nahi, wo kuch bhi kar sakte hain.",
+    "language": "hi",
+    "expected_fire": true,
+    "expected_mechanism": "semantic",
+    "target_dimension": "fear_of_retaliation",
+    "rationale": "Hindi fear of unpredictable violence."
+  },
+  {
+    "text": "they are following me",
+    "language": "en",
+    "expected_fire": true,
+    "expected_mechanism": "exact",
+    "target_dimension": "intimidation",
+    "rationale": "Exact match for intimidation."
+  }
+]

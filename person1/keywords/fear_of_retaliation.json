@@ -1,0 +1,176 @@
+[
+    {
+        "phrase": "they will come back",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "wo phir aayenge",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "ve log wapas aayenge aur hamla karenge",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "I was told not to call",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "mujhe mana kiya tha call karne se",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "unhone mujhe dhamkaya ki police ko mat batana",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "if I speak, my family will be in danger",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "agar main bolungi to mera parivaar khatre mein hoga",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "agar maine bataya to wo mere bacchon ko maar denge",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "I am afraid to go back to my village",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "mujhe gaon wapas jane me dar lagta hai",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "main apne ghar wapas nahi ja sakti",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "they will take away our jobs",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "wo humein kaam se nikal denge",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "hamara samajik bahishkar kar diya jayega",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "I am scared of what they will do",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "mujhe bahut dar lag raha hai",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "wo bahut taqatwar hain, hum unka kuch nahi bigad sakte",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "my life is in danger",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "meri jaan ko khatra hai",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "ve mujhe jaan se maar denge",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "we have to leave our house",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "humein apna ghar chhodna padega",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "unhone humein gaon se nikal diya",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "they know where I am",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "unhe pata hai main kahan hu",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "wo mere piche pade hain",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "I don't feel safe anywhere",
+        "language": "en",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "main kahin bhi surakshit nahi hu",
+        "language": "hinglish",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "koi hamari madad nahi karega",
+        "language": "hi",
+        "source": "self-authored, caste-intimidation pattern"
+    },
+    {
+        "phrase": "khatam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mehenga",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mausam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "bill",
+        "weight": -1.0
+    },
+    {
+        "phrase": "doodh",
+        "weight": -1.0
+    },
+    {
+        "phrase": "gaadi",
+        "weight": -1.0
+    }
+]

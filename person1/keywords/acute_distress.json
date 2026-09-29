@@ -1,0 +1,156 @@
+[
+    {
+        "phrase": "Feeling nervous, anxious or on edge",
+        "language": "en",
+        "source": "GAD-7 item 1"
+    },
+    {
+        "phrase": "घबराहट, चिंता या परेशानी महसूस होना",
+        "language": "hi",
+        "source": "GAD-7 item 1"
+    },
+    {
+        "phrase": "Not being able to stop or control worrying",
+        "language": "en",
+        "source": "GAD-7 item 2"
+    },
+    {
+        "phrase": "चिंता करने से खुद को रोक न पाना",
+        "language": "hi",
+        "source": "GAD-7 item 2"
+    },
+    {
+        "phrase": "Worrying too much about different things",
+        "language": "en",
+        "source": "GAD-7 item 3"
+    },
+    {
+        "phrase": "अलग-अलग चीजों के बारे में बहुत ज्यादा चिंता करना",
+        "language": "hi",
+        "source": "GAD-7 item 3"
+    },
+    {
+        "phrase": "Trouble relaxing",
+        "language": "en",
+        "source": "GAD-7 item 4"
+    },
+    {
+        "phrase": "आराम करने में परेशानी",
+        "language": "hi",
+        "source": "GAD-7 item 4"
+    },
+    {
+        "phrase": "Being so restless that it is hard to sit still",
+        "language": "en",
+        "source": "GAD-7 item 5"
+    },
+    {
+        "phrase": "इतनी बेचैनी होना कि एक जगह बैठे रहना मुश्किल हो",
+        "language": "hi",
+        "source": "GAD-7 item 5"
+    },
+    {
+        "phrase": "Becoming easily annoyed or irritable",
+        "language": "en",
+        "source": "GAD-7 item 6"
+    },
+    {
+        "phrase": "आसानी से नाराज या चिड़चिड़ा हो जाना",
+        "language": "hi",
+        "source": "GAD-7 item 6"
+    },
+    {
+        "phrase": "Feeling afraid as if something awful might happen",
+        "language": "en",
+        "source": "GAD-7 item 7"
+    },
+    {
+        "phrase": "ऐसा डर लगना कि कुछ बहुत बुरा होने वाला है",
+        "language": "hi",
+        "source": "GAD-7 item 7"
+    },
+    {
+        "phrase": "I feel like I am suffocating right now",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "My stomach is in knots from the panic",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I am pacing back and forth because I am so tense",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I feel completely overwhelmed and on edge",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "My breathing is so shallow I might pass out",
+        "language": "en",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "saans lene me bahut ghutan mehsoos ho rahi hai",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "darr ke maare mere rongte khade ho gaye hain",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "main bechaini se idhar udhar ghoom raha hu",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "mujhe bahut zyada paseena aa raha hai tension se",
+        "language": "hi",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I am feeling extremely suffocated",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "mujhe itni anxiety ho rahi hai ki I can't breathe",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "I am totally panicking right now",
+        "language": "hinglish",
+        "source": "naturalistic_augmentation"
+    },
+    {
+        "phrase": "khatam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mehenga",
+        "weight": -1.0
+    },
+    {
+        "phrase": "mausam",
+        "weight": -1.0
+    },
+    {
+        "phrase": "bill",
+        "weight": -1.0
+    },
+    {
+        "phrase": "doodh",
+        "weight": -1.0
+    },
+    {
+        "phrase": "gaadi",
+        "weight": -1.0
+    }
+]
